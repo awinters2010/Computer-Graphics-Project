@@ -34,13 +34,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtCompileErrors = new System.Windows.Forms.TextBox();
-            this.txtCode = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.shapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtCompileErrors = new System.Windows.Forms.TextBox();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblMemoryUsage = new System.Windows.Forms.Label();
+            this.lblMem = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,8 +99,38 @@
             // dFormToolStripMenuItem
             // 
             this.dFormToolStripMenuItem.Name = "dFormToolStripMenuItem";
-            this.dFormToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dFormToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.dFormToolStripMenuItem.Text = "3D Form";
+            // 
+            // shapesToolStripMenuItem
+            // 
+            this.shapesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cubeToolStripMenuItem,
+            this.triangleToolStripMenuItem,
+            this.cylinderToolStripMenuItem});
+            this.shapesToolStripMenuItem.Name = "shapesToolStripMenuItem";
+            this.shapesToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.shapesToolStripMenuItem.Text = "Shapes";
+            // 
+            // cubeToolStripMenuItem
+            // 
+            this.cubeToolStripMenuItem.Name = "cubeToolStripMenuItem";
+            this.cubeToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.cubeToolStripMenuItem.Text = "Cube";
+            this.cubeToolStripMenuItem.Click += new System.EventHandler(this.cubeToolStripMenuItem_Click);
+            // 
+            // triangleToolStripMenuItem
+            // 
+            this.triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
+            this.triangleToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.triangleToolStripMenuItem.Text = "Triangle";
+            this.triangleToolStripMenuItem.Click += new System.EventHandler(this.triangleToolStripMenuItem_Click);
+            // 
+            // cylinderToolStripMenuItem
+            // 
+            this.cylinderToolStripMenuItem.Name = "cylinderToolStripMenuItem";
+            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.cylinderToolStripMenuItem.Text = "Cylinder";
             // 
             // txtCompileErrors
             // 
@@ -125,41 +157,30 @@
             this.panel1.Size = new System.Drawing.Size(498, 473);
             this.panel1.TabIndex = 6;
             // 
-            // shapesToolStripMenuItem
+            // lblMemoryUsage
             // 
-            this.shapesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cubeToolStripMenuItem,
-            this.triangleToolStripMenuItem,
-            this.cylinderToolStripMenuItem});
-            this.shapesToolStripMenuItem.Name = "shapesToolStripMenuItem";
-            this.shapesToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.shapesToolStripMenuItem.Text = "Shapes";
+            this.lblMemoryUsage.AutoSize = true;
+            this.lblMemoryUsage.Enabled = false;
+            this.lblMemoryUsage.Location = new System.Drawing.Point(282, 507);
+            this.lblMemoryUsage.Name = "lblMemoryUsage";
+            this.lblMemoryUsage.Size = new System.Drawing.Size(0, 13);
+            this.lblMemoryUsage.TabIndex = 7;
             // 
-            // cubeToolStripMenuItem
+            // lblMem
             // 
-            this.cubeToolStripMenuItem.Name = "cubeToolStripMenuItem";
-            this.cubeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.cubeToolStripMenuItem.Text = "Cube";
-            this.cubeToolStripMenuItem.Click += new System.EventHandler(this.cubeToolStripMenuItem_Click);
-            // 
-            // triangleToolStripMenuItem
-            // 
-            this.triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
-            this.triangleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.triangleToolStripMenuItem.Text = "Triangle";
-            this.triangleToolStripMenuItem.Click += new System.EventHandler(this.triangleToolStripMenuItem_Click);
-            // 
-            // cylinderToolStripMenuItem
-            // 
-            this.cylinderToolStripMenuItem.Name = "cylinderToolStripMenuItem";
-            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.cylinderToolStripMenuItem.Text = "Cylinder";
+            this.lblMem.AutoSize = true;
+            this.lblMem.Enabled = false;
+            this.lblMem.Location = new System.Drawing.Point(423, 507);
+            this.lblMem.Name = "lblMem";
+            this.lblMem.Size = new System.Drawing.Size(0, 13);
+            this.lblMem.TabIndex = 8;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1339, 534);
+            this.Controls.Add(this.lblMem);
+            this.Controls.Add(this.lblMemoryUsage);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtCompileErrors);
             this.Controls.Add(this.txtCode);
@@ -193,6 +214,8 @@
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem triangleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cylinderToolStripMenuItem;
+        private System.Windows.Forms.Label lblMemoryUsage;
+        private System.Windows.Forms.Label lblMem;
     }
 }
 
