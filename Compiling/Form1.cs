@@ -1,45 +1,48 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using SlimDX;
-using SlimDX.Direct3D11;
-using SlimDX.DXGI;
 using System.Threading;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
-using SlimDX.D3DCompiler;
+using SlimDX.Direct3D9;
 
 namespace Graphics
 {
     public partial class Form1 : Form
     {
+        //for compiling the code to XNA
         string output = "Out.exe";
-
         CompilerResults results;
 
-        public SlimDX.Direct3D11.Device device;
-        public SwapChain swapChain;
-        public SlimDX.Direct3D11.Viewport viewport;
-        public RenderTargetView renderTarget;
-        public DeviceContext context;
-        Thread renderThread;
+        //the thread that the graphics will be running in so the UI doesn't lock up.
+        private Thread renderThread;
 
-        Camera camera;
-        Triangle triangle;
+        private Result r;
+
+        private Thread status;
+
+        private Camera camera;
 
         public Form1()
         {
-            //this.IsMdiContainer = true;
+            //don't touch this method. microsoft created
             InitializeComponent();
-            createDeviceAndSwapChain(this);
-            triangle = new Triangle(device, context);
-            init();
+
+            //this method initializes the device
+            DeviceManager.CreateDevice(panel1.Handle,
+                panel1.Width, panel1.Height);
 
             camera = new Camera();
-            
+
+            camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
+
+            DeviceManager.device.SetRenderState(RenderState.Lighting, false);
+
+            //this method starts the thread that the graphics run on.
+            init();
         }
 
+        //the button to compile the code to XNA
         private void btnCompile_Click(object sender, EventArgs e)
         {
             CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp");
@@ -88,6 +91,7 @@ namespace Graphics
 
         }
 
+        //the button to run the compiled code
         private void btnRun_Click(object sender, EventArgs e)
         {
             if (results.Errors.Count == 0)
@@ -97,19 +101,17 @@ namespace Graphics
             }
         }
 
-        private void dFormToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
+        #region Program Shutdown
 
-        #region initials and end
-
+        //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
         public void shutDown()
         {
-            triangle.Destroy();
-            renderThread.Abort();
-            renderTarget.Dispose();
-            swapChain.Dispose();
-            device.Dispose();
+            status.Abort();
+            while (renderThread.IsAlive)
+            {
+                renderThread.Abort();
+            }
+            DeviceManager.device.Dispose();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -119,14 +121,43 @@ namespace Graphics
 
         #endregion
 
+        #region Shape Menu Drawing
+
+        //adds a new cube to the screen
         private void cubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            lock (renderable)
+            {
+                renderable.Add(new Cube(ref DeviceManager.device, ref r));
+            }
         }
 
+        //adds a new triangle to the screen
         private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            renderable.Add(triangle);
+            lock (renderable)
+            {
+                renderable.Add(new Triangle(ref DeviceManager.device, ref r));
+            }
         }
+
+        #endregion
+
+        #region Memory and Vertices Display
+
+        //for displaying how much memory we are currently using 
+        private void LblUpdate(string text)
+        {
+            lblMemoryUsage.Text = text;
+            
+        }
+
+        //displays the number of vertices on the screen
+        private void OLblUpdate(string text)
+        {
+            lblMem.Text = "Vertices: " + BasicShape.VerticesCount.ToString();
+        }
+
+        #endregion
     }
 }
