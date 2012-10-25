@@ -2,37 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SlimDX.D3DCompiler;
-using SlimDX.Direct3D11;
 using SlimDX;
+using SlimDX.Direct3D9;
+using System.Drawing;
 
 namespace Graphics
 {
+    /// <summary>
+    /// The structure to draw vertices on the screen in transformed space (2D).
+    /// </summary>
+    struct VertexTransformed
+    {
+        public Vector4 Position;
+        public int Color;
+
+        public static VertexFormat s = VertexFormat.PositionRhw | VertexFormat.Diffuse;
+    }
+
+    struct VertexUntransformed
+    {
+        public Vector3 Position;
+        public int Color;
+
+
+    }
+
+    /// <summary>
+    /// Basic class for creating primitive shapes
+    /// </summary>
     public class BasicShape
     {
-        public ShaderBytecode byteCode;
-        public ShaderSignature inputSignature;
-        public VertexShader vertexShader;
-        public PixelShader pixelShader;
-        public DataStream vertices { get; set; }
         public Device device;
-        public DeviceContext context;
 
-        public BasicShape(Device device, DeviceContext context)
+        //static method for counting how many vertices are being created/drawn
+        public static int VerticesCount = 0;
+
+        protected VertexBuffer vertices;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="device">the current graphics device being used</param>
+        public BasicShape(ref Device device)
         {
             this.device = device;
-            this.context = context;
-
-            byteCode = ShaderBytecode.CompileFromFile("BasicShape.fx", "VShader", "vs_4_0",
-                ShaderFlags.None, EffectFlags.None);
-            inputSignature = ShaderSignature.GetInputSignature(byteCode);
-            vertexShader = new VertexShader(device, byteCode);
-
-            byteCode = ShaderBytecode.CompileFromFile("BasicShape.fx", "PShader", "ps_4_0",
-                ShaderFlags.None, EffectFlags.None);
-            pixelShader = new PixelShader(device, byteCode);
         }
 
+        /// <summary>
+        /// for rendering the shape on the screen
+        /// </summary>
         public virtual void Render() { }
     }
 }
