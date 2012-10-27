@@ -24,7 +24,8 @@ namespace Graphics
         public Vector3 Position;
         public int Color;
 
-
+        public static VertexFormat format = VertexFormat.Position | VertexFormat.Diffuse;
+        public const int VertexByteSize = 16;
     }
 
     /// <summary>
