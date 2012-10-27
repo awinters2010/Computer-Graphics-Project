@@ -16,7 +16,12 @@ namespace Graphics
                 CreateFlags.HardwareVertexProcessing, new PresentParameters()
                 {
                     BackBufferWidth = width,
-                    BackBufferHeight = height
+                    BackBufferHeight = height,
+                    Windowed = true,
+                    SwapEffect = SwapEffect.Discard,
+                    BackBufferCount = 1,
+                    EnableAutoDepthStencil = true,
+                    AutoDepthStencilFormat = Format.D16,
                 });
         }
     }
