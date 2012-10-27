@@ -38,6 +38,7 @@
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sixSidesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtCompileErrors = new System.Windows.Forms.TextBox();
             this.txtCode = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -84,7 +85,7 @@
             this.shapesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1339, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1137, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -107,7 +108,8 @@
             this.shapesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cubeToolStripMenuItem,
             this.triangleToolStripMenuItem,
-            this.cylinderToolStripMenuItem});
+            this.cylinderToolStripMenuItem,
+            this.sixSidesToolStripMenuItem});
             this.shapesToolStripMenuItem.Name = "shapesToolStripMenuItem";
             this.shapesToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.shapesToolStripMenuItem.Text = "Shapes";
@@ -132,29 +134,38 @@
             this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.cylinderToolStripMenuItem.Text = "Cylinder";
             // 
+            // sixSidesToolStripMenuItem
+            // 
+            this.sixSidesToolStripMenuItem.Name = "sixSidesToolStripMenuItem";
+            this.sixSidesToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.sixSidesToolStripMenuItem.Text = "six sides";
+            this.sixSidesToolStripMenuItem.Click += new System.EventHandler(this.sixSidesToolStripMenuItem_Click);
+            // 
             // txtCompileErrors
             // 
-            this.txtCompileErrors.Location = new System.Drawing.Point(423, 27);
+            this.txtCompileErrors.Enabled = false;
+            this.txtCompileErrors.Location = new System.Drawing.Point(345, 27);
             this.txtCompileErrors.Multiline = true;
             this.txtCompileErrors.Name = "txtCompileErrors";
-            this.txtCompileErrors.Size = new System.Drawing.Size(400, 473);
+            this.txtCompileErrors.Size = new System.Drawing.Size(314, 473);
             this.txtCompileErrors.TabIndex = 0;
             this.txtCompileErrors.TabStop = false;
             // 
             // txtCode
             // 
+            this.txtCode.Enabled = false;
             this.txtCode.Location = new System.Drawing.Point(12, 27);
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCode.Size = new System.Drawing.Size(405, 473);
+            this.txtCode.Size = new System.Drawing.Size(327, 473);
             this.txtCode.TabIndex = 1;
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(829, 27);
+            this.panel1.Location = new System.Drawing.Point(665, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(498, 473);
+            this.panel1.Size = new System.Drawing.Size(463, 473);
             this.panel1.TabIndex = 6;
             // 
             // lblMemoryUsage
@@ -178,7 +189,7 @@
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1339, 534);
+            this.ClientSize = new System.Drawing.Size(1137, 534);
             this.Controls.Add(this.lblMem);
             this.Controls.Add(this.lblMemoryUsage);
             this.Controls.Add(this.panel1);
@@ -216,6 +227,7 @@
         private System.Windows.Forms.ToolStripMenuItem cylinderToolStripMenuItem;
         private System.Windows.Forms.Label lblMemoryUsage;
         private System.Windows.Forms.Label lblMem;
+        private System.Windows.Forms.ToolStripMenuItem sixSidesToolStripMenuItem;
     }
 }
 
