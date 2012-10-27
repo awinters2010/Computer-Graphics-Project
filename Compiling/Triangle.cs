@@ -14,17 +14,17 @@ namespace Graphics
         public Triangle(ref Device device, Result r = new SlimDX.Result())
             : base(ref device)
         {
-            SetTriangle();
+            SetTriangle(Color.Red, Color.Blue, Color.Green);
             this.r = r;
         }
 
-        private void SetTriangle()
+        public void SetTriangle(Color c1, Color c2, Color c3)
         {
             VertexUntransformed[] vertex = 
             {
-                new VertexUntransformed() { Position = new Vector3(0f, 1, 5), Color = Color.Orange.ToArgb() },
-                new VertexUntransformed() { Position = new Vector3(1, -1, 5), Color = Color.Purple.ToArgb() },
-                new VertexUntransformed() { Position = new Vector3(-1, -1, 5),Color = Color.Gray.ToArgb() },
+                new VertexUntransformed() { Position = new Vector3(0f, 1, 5), Color = c1.ToArgb() },
+                new VertexUntransformed() { Position = new Vector3(1, -1, 5), Color = c2.ToArgb() },
+                new VertexUntransformed() { Position = new Vector3(-1, -1, 5),Color = c3.ToArgb() },
             };
 
             vertices = new VertexBuffer(device, triangleVerticies * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexFormat.None, Pool.Default);
