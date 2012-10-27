@@ -16,7 +16,7 @@ namespace Graphics
         public float distanceFromCamera = 5f;
         // the actual view from eye, lookat, and up
         public Matrix view;
-        
+
         // field of view how wide can we see
         public float fov;
         // how the screen is displayed such as wide screen
@@ -50,7 +50,7 @@ namespace Graphics
             DeviceManager.device.SetTransform(TransformState.Projection,
                 projection);
         }
-        
+
 
         /// <summary>
         /// Sets a new view
@@ -74,7 +74,7 @@ namespace Graphics
         /// <param name="aspectRatio"> width/height</param>
         /// <param name="close"> how close do we draw objects</param>
         /// <param name="far"> how far away do we draw objects</param>
-        public void SetProjection(float fov, float aspectRatio, 
+        public void SetProjection(float fov, float aspectRatio,
             float close, float far)
         {
             this.fov = fov;

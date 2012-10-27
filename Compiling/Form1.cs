@@ -5,6 +5,7 @@ using System.Threading;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
 using SlimDX.Direct3D9;
+using System.Text;
 
 namespace Graphics
 {
@@ -55,7 +56,7 @@ namespace Graphics
 
             txtCompileErrors.Text = "";
 
-            System.CodeDom.Compiler.CompilerParameters par = new CompilerParameters();
+            var par = new CompilerParameters();
 
             //generate exe not dll
             par.GenerateExecutable = true;
@@ -87,10 +88,15 @@ namespace Graphics
                 //Successful Compile
                 txtCompileErrors.ForeColor = System.Drawing.Color.Blue;
                 txtCompileErrors.Text = "Success!";
-                for (int i = 0; i < par.ReferencedAssemblies.Count; i++)
+                
+                var sb = new StringBuilder();
+
+                foreach (var ra in par.ReferencedAssemblies)
                 {
-                    txtCompileErrors.Text += par.ReferencedAssemblies[i].ToString();
+                    sb.Append(ra.ToString());
                 }
+
+                txtCompileErrors.Text = sb.ToString();
             }
 
         }
@@ -132,7 +138,7 @@ namespace Graphics
         {
             lock (renderable)
             {
-                renderable.Add(new Cube(ref DeviceManager.device, ref r));
+                renderable.Add(new Cube(ref DeviceManager.device, r));
             }
         }
 
@@ -141,7 +147,7 @@ namespace Graphics
         {
             lock (renderable)
             {
-                renderable.Add(new Triangle(ref DeviceManager.device, ref r));
+                renderable.Add(new Triangle(ref DeviceManager.device, r));
             }
         }
 
@@ -171,24 +177,14 @@ namespace Graphics
 
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            RenderState s = RenderState.FillMode;
-            DeviceManager.device.GetRenderState(s);
-            FillMode f = (FillMode)s;
-            if (e.KeyChar == (char)Keys.H)
-            {
-                if (f == FillMode.Solid)
-                {
-                    f = FillMode.Wireframe;
-                }
+            FillMode fm = DeviceManager.device.GetRenderState<FillMode>(RenderState.FillMode);
 
+            if (e.KeyChar == 'h')
+            {
+                fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
             }
 
-            if (e.KeyChar == (char)Keys.G)
-            {
-                txtCode.Clear();
-            }
-
-            DeviceManager.device.SetRenderState(RenderState.FillMode, f);
+            DeviceManager.device.SetRenderState(RenderState.FillMode, fm);
         }
     }
 }

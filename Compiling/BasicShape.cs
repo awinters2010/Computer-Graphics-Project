@@ -13,16 +13,16 @@ namespace Graphics
     /// </summary>
     struct VertexTransformed
     {
-        public Vector4 Position;
-        public int Color;
+        public Vector4 Position { get; set; }
+        public int Color { get; set; }
 
         public static VertexFormat s = VertexFormat.PositionRhw | VertexFormat.Diffuse;
     }
 
     struct VertexUntransformed
     {
-        public Vector3 Position;
-        public int Color;
+        public Vector3 Position { get; set; }
+        public int Color { get; set; }
 
         public static VertexFormat format = VertexFormat.Position | VertexFormat.Diffuse;
         public const int VertexByteSize = 16;
@@ -33,7 +33,7 @@ namespace Graphics
     /// </summary>
     public class BasicShape
     {
-        public Device device;
+        public Device device { get; set; }
 
         //static method for counting how many vertices are being created/drawn
         public static int VerticesCount = 0;
