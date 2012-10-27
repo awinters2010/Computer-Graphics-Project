@@ -103,6 +103,7 @@ namespace Graphics
                 foreach (var ra in par.ReferencedAssemblies)
                 {
                     sb.Append(ra.ToString());
+                    sb.Append(Environment.NewLine);
                 }
 
                 txtCompileErrors.Text = sb.ToString();
