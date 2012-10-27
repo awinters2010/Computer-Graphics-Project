@@ -43,11 +43,11 @@
             this.gbMemUsage = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.plNotArea = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblNotArea = new System.Windows.Forms.Label();
             this.tcRight = new System.Windows.Forms.TabControl();
             this.tpRight1 = new System.Windows.Forms.TabPage();
             this.tpRight2 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -185,11 +185,20 @@
             this.plNotArea.Controls.Add(this.lblNotArea);
             this.plNotArea.Controls.Add(this.gbMemUsage);
             this.plNotArea.Controls.Add(this.txtNotificationArea);
-            this.plNotArea.Controls.Add(this.progressBar1);
             this.plNotArea.Location = new System.Drawing.Point(0, 467);
             this.plNotArea.Name = "plNotArea";
             this.plNotArea.Size = new System.Drawing.Size(838, 95);
             this.plNotArea.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Memory Usage (MB)";
             // 
             // lblNotArea
             // 
@@ -226,20 +235,10 @@
             this.tpRight2.Location = new System.Drawing.Point(4, 22);
             this.tpRight2.Name = "tpRight2";
             this.tpRight2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRight2.Size = new System.Drawing.Size(270, 506);
+            this.tpRight2.Size = new System.Drawing.Size(273, 499);
             this.tpRight2.TabIndex = 1;
             this.tpRight2.Text = "Tab 2";
             this.tpRight2.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Memory Usage (MB)";
             // 
             // Form1
             // 
@@ -251,6 +250,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";

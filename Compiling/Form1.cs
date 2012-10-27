@@ -44,12 +44,14 @@ namespace Graphics
             //this method starts the thread that the graphics run on.
             init();
 
-            this.KeyPress +=new KeyPressEventHandler(KeyBoard);
+            
 
             //set GUI control attributes
             setGui();
 
             panel1.Focus();
+
+            this.KeyPress += new KeyPressEventHandler(KeyBoard);
         }
 
         #region Program Shutdown
