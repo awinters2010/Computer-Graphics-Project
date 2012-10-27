@@ -38,8 +38,12 @@ namespace Graphics
 
             DeviceManager.device.SetRenderState(RenderState.Lighting, false);
 
+            DeviceManager.device.VertexFormat = VertexUntransformed.format;
+
             //this method starts the thread that the graphics run on.
             init();
+
+            this.KeyPress += new KeyPressEventHandler(KeyBoard);
         }
 
         //the button to compile the code to XNA
@@ -149,7 +153,7 @@ namespace Graphics
         private void LblUpdate(string text)
         {
             lblMemoryUsage.Text = text;
-            
+
         }
 
         //displays the number of vertices on the screen
@@ -159,5 +163,32 @@ namespace Graphics
         }
 
         #endregion
+
+        private void sixSidesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void KeyBoard(object sender, KeyPressEventArgs e)
+        {
+            RenderState s = RenderState.FillMode;
+            DeviceManager.device.GetRenderState(s);
+            FillMode f = (FillMode)s;
+            if (e.KeyChar == (char)Keys.H)
+            {
+                if (f == FillMode.Solid)
+                {
+                    f = FillMode.Wireframe;
+                }
+
+            }
+
+            if (e.KeyChar == (char)Keys.G)
+            {
+                txtCode.Clear();
+            }
+
+            DeviceManager.device.SetRenderState(RenderState.FillMode, f);
+        }
     }
 }
