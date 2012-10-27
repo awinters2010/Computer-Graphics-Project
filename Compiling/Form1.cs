@@ -12,18 +12,17 @@ namespace Graphics
 {
     public partial class Form1 : Form
     {
-        //for compiling the code to XNA
-        string output = "Out.exe";
-        CompilerResults results;
-
         //the thread that the graphics will be running in so the UI doesn't lock up.
         private Thread renderThread;
 
         private Result r;
 
-        private Thread status;
-
         private Camera camera;
+
+        //GUI colors
+        private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
+        private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
+        private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
 
         public Form1()
         {
@@ -45,80 +44,12 @@ namespace Graphics
             //this method starts the thread that the graphics run on.
             init();
 
-            this.KeyPress += new KeyPressEventHandler(KeyBoard);
-        }
+            this.KeyPress +=new KeyPressEventHandler(KeyBoard);
 
-        //the button to compile the code to XNA
-        private void btnCompile_Click(object sender, EventArgs e)
-        {
-            CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp");
+            //set GUI control attributes
+            setGui();
 
-            Button buttonObject = (Button)sender;
-
-            txtCompileErrors.Text = "";
-
-            var par = new CompilerParameters();
-
-            //generate exe not dll
-            par.GenerateExecutable = true;
-            par.OutputAssembly = output;
-            //Assembly a;
-            par.ReferencedAssemblies.Add("C:/Program Files (x86)/Microsoft XNA/XNA Game Studio/v4.0/References/Windows/x86/Microsoft.Xna.Framework.dll");
-            par.ReferencedAssemblies.Add("C:/Program Files (x86)/Microsoft XNA/XNA Game Studio/v4.0/References/Windows/x86/Microsoft.Xna.Framework.Game.dll");
-            par.ReferencedAssemblies.Add("C:/Program Files (x86)/Microsoft XNA/XNA Game Studio/v4.0/References/Windows/x86/Microsoft.Xna.Framework.Graphics.dll");
-            par.CompilerOptions = "/platform:x86";
-
-            txtCompileErrors.Text = par.LinkedResources.ToString();
-
-            results = codeProvider.CompileAssemblyFromSource(par, txtCode.Text);
-
-            if (results.Errors.Count > 0)
-            {
-                txtCompileErrors.ForeColor = System.Drawing.Color.Red;
-
-                var sb = new StringBuilder();
-
-                foreach (CompilerError item in results.Errors)
-                {
-                    sb.Append("Line Number");
-                    sb.Append(item.Line);
-                    sb.Append(", Error Number ");
-                    sb.Append(item.ErrorNumber);
-                    sb.Append(", ");
-                    sb.Append(item.ErrorText);
-                    sb.Append(";");
-                    sb.Append(Environment.NewLine);
-                }
-
-                txtCompileErrors.Text = sb.ToString();
-            }
-            else
-            {
-                //Successful Compile
-                txtCompileErrors.ForeColor = System.Drawing.Color.Blue;
-                txtCompileErrors.Text = "Success!";
-                
-                var sb = new StringBuilder();
-
-                foreach (var ra in par.ReferencedAssemblies)
-                {
-                    sb.Append(ra.ToString());
-                    sb.Append(Environment.NewLine);
-                }
-
-                txtCompileErrors.Text = sb.ToString();
-            }
-
-        }
-
-        //the button to run the compiled code
-        private void btnRun_Click(object sender, EventArgs e)
-        {
-            if (results.Errors.Count == 0)
-            {
-                //If we clicked run then launch our EXE
-                Process.Start(output);
-            }
+            panel1.Focus();
         }
 
         #region Program Shutdown
@@ -126,7 +57,6 @@ namespace Graphics
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
         public void shutDown()
         {
-            status.Abort();
             while (renderThread.IsAlive)
             {
                 renderThread.Abort();
@@ -195,6 +125,28 @@ namespace Graphics
             }
 
             DeviceManager.device.SetRenderState(RenderState.FillMode, fm);
+        }
+
+        /// <summary>
+        /// Sets GUI Menu items and controls including width and colors
+        /// </summary>
+        private void setGui()
+        {
+            //set colors
+
+            //main form
+            this.BackColor = GUIBackColor;
+
+            //notification area
+            plNotArea.BackColor = GUIBackColor;
+            gbMemUsage.BackColor = GUISubWindowColor;
+
+            //tab panel area
+            tpRight1.BackColor = GUISubWindowColor;
+            tpRight2.BackColor = GUISubWindowColor;
+
+            //set control sizes
+            plNotArea.Width = this.Width;
         }
     }
 }

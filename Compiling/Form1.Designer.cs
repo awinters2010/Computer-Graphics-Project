@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCompile = new System.Windows.Forms.Button();
-            this.btnRun = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,43 +37,28 @@
             this.triangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sixSidesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtCompileErrors = new System.Windows.Forms.TextBox();
-            this.txtCode = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtNotificationArea = new System.Windows.Forms.TextBox();
             this.lblMemoryUsage = new System.Windows.Forms.Label();
             this.lblMem = new System.Windows.Forms.Label();
+            this.gbMemUsage = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.plNotArea = new System.Windows.Forms.Panel();
+            this.lblNotArea = new System.Windows.Forms.Label();
+            this.tcRight = new System.Windows.Forms.TabControl();
+            this.tpRight1 = new System.Windows.Forms.TabPage();
+            this.tpRight2 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
+            this.gbMemUsage.SuspendLayout();
+            this.plNotArea.SuspendLayout();
+            this.tcRight.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnCompile
-            // 
-            this.btnCompile.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCompile.Location = new System.Drawing.Point(12, 507);
-            this.btnCompile.Name = "btnCompile";
-            this.btnCompile.Size = new System.Drawing.Size(75, 23);
-            this.btnCompile.TabIndex = 0;
-            this.btnCompile.TabStop = false;
-            this.btnCompile.Text = "Compile";
-            this.btnCompile.UseVisualStyleBackColor = true;
-            this.btnCompile.Click += new System.EventHandler(this.btnCompile_Click);
-            // 
-            // btnRun
-            // 
-            this.btnRun.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnRun.Location = new System.Drawing.Point(94, 506);
-            this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(75, 23);
-            this.btnRun.TabIndex = 3;
-            this.btnRun.TabStop = false;
-            this.btnRun.Text = "Run";
-            this.btnRun.UseVisualStyleBackColor = true;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(175, 506);
+            this.progressBar1.Location = new System.Drawing.Point(3, 62);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Size = new System.Drawing.Size(206, 23);
             this.progressBar1.TabIndex = 4;
             // 
             // menuStrip1
@@ -141,63 +124,132 @@
             this.sixSidesToolStripMenuItem.Text = "six sides";
             this.sixSidesToolStripMenuItem.Click += new System.EventHandler(this.sixSidesToolStripMenuItem_Click);
             // 
-            // txtCompileErrors
+            // txtNotificationArea
             // 
-            this.txtCompileErrors.Enabled = false;
-            this.txtCompileErrors.Location = new System.Drawing.Point(345, 27);
-            this.txtCompileErrors.Multiline = true;
-            this.txtCompileErrors.Name = "txtCompileErrors";
-            this.txtCompileErrors.Size = new System.Drawing.Size(314, 473);
-            this.txtCompileErrors.TabIndex = 0;
-            this.txtCompileErrors.TabStop = false;
-            // 
-            // txtCode
-            // 
-            this.txtCode.Enabled = false;
-            this.txtCode.Location = new System.Drawing.Point(12, 27);
-            this.txtCode.Multiline = true;
-            this.txtCode.Name = "txtCode";
-            this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCode.Size = new System.Drawing.Size(327, 473);
-            this.txtCode.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(665, 27);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(463, 473);
-            this.panel1.TabIndex = 6;
+            this.txtNotificationArea.Enabled = false;
+            this.txtNotificationArea.Location = new System.Drawing.Point(215, 16);
+            this.txtNotificationArea.Multiline = true;
+            this.txtNotificationArea.Name = "txtNotificationArea";
+            this.txtNotificationArea.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNotificationArea.Size = new System.Drawing.Size(620, 69);
+            this.txtNotificationArea.TabIndex = 0;
+            this.txtNotificationArea.TabStop = false;
             // 
             // lblMemoryUsage
             // 
             this.lblMemoryUsage.AutoSize = true;
             this.lblMemoryUsage.Enabled = false;
-            this.lblMemoryUsage.Location = new System.Drawing.Point(282, 507);
+            this.lblMemoryUsage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMemoryUsage.Location = new System.Drawing.Point(11, 16);
             this.lblMemoryUsage.Name = "lblMemoryUsage";
-            this.lblMemoryUsage.Size = new System.Drawing.Size(0, 13);
+            this.lblMemoryUsage.Size = new System.Drawing.Size(12, 13);
             this.lblMemoryUsage.TabIndex = 7;
+            this.lblMemoryUsage.Text = "x";
             // 
             // lblMem
             // 
             this.lblMem.AutoSize = true;
             this.lblMem.Enabled = false;
-            this.lblMem.Location = new System.Drawing.Point(423, 507);
+            this.lblMem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMem.Location = new System.Drawing.Point(114, 16);
             this.lblMem.Name = "lblMem";
-            this.lblMem.Size = new System.Drawing.Size(0, 13);
+            this.lblMem.Size = new System.Drawing.Size(12, 13);
             this.lblMem.TabIndex = 8;
+            this.lblMem.Text = "x";
+            // 
+            // gbMemUsage
+            // 
+            this.gbMemUsage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(194)))), ((int)(((byte)(194)))));
+            this.gbMemUsage.Controls.Add(this.lblMemoryUsage);
+            this.gbMemUsage.Controls.Add(this.lblMem);
+            this.gbMemUsage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbMemUsage.Location = new System.Drawing.Point(3, 16);
+            this.gbMemUsage.Name = "gbMemUsage";
+            this.gbMemUsage.Size = new System.Drawing.Size(206, 40);
+            this.gbMemUsage.TabIndex = 9;
+            this.gbMemUsage.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(215, 27);
+            this.panel1.Margin = new System.Windows.Forms.Padding(20);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(20);
+            this.panel1.Size = new System.Drawing.Size(624, 433);
+            this.panel1.TabIndex = 6;
+            // 
+            // plNotArea
+            // 
+            this.plNotArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
+            this.plNotArea.Controls.Add(this.label1);
+            this.plNotArea.Controls.Add(this.lblNotArea);
+            this.plNotArea.Controls.Add(this.gbMemUsage);
+            this.plNotArea.Controls.Add(this.txtNotificationArea);
+            this.plNotArea.Controls.Add(this.progressBar1);
+            this.plNotArea.Location = new System.Drawing.Point(0, 467);
+            this.plNotArea.Name = "plNotArea";
+            this.plNotArea.Size = new System.Drawing.Size(838, 95);
+            this.plNotArea.TabIndex = 10;
+            // 
+            // lblNotArea
+            // 
+            this.lblNotArea.AutoSize = true;
+            this.lblNotArea.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNotArea.Location = new System.Drawing.Point(212, 0);
+            this.lblNotArea.Name = "lblNotArea";
+            this.lblNotArea.Size = new System.Drawing.Size(102, 13);
+            this.lblNotArea.TabIndex = 12;
+            this.lblNotArea.Text = "Notification Area";
+            // 
+            // tcRight
+            // 
+            this.tcRight.Controls.Add(this.tpRight1);
+            this.tcRight.Controls.Add(this.tpRight2);
+            this.tcRight.Location = new System.Drawing.Point(844, 27);
+            this.tcRight.Name = "tcRight";
+            this.tcRight.SelectedIndex = 0;
+            this.tcRight.Size = new System.Drawing.Size(281, 525);
+            this.tcRight.TabIndex = 11;
+            // 
+            // tpRight1
+            // 
+            this.tpRight1.Location = new System.Drawing.Point(4, 22);
+            this.tpRight1.Name = "tpRight1";
+            this.tpRight1.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRight1.Size = new System.Drawing.Size(273, 499);
+            this.tpRight1.TabIndex = 0;
+            this.tpRight1.Text = "Tab 1";
+            this.tpRight1.UseVisualStyleBackColor = true;
+            // 
+            // tpRight2
+            // 
+            this.tpRight2.Location = new System.Drawing.Point(4, 22);
+            this.tpRight2.Name = "tpRight2";
+            this.tpRight2.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRight2.Size = new System.Drawing.Size(270, 506);
+            this.tpRight2.TabIndex = 1;
+            this.tpRight2.Text = "Tab 2";
+            this.tpRight2.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Memory Usage (MB)";
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1137, 534);
-            this.Controls.Add(this.lblMem);
-            this.Controls.Add(this.lblMemoryUsage);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
+            this.ClientSize = new System.Drawing.Size(1137, 562);
+            this.Controls.Add(this.tcRight);
+            this.Controls.Add(this.plNotArea);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.txtCompileErrors);
-            this.Controls.Add(this.txtCode);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.btnRun);
-            this.Controls.Add(this.btnCompile);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -205,6 +257,11 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.gbMemUsage.ResumeLayout(false);
+            this.gbMemUsage.PerformLayout();
+            this.plNotArea.ResumeLayout(false);
+            this.plNotArea.PerformLayout();
+            this.tcRight.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,15 +269,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnCompile;
-        private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dFormToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtCompileErrors;
-        private System.Windows.Forms.TextBox txtCode;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox txtNotificationArea;
         private System.Windows.Forms.ToolStripMenuItem shapesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem triangleToolStripMenuItem;
@@ -228,6 +281,14 @@
         private System.Windows.Forms.Label lblMemoryUsage;
         private System.Windows.Forms.Label lblMem;
         private System.Windows.Forms.ToolStripMenuItem sixSidesToolStripMenuItem;
+        private System.Windows.Forms.GroupBox gbMemUsage;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel plNotArea;
+        private System.Windows.Forms.TabControl tcRight;
+        private System.Windows.Forms.TabPage tpRight1;
+        private System.Windows.Forms.TabPage tpRight2;
+        private System.Windows.Forms.Label lblNotArea;
+        private System.Windows.Forms.Label label1;
     }
 }
 
