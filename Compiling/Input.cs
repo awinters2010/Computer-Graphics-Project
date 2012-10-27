@@ -8,22 +8,17 @@ namespace Graphics
 {
     public static class Input
     {
-        DirectInput input;
+        static DirectInput input;
         static Keyboard keyBoard;
-        Mouse mouse;
+        static Mouse mouse;
 
-        public Input()
+        public static void Initialize()
         {
             input = new DirectInput();
             keyBoard = new Keyboard(input);
-        }
-
-        public static bool KeyPress()
-        {
-            if (keyBoard.)
-            {
-                
-            }
+            keyBoard.Acquire();
+            mouse = new Mouse(input);
+            mouse.Acquire();
         }
     }
 }
