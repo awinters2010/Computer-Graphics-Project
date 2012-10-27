@@ -6,6 +6,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using SlimDX.Direct3D9;
 using System.Text;
+using System.Drawing;
 
 namespace Graphics
 {
@@ -75,13 +76,21 @@ namespace Graphics
             {
                 txtCompileErrors.ForeColor = System.Drawing.Color.Red;
 
+                var sb = new StringBuilder();
+
                 foreach (CompilerError item in results.Errors)
                 {
-                    txtCompileErrors.Text = "line number " + item.Line +
-                        ", error num" + item.ErrorNumber +
-                        " , " + item.ErrorText + ";" +
-                        Environment.NewLine + Environment.NewLine;
+                    sb.Append("Line Number");
+                    sb.Append(item.Line);
+                    sb.Append(", Error Number ");
+                    sb.Append(item.ErrorNumber);
+                    sb.Append(", ");
+                    sb.Append(item.ErrorText);
+                    sb.Append(";");
+                    sb.Append(Environment.NewLine);
                 }
+
+                txtCompileErrors.Text = sb.ToString();
             }
             else
             {
@@ -179,7 +188,7 @@ namespace Graphics
         {
             FillMode fm = DeviceManager.device.GetRenderState<FillMode>(RenderState.FillMode);
 
-            if (e.KeyChar == 'h')
+            if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
             {
                 fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
             }
