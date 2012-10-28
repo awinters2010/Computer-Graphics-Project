@@ -53,5 +53,10 @@ namespace Graphics
         /// for rendering the shape on the screen
         /// </summary>
         public virtual void Render() { }
+
+        public void Dispose()
+        {
+            vertices.Dispose();
+        }
     }
 }
