@@ -65,6 +65,7 @@ namespace Graphics
             this.up = up;
             view = Matrix.LookAtLH(this.eye, lookAt, this.up);
             DeviceManager.device.SetTransform(TransformState.View, view);
+            System.Diagnostics.Debug.WriteLine(view.ToString());
         }
 
         /// <summary>
@@ -92,6 +93,25 @@ namespace Graphics
             this.eye = eye;
             this.lookAt = lookAt;
             view = Matrix.LookAtLH(this.eye, this.lookAt, up);
+            DeviceManager.device.SetTransform(TransformState.View, view);
+        }
+
+        public void RotateCamera(float angle)
+        {
+            view = Matrix.RotationX(angle);
+            DeviceManager.device.SetTransform(TransformState.View, view);
+        }
+
+        public void MoveCameraX(float units)
+        {
+            eye.X = units;
+            view = Matrix.Translation(eye);
+            DeviceManager.device.SetTransform(TransformState.View, view);
+        }
+
+        public void MoveCameraZ(float units)
+        {
+            view = Matrix.Translation(eye);
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
     }
