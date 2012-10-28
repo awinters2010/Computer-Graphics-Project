@@ -2,11 +2,9 @@
 using System.Windows.Forms;
 using SlimDX;
 using System.Threading;
-using System.CodeDom.Compiler;
-using System.Diagnostics;
-using SlimDX.Direct3D9;
 using System.Text;
 using System.Drawing;
+using SlimDX.RawInput;
 
 namespace Graphics
 {
@@ -24,6 +22,8 @@ namespace Graphics
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
 
+        float xMovement = 0.0f;
+
         public Form1()
         {
             //don't touch this method. microsoft created
@@ -37,14 +37,12 @@ namespace Graphics
 
             camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
 
-            DeviceManager.device.SetRenderState(RenderState.Lighting, false);
+            DeviceManager.device.SetRenderState(SlimDX.Direct3D9.RenderState.Lighting, false);
 
             DeviceManager.device.VertexFormat = VertexUntransformed.format;
 
             //this method starts the thread that the graphics run on.
             init();
-
-            
 
             //set GUI control attributes
             setGui();
@@ -52,6 +50,34 @@ namespace Graphics
             panel1.Focus();
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
+
+            Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Generic,
+                SlimDX.Multimedia.UsageId.Mouse, DeviceFlags.None);
+            Device.MouseInput += new EventHandler<MouseInputEventArgs>(Device_MouseInput);
+            Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Keyboard,
+                SlimDX.Multimedia.UsageId.Keyboard, DeviceFlags.None);
+            Device.KeyboardInput += new EventHandler<KeyboardInputEventArgs>(Device_KeyboardInput);
+            
+        }
+
+        void Device_KeyboardInput(object sender, KeyboardInputEventArgs e)
+        {
+            if (e.Key == Keys.X)
+            {
+                camera.MoveCameraX(.5f);
+            }
+        }
+
+        void Device_MouseInput(object sender, MouseInputEventArgs e)
+        {
+            e.Mode = MouseMode.AbsoluteMovement;
+            txtNotificationArea.Text = Enum.Format(typeof(MouseButtonFlags), e.ButtonFlags, "G");
+            txtNotificationArea.Text += e.ExtraInformation.ToString(System.Globalization.CultureInfo.CurrentCulture);
+            txtNotificationArea.Text += e.RawButtons.ToString(System.Globalization.CultureInfo.CurrentCulture);
+            txtNotificationArea.Text += new Point(e.X, e.Y).ToString();
+            txtNotificationArea.Text += Enum.Format(typeof(MouseMode), e.Mode, "G");
+            txtNotificationArea.Text += e.WheelDelta.ToString(System.Globalization.CultureInfo.CurrentCulture);
+            txtNotificationArea.Text += this.PointToClient(Cursor.Position);
         }
 
         #region Program Shutdown
@@ -93,6 +119,11 @@ namespace Graphics
             }
         }
 
+        private void sixSidesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Memory and Vertices Display
@@ -112,21 +143,32 @@ namespace Graphics
 
         #endregion
 
-        private void sixSidesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            FillMode fm = DeviceManager.device.GetRenderState<FillMode>(RenderState.FillMode);
+            SlimDX.Direct3D9.FillMode fm = DeviceManager.device.GetRenderState<
+                SlimDX.Direct3D9.FillMode>(SlimDX.Direct3D9.RenderState.FillMode);
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
             {
-                fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
+                fm = fm == SlimDX.Direct3D9.FillMode.Solid ? 
+                    SlimDX.Direct3D9.FillMode.Wireframe : SlimDX.Direct3D9.FillMode.Solid;
             }
 
-            DeviceManager.device.SetRenderState(RenderState.FillMode, fm);
+            DeviceManager.device.SetRenderState(SlimDX.Direct3D9.RenderState.FillMode, fm);
+
+            if (e.KeyChar.ToString()==Keys.X.ToString().ToLower())
+            {
+                xMovement++;
+                camera.MoveCameraX(xMovement);
+            }
+
+            if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
+            {
+                
+                camera.MoveCameraZ(camera.eye.Z++);
+            }
+
+            System.Diagnostics.Debug.WriteLine(camera.view.ToString());
         }
 
         /// <summary>
