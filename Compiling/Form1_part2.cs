@@ -7,6 +7,7 @@ namespace Graphics
 {
     public partial class Form1
     {
+        //holds basic shapes
         List<BasicShape> renderable = new List<BasicShape>();
 
         public void renderScene()
@@ -24,8 +25,6 @@ namespace Graphics
                 }
                 DeviceManager.device.EndScene();
                 DeviceManager.device.Present();
-
-                System.Diagnostics.Debug.WriteLine(renderable.Count);
             }
         }
 
