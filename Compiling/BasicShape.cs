@@ -31,7 +31,11 @@ namespace Graphics
     /// <summary>
     /// Basic class for creating primitive shapes
     /// </summary>
+<<<<<<< HEAD
+    public class BasicShape : IDisposable
+=======
     public abstract class BasicShape :IDisposable
+>>>>>>> master
     {
         public Device device { get; set; }
 

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 namespace Graphics
 {
     public class Input
+<<<<<<< HEAD
     {/*
         static DirectInput input;
         static Keyboard keyBoard;
@@ -22,5 +23,8 @@ namespace Graphics
             mouse = new Mouse(input);
             mouse.Acquire();
         }*/
+=======
+    {
+>>>>>>> master
     }
 }
