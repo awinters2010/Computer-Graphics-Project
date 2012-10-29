@@ -11,8 +11,8 @@ namespace Graphics
         Result r;
         private const int triangleVerticies = 3;
 
-        public Triangle(ref Device device, Result r = new SlimDX.Result())
-            : base(ref device)
+        public Triangle(Device device, Result r = new SlimDX.Result())
+            : base(device)
         {
             SetTriangle(Color.Red, Color.Blue, Color.Green);
             this.r = r;
