@@ -5,6 +5,7 @@ using System.Threading;
 using System.Text;
 using System.Drawing;
 using SlimDX.RawInput;
+using SDX3D9 = SlimDX.Direct3D9;
 
 namespace Graphics
 {
@@ -37,7 +38,7 @@ namespace Graphics
 
             camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
 
-            DeviceManager.device.SetRenderState(SlimDX.Direct3D9.RenderState.Lighting, false);
+            DeviceManager.device.SetRenderState(SDX3D9.RenderState.Lighting, false);
 
             DeviceManager.device.VertexFormat = VertexUntransformed.format;
 
@@ -54,18 +55,7 @@ namespace Graphics
             Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Generic,
                 SlimDX.Multimedia.UsageId.Mouse, DeviceFlags.None);
             Device.MouseInput += new EventHandler<MouseInputEventArgs>(Device_MouseInput);
-            Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Keyboard,
-                SlimDX.Multimedia.UsageId.Keyboard, DeviceFlags.None);
-            Device.KeyboardInput += new EventHandler<KeyboardInputEventArgs>(Device_KeyboardInput);
             
-        }
-
-        void Device_KeyboardInput(object sender, KeyboardInputEventArgs e)
-        {
-            if (e.Key == Keys.X)
-            {
-                camera.MoveCameraX(.5f);
-            }
         }
 
         void Device_MouseInput(object sender, MouseInputEventArgs e)
@@ -145,16 +135,16 @@ namespace Graphics
 
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            SlimDX.Direct3D9.FillMode fm = DeviceManager.device.GetRenderState<
-                SlimDX.Direct3D9.FillMode>(SlimDX.Direct3D9.RenderState.FillMode);
+            SDX3D9.FillMode fm = DeviceManager.device.GetRenderState<
+                SDX3D9.FillMode>(SDX3D9.RenderState.FillMode);
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
             {
-                fm = fm == SlimDX.Direct3D9.FillMode.Solid ? 
-                    SlimDX.Direct3D9.FillMode.Wireframe : SlimDX.Direct3D9.FillMode.Solid;
+                fm = fm == SDX3D9.FillMode.Solid ? 
+                    SDX3D9.FillMode.Wireframe : SDX3D9.FillMode.Solid;
             }
 
-            DeviceManager.device.SetRenderState(SlimDX.Direct3D9.RenderState.FillMode, fm);
+            DeviceManager.device.SetRenderState(SDX3D9.RenderState.FillMode, fm);
 
             if (e.KeyChar.ToString()==Keys.X.ToString().ToLower())
             {
@@ -163,8 +153,7 @@ namespace Graphics
             }
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
-            {
-                
+            {   
                 camera.MoveCameraZ(camera.eye.Z++);
             }
 

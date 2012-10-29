@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SlimDX.DirectInput;
+using SlimDX;
+using System.Windows.Forms;
 
 namespace Graphics
 {
     public class Input
+<<<<<<< HEAD
     {/*
         static DirectInput input;
         static Keyboard keyBoard;
@@ -20,5 +23,8 @@ namespace Graphics
             mouse = new Mouse(input);
             mouse.Acquire();
         }*/
+=======
+    {
+>>>>>>> master
     }
 }
