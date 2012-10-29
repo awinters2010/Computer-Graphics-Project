@@ -6,8 +6,8 @@ using SlimDX.DirectInput;
 
 namespace Graphics
 {
-    public static class Input
-    {
+    public class Input
+    {/*
         static DirectInput input;
         static Keyboard keyBoard;
         static Mouse mouse;
@@ -19,6 +19,6 @@ namespace Graphics
             keyBoard.Acquire();
             mouse = new Mouse(input);
             mouse.Acquire();
-        }
+        }*/
     }
 }

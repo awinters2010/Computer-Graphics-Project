@@ -31,7 +31,7 @@ namespace Graphics
     /// <summary>
     /// Basic class for creating primitive shapes
     /// </summary>
-    public class BasicShape
+    public class BasicShape : IDisposable
     {
         public Device device { get; set; }
 
@@ -44,7 +44,7 @@ namespace Graphics
         /// Constructor
         /// </summary>
         /// <param name="device">the current graphics device being used</param>
-        public BasicShape(ref Device device)
+        public BasicShape(Device device)
         {
             this.device = device;
         }
