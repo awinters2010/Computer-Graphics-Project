@@ -57,7 +57,7 @@ namespace Graphics
             Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Keyboard,
                 SlimDX.Multimedia.UsageId.Keyboard, DeviceFlags.None);
             Device.KeyboardInput += new EventHandler<KeyboardInputEventArgs>(Device_KeyboardInput);
-            
+
         }
 
         void Device_KeyboardInput(object sender, KeyboardInputEventArgs e)
@@ -150,13 +150,13 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
             {
-                fm = fm == SlimDX.Direct3D9.FillMode.Solid ? 
+                fm = fm == SlimDX.Direct3D9.FillMode.Solid ?
                     SlimDX.Direct3D9.FillMode.Wireframe : SlimDX.Direct3D9.FillMode.Solid;
             }
 
             DeviceManager.device.SetRenderState(SlimDX.Direct3D9.RenderState.FillMode, fm);
 
-            if (e.KeyChar.ToString()==Keys.X.ToString().ToLower())
+            if (e.KeyChar.ToString() == Keys.X.ToString().ToLower())
             {
                 xMovement++;
                 camera.MoveCameraX(xMovement);
@@ -164,7 +164,7 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
-                
+
                 camera.MoveCameraZ(camera.eye.Z++);
             }
 
