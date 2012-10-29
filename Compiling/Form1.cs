@@ -52,33 +52,6 @@ namespace Graphics
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
 
-            Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Generic,
-                SlimDX.Multimedia.UsageId.Mouse, DeviceFlags.None);
-            Device.MouseInput += new EventHandler<MouseInputEventArgs>(Device_MouseInput);
-            Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Keyboard,
-                SlimDX.Multimedia.UsageId.Keyboard, DeviceFlags.None);
-            Device.KeyboardInput += new EventHandler<KeyboardInputEventArgs>(Device_KeyboardInput);
-
-        }
-
-        void Device_KeyboardInput(object sender, KeyboardInputEventArgs e)
-        {
-            if (e.Key == Keys.X)
-            {
-                camera.MoveCameraX(.5f);
-            }
-        }
-
-        void Device_MouseInput(object sender, MouseInputEventArgs e)
-        {
-            e.Mode = MouseMode.AbsoluteMovement;
-            txtNotificationArea.Text = Enum.Format(typeof(MouseButtonFlags), e.ButtonFlags, "G");
-            txtNotificationArea.Text += e.ExtraInformation.ToString(System.Globalization.CultureInfo.CurrentCulture);
-            txtNotificationArea.Text += e.RawButtons.ToString(System.Globalization.CultureInfo.CurrentCulture);
-            txtNotificationArea.Text += new Point(e.X, e.Y).ToString();
-            txtNotificationArea.Text += Enum.Format(typeof(MouseMode), e.Mode, "G");
-            txtNotificationArea.Text += e.WheelDelta.ToString(System.Globalization.CultureInfo.CurrentCulture);
-            txtNotificationArea.Text += this.PointToClient(Cursor.Position);
         }
 
         #region Program Shutdown
