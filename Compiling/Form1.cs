@@ -54,18 +54,7 @@ namespace Graphics
             Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Generic,
                 SlimDX.Multimedia.UsageId.Mouse, DeviceFlags.None);
             Device.MouseInput += new EventHandler<MouseInputEventArgs>(Device_MouseInput);
-            Device.RegisterDevice(SlimDX.Multimedia.UsagePage.Keyboard,
-                SlimDX.Multimedia.UsageId.Keyboard, DeviceFlags.None);
-            Device.KeyboardInput += new EventHandler<KeyboardInputEventArgs>(Device_KeyboardInput);
             
-        }
-
-        void Device_KeyboardInput(object sender, KeyboardInputEventArgs e)
-        {
-            if (e.Key == Keys.X)
-            {
-                camera.MoveCameraX(.5f);
-            }
         }
 
         void Device_MouseInput(object sender, MouseInputEventArgs e)
@@ -163,8 +152,7 @@ namespace Graphics
             }
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
-            {
-                
+            {   
                 camera.MoveCameraZ(camera.eye.Z++);
             }
 
