@@ -106,7 +106,7 @@ namespace Graphics
         {
             lock (renderable)
             {
-                renderable.Add(new Cube(ref DeviceManager.device, r));
+                renderable.Add(new Cube(DeviceManager.device, r));
             }
         }
 
@@ -115,7 +115,7 @@ namespace Graphics
         {
             lock (renderable)
             {
-                renderable.Add(new Triangle(ref DeviceManager.device, r));
+                renderable.Add(new Triangle(DeviceManager.device, r));
             }
         }
 

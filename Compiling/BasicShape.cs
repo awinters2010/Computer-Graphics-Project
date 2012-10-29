@@ -44,7 +44,7 @@ namespace Graphics
         /// Constructor
         /// </summary>
         /// <param name="device">the current graphics device being used</param>
-        public BasicShape(ref Device device)
+        public BasicShape(Device device)
         {
             this.device = device;
         }

@@ -6,8 +6,8 @@ namespace Graphics
 {
     public class Cube : BasicShape
     {
-        public Cube(ref Device device, Result r = new SlimDX.Result())
-            : base(ref device)
+        public Cube(Device device, Result r = new SlimDX.Result())
+            : base(device)
         {
             SetUpTriangle();
         }
