@@ -25,7 +25,7 @@ namespace Graphics
                 DeviceManager.device.EndScene();
                 DeviceManager.device.Present();
 
-                System.Diagnostics.Debug.WriteLine(renderable.Count);
+                //System.Diagnostics.Debug.WriteLine(renderable.Count);
             }
         }
 

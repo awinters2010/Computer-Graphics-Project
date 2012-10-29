@@ -138,11 +138,10 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
-
                 camera.MoveCameraZ(camera.eye.Z++);
             }
 
-            System.Diagnostics.Debug.WriteLine(camera.view.ToString());
+            System.Diagnostics.Debug.WriteLine(camera.eye.Z);
         }
 
         /// <summary>

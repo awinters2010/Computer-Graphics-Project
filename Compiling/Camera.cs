@@ -65,7 +65,7 @@ namespace Graphics
             this.up = up;
             view = Matrix.LookAtLH(this.eye, lookAt, this.up);
             DeviceManager.device.SetTransform(TransformState.View, view);
-            System.Diagnostics.Debug.WriteLine(view.ToString());
+            //System.Diagnostics.Debug.WriteLine(view.ToString());
         }
 
         /// <summary>
