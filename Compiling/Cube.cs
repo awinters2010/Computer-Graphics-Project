@@ -14,8 +14,8 @@ namespace Graphics
 
         private void SetUpTriangle()
         {
-            var vertice = new VertexBuffer(device, 8 * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
-            vertice.Lock(0, 0, LockFlags.None).WriteRange(new[] {
+            vertices = new VertexBuffer(device, 8 * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
+            vertices.Lock(0, 0, LockFlags.None).WriteRange(new[] {
                 new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, 0f) },
                 new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, 0f) },
                 new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, 0f) },
@@ -26,7 +26,7 @@ namespace Graphics
                 new VertexUntransformed() { Color = Color.Yellow.ToArgb(),Position = new Vector3(1f, -1f, 1f) }
 
             });
-            vertice.Unlock();
+            vertices.Unlock();
 
             var vertexElems = new[] {
                         new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
@@ -36,7 +36,7 @@ namespace Graphics
 
             var vertexDecl = new VertexDeclaration(device, vertexElems);
 
-            device.SetStreamSource(0, vertice, 0, VertexUntransformed.VertexByteSize);
+            device.SetStreamSource(0, vertices, 0, VertexUntransformed.VertexByteSize);
             device.VertexDeclaration = vertexDecl;
         }
 

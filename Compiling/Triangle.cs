@@ -37,8 +37,6 @@ namespace Graphics
                                 VertexElement.VertexDeclarationEnd
                 };
 
-            BasicShape.VerticesCount += triangleVerticies;
-
             var vertexDecl = new VertexDeclaration(device, vertexElems);
 
             r = device.SetStreamSource(0, vertices, 0, VertexUntransformed.VertexByteSize);
