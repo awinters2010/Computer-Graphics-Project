@@ -51,7 +51,19 @@ namespace Graphics
             panel1.Focus();
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
+            this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
+            this.MouseClick += new MouseEventHandler(Form1_MouseClick);
+        }
 
+        void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.Button.ToString());
+        }
+
+        void Form1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.Button.ToString());
+            camera.MoveCameraZ(e.Delta / 120f);
         }
 
         #region Program Shutdown
@@ -138,10 +150,8 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
-                camera.MoveCameraZ(camera.eye.Z++);
+                camera.MoveCameraZ(1f);
             }
-
-            System.Diagnostics.Debug.WriteLine(camera.eye.Z);
         }
 
         /// <summary>
