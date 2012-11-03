@@ -19,15 +19,6 @@ namespace Graphics
         public static VertexFormat s = VertexFormat.PositionRhw | VertexFormat.Diffuse;
     }
 
-    struct VertexUntransformed
-    {
-        public Vector3 Position { get; set; }
-        public int Color { get; set; }
-
-        public static VertexFormat format = VertexFormat.Position | VertexFormat.Diffuse;
-        public const int VertexByteSize = 16;
-    }
-
     /// <summary>
     /// Basic class for creating primitive shapes
     /// </summary>
@@ -39,6 +30,8 @@ namespace Graphics
         public static int VerticesCount = 0;
 
         protected VertexBuffer vertices;
+
+        protected IndexBuffer index;
 
         /// <summary>
         /// Constructor
