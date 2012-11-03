@@ -15,34 +15,49 @@ namespace Graphics
         private void SetUpTriangle()
         {
             vertices = new VertexBuffer(device, 8 * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
-            vertices.Lock(0, 0, LockFlags.None).WriteRange(new[] {
-                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, 0f) },
-                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, 0f) },
-                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, 0f) },
-                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, 0f) },
-                new VertexUntransformed() { Color = Color.Yellow.ToArgb(),Position = new Vector3(-1f, 1f, 1f) },
-                new VertexUntransformed() { Color = Color.Orange.ToArgb(),Position = new Vector3(1f, 1f, 1f) },
-                new VertexUntransformed() { Color = Color.Orange.ToArgb(),Position = new Vector3(-1f, -1f, 1f) },
-                new VertexUntransformed() { Color = Color.Yellow.ToArgb(),Position = new Vector3(1f, -1f, 1f) }
+            vertices.Lock(0, 0, LockFlags.Discard).WriteRange(new[] {
+                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, -1f) },
+                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, -1f) },
+                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, -1f) },
+                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, -1f) },
+                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, 1f) },
+                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, 1f) },
+                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, 1f) },
+                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, 1f) },
 
             });
             vertices.Unlock();
 
-            var vertexElems = new[] {
-                        new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
-                        new VertexElement(0, 12, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),
-                                VertexElement.VertexDeclarationEnd
-                };
+            short[] indices = new short[]
+            {
+                0,1,2,
+                2,1,3,
+                4,0,6,
+                6,0,2,
+                7,5,6,
+                6,5,4,
+                3,1,7,
+                7,1,5,
+                4,5,0,
+                0,5,1,
+                3,7,2,
+                2,7,6,
+            };
 
-            var vertexDecl = new VertexDeclaration(device, vertexElems);
+            index = new IndexBuffer(device, 36 * sizeof(short), Usage.WriteOnly, Pool.Default, true);
+            index.Lock(0, 36 * sizeof(short), LockFlags.Discard).WriteRange(indices);
+            index.Unlock();
 
+            device.Indices = index;
             device.SetStreamSource(0, vertices, 0, VertexUntransformed.VertexByteSize);
-            device.VertexDeclaration = vertexDecl;
+            device.VertexDeclaration = VertexUntransformed.vertexDecl;
+
         }
 
         public override void Render()
         {
-            device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+            device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 8, 0, 12);
+            //device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
         }
     }
 }
