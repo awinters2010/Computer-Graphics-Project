@@ -33,6 +33,8 @@ namespace Graphics
         /// </summary>
         public Camera()
         {
+            DeviceManager.device.SetTransform(TransformState.World, Matrix.Identity);
+
             eye = new Vector3(0, 0, distanceFromCamera);
             lookAt = Vector3.Zero;
             up = Vector3.UnitY;
@@ -88,30 +90,48 @@ namespace Graphics
                 projection);
         }
 
-        public void ChangeView(Vector3 eye, Vector3 lookAt)
+        public void RotateCameraX(float angle)
         {
-            this.eye = eye;
-            this.lookAt = lookAt;
-            view = Matrix.LookAtLH(this.eye, this.lookAt, up);
-            DeviceManager.device.SetTransform(TransformState.View, view);
+            Matrix result;
+            Matrix.RotationX(angle, out result);
+            DeviceManager.device.SetTransform(TransformState.World, result);
         }
 
-        public void RotateCamera(float angle)
+        public void RotateCameraY(float angle)
         {
-            view = Matrix.RotationX(angle);
-            DeviceManager.device.SetTransform(TransformState.View, view);
+            Matrix result;
+            Matrix.RotationY(angle, out result);
+            DeviceManager.device.SetTransform(TransformState.World, result);
+        }
+
+        public void RotateCameraZ(float angle)
+        {
+            Matrix result;
+            Matrix.RotationZ(angle, out result);
+            DeviceManager.device.SetTransform(TransformState.World, result);
         }
 
         public void MoveCameraX(float units)
         {
-            eye.X = units;
+            eye.X += units;
             view = Matrix.Translation(eye);
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
 
         public void MoveCameraZ(float units)
         {
+            eye.Z += units;
             view = Matrix.Translation(eye);
+            DeviceManager.device.SetTransform(TransformState.View, view);
+        }
+
+        public void ResetCamera()
+        {
+            eye = new Vector3(0, 0, -5);
+            lookAt = Vector3.Zero;
+            up = Vector3.UnitY;
+
+            view = Matrix.LookAtLH(eye, lookAt, up);
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
     }
