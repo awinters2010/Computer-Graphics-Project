@@ -40,8 +40,6 @@ namespace Graphics
 
             DeviceManager.device.SetRenderState(SDX3D9.RenderState.Lighting, false);
 
-            DeviceManager.device.VertexFormat = VertexUntransformed.format;
-
             //this method starts the thread that the graphics run on.
             init();
 
