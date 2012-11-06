@@ -28,6 +28,15 @@ namespace Graphics
         // project ( what is actually being seen ) from fov, aspect, near, and far
         public Matrix projection;
 
+        //for the ray for selecting objects
+        private Ray ray;
+
+        public Ray Ray
+        {
+            get { return ray; }
+            set { ray = value; }
+        }
+
         /// <summary>
         /// Constructor that sets basic values for view and projection
         /// </summary>
@@ -35,7 +44,7 @@ namespace Graphics
         {
             DeviceManager.device.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, distanceFromCamera);
+            eye = new Vector3(0, 0, -5);
             lookAt = Vector3.Zero;
             up = Vector3.UnitY;
 
@@ -51,6 +60,8 @@ namespace Graphics
                 near, far);
             DeviceManager.device.SetTransform(TransformState.Projection,
                 projection);
+
+            ray = new Ray();
         }
 
 
@@ -90,6 +101,23 @@ namespace Graphics
                 projection);
         }
 
+        /// <summary>
+        /// change what the camera is looking at
+        /// </summary>
+        /// <param name="eye">where the camera is located</param>
+        /// <param name="lookAt">what you want the camera to look at</param>
+        public void ChangeView(Vector3 eye, Vector3 lookAt)
+        {
+            this.eye = eye;
+            this.lookAt = lookAt;
+            view = Matrix.LookAtLH(this.eye, this.lookAt, up);
+            DeviceManager.device.SetTransform(TransformState.View, view);
+        }
+
+        /// <summary>
+        /// rotate the camera around the x axis
+        /// </summary>
+        /// <param name="angle">the amount of the angle you want to rotate</param>
         public void RotateCameraX(float angle)
         {
             Matrix result;
@@ -97,20 +125,32 @@ namespace Graphics
             DeviceManager.device.SetTransform(TransformState.World, result);
         }
 
+        /// <summary>
+        /// rotate the camera around the y axis
+        /// </summary>
+        /// <param name="angle">the amount of the angle you want to rotate</param>
         public void RotateCameraY(float angle)
         {
             Matrix result;
             Matrix.RotationY(angle, out result);
-            DeviceManager.device.SetTransform(TransformState.World, result);
+            DeviceManager.device.SetTransform(TransformState.View, result * view);
         }
 
+        /// <summary>
+        /// rotate the camera around the z axis
+        /// </summary>
+        /// <param name="angle">the amount of the angle you want to rotate</param>
         public void RotateCameraZ(float angle)
         {
             Matrix result;
             Matrix.RotationZ(angle, out result);
-            DeviceManager.device.SetTransform(TransformState.World, result);
+            DeviceManager.device.SetTransform(TransformState.View, result * view);
         }
 
+        /// <summary>
+        /// move the camera along the x axis in x amount of units
+        /// </summary>
+        /// <param name="units">number of units you want to move</param>
         public void MoveCameraX(float units)
         {
             eye.X += units;
@@ -118,6 +158,21 @@ namespace Graphics
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
 
+        /// <summary>
+        /// move the camera along the y axis in x amount of units
+        /// </summary>
+        /// <param name="units">number of units you want to move</param>
+        public void MoveCameraY(float units)
+        {
+            eye.Y += units;
+            Matrix.Translation(ref eye, out view);
+            DeviceManager.device.SetTransform(TransformState.View, view);
+        }
+
+        /// <summary>
+        /// move the camera along the z axis in x amount of units
+        /// </summary>
+        /// <param name="units">number of units you want to move</param>
         public void MoveCameraZ(float units)
         {
             eye.Z += units;
@@ -125,8 +180,13 @@ namespace Graphics
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
 
+        /// <summary>
+        /// Resets the Camera to look at the origin with a distance of 5 units from it
+        /// </summary>
         public void ResetCamera()
         {
+            DeviceManager.device.SetTransform(TransformState.World, Matrix.Identity);
+
             eye = new Vector3(0, 0, -5);
             lookAt = Vector3.Zero;
             up = Vector3.UnitY;
