@@ -12,9 +12,9 @@ namespace Graphics
     {
         bool Selected { get; set; }
         Vector3 Position { get; set; }
-        Matrix World { get; set; }
-        VertexUntransformed[] ShapeVertices { get; set; }
-        short[] ShapeIndices { get; set; }
+        Matrix World { get; }
+        VertexUntransformed[] ShapeVertices { get; }
+        short[] ShapeIndices { get; }
 
         void Rotate();
         void Translate();

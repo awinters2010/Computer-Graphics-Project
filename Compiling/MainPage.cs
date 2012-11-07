@@ -23,9 +23,9 @@ namespace Graphics
         private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
-        List<IShape> renderable = new List<IShape>();
+        private List<IShape> Shapes = new List<IShape>();
 
-        float xMovement = 0.0f;
+        private float xMovement = 0.0f;
 
         public MainPage()
         {
@@ -61,15 +61,15 @@ namespace Graphics
             {
                 DeviceManager.LocalDevice.Clear(SDX3D9.ClearFlags.Target | SDX3D9.ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
                 DeviceManager.LocalDevice.BeginScene();
-                lock (renderable)
+                lock (Shapes)
                 {
                 }
                 DeviceManager.LocalDevice.EndScene();
                 DeviceManager.LocalDevice.Present();
 
-                if (renderable.Count != 0 && renderThread.IsAlive)
+                if (Shapes.Count != 0 && renderThread.IsAlive)
                 {
-                    camera.RayCalculation(new SlimDX.Vector2(MousePosition.X, MousePosition.Y), renderable[0]);
+                    camera.RayCalculation(new SlimDX.Vector2(MousePosition.X, MousePosition.Y), Shapes[0]);
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace Graphics
         //adds a new cube to the screen
         private void CubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (renderable)
+            lock (Shapes)
             {
             }
         }
@@ -124,7 +124,7 @@ namespace Graphics
         //adds a new triangle to the screen
         private void TriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (renderable)
+            lock (Shapes)
             {
             }
         }

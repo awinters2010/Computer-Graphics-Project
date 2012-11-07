@@ -10,12 +10,14 @@ namespace Graphics
     {
         public bool Selected { get; set; }
         public Vector3 Position { get; set; }
-        public Matrix World { get; set; }
-        public short[] ShapeIndices { get; set; }
-        public VertexUntransformed[] ShapeVertices { get; set; }
+        public Matrix World { get; private set; }
+        public short[] ShapeIndices { get; private set; }
+        public VertexUntransformed[] ShapeVertices { get; private set; }
 
-        private Result errorResult;
-        private const int triangleVerticies = 3;
+        public Triangle()
+        { 
+            
+        }
 
         public void Rotate()
         {
