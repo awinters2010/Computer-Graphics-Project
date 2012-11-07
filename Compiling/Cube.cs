@@ -6,6 +6,9 @@ namespace Graphics
 {
     public class Cube : BasicShape
     {
+        public short[] indices;
+        public VertexUntransformed[] vertex;
+
         public Cube(Device device, Result r = new SlimDX.Result())
             : base(device)
         {
