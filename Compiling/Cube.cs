@@ -17,8 +17,8 @@ namespace Graphics
 
         private void SetUpTriangle()
         {
-            vertices = new VertexBuffer(device, 8 * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
-            vertices.Lock(0, 0, LockFlags.Discard).WriteRange(new[] {
+            vertex = new VertexUntransformed[]
+            {
                 new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, -1f) },
                 new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, -1f) },
                 new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, -1f) },
@@ -27,11 +27,13 @@ namespace Graphics
                 new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, 1f) },
                 new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, 1f) },
                 new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, 1f) },
+            };
 
-            });
+            vertices = new VertexBuffer(device, 8 * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
+            vertices.Lock(0, 0, LockFlags.Discard).WriteRange(vertex);
             vertices.Unlock();
 
-            short[] indices = new short[]
+            indices = new short[]
             {
                 0,1,2,
                 2,1,3,
@@ -60,7 +62,7 @@ namespace Graphics
         public override void Render()
         {
             device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 8, 0, 12);
-            //device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+            //Device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
         }
     }
 }

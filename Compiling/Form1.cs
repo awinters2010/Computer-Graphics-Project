@@ -30,7 +30,7 @@ namespace Graphics
             //don't touch this method. microsoft created
             InitializeComponent();
 
-            //this method initializes the device
+            //this method initializes the Device
             DeviceManager.CreateDevice(panel1.Handle,
                 panel1.Width, panel1.Height);
 
@@ -38,7 +38,7 @@ namespace Graphics
 
             camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
 
-            DeviceManager.device.SetRenderState(SDX3D9.RenderState.Lighting, false);
+            DeviceManager.Device.SetRenderState(SDX3D9.RenderState.Lighting, false);
 
             //this method starts the thread that the graphics run on.
             init();
@@ -73,7 +73,7 @@ namespace Graphics
             {
                 renderThread.Abort();
             }
-            DeviceManager.device.Dispose();
+            DeviceManager.Device.Dispose();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -90,7 +90,7 @@ namespace Graphics
         {
             lock (renderable)
             {
-                renderable.Add(new Cube(DeviceManager.device, r));
+                renderable.Add(new Cube(DeviceManager.Device, r));
             }
         }
 
@@ -99,7 +99,7 @@ namespace Graphics
         {
             lock (renderable)
             {
-                renderable.Add(new Triangle(DeviceManager.device, r));
+                renderable.Add(new Triangle(DeviceManager.Device, r));
             }
         }
 
@@ -129,7 +129,7 @@ namespace Graphics
 
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            SDX3D9.FillMode fm = DeviceManager.device.GetRenderState
+            SDX3D9.FillMode fm = DeviceManager.Device.GetRenderState
                 <SDX3D9.FillMode>(SDX3D9.RenderState.FillMode);
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
@@ -138,7 +138,7 @@ namespace Graphics
                     SDX3D9.FillMode.Wireframe : SDX3D9.FillMode.Solid;
             }
 
-            DeviceManager.device.SetRenderState(SDX3D9.RenderState.FillMode, fm);
+            DeviceManager.Device.SetRenderState(SDX3D9.RenderState.FillMode, fm);
 
             if (e.KeyChar.ToString() == Keys.X.ToString().ToLower())
             {

@@ -11,7 +11,7 @@ namespace Graphics
         public static VertexFormat format = VertexFormat.Position | VertexFormat.Diffuse;
         public const int VertexByteSize = 16;
 
-        public static VertexDeclaration vertexDecl = new VertexDeclaration(DeviceManager.device, new VertexElement[]
+        public static VertexDeclaration vertexDecl = new VertexDeclaration(DeviceManager.Device, new VertexElement[]
         {
             new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
             new VertexElement(0, 12, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),

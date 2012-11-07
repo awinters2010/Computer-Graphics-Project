@@ -8,11 +8,11 @@ namespace Graphics
 {
     public static class DeviceManager
     {
-        public static Device device;
+        public static Device Device { get; internal set; }
 
         public static void CreateDevice(IntPtr ptr, int width, int height)
         {
-            device = new Device(new Direct3D(), 0, DeviceType.Hardware, ptr,
+            Device = new Device(new Direct3D(), 0, DeviceType.Hardware, ptr,
                 CreateFlags.HardwareVertexProcessing, new PresentParameters()
                 {
                     BackBufferWidth = width,

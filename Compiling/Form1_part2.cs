@@ -13,8 +13,8 @@ namespace Graphics
         {
             while (true)
             {
-                DeviceManager.device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                DeviceManager.device.BeginScene();
+                DeviceManager.Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+                DeviceManager.Device.BeginScene();
                 lock (renderable)
                 {
                     foreach (var item in renderable)
@@ -22,8 +22,8 @@ namespace Graphics
                         item.Render();
                     }
                 }
-                DeviceManager.device.EndScene();
-                DeviceManager.device.Present();
+                DeviceManager.Device.EndScene();
+                DeviceManager.Device.Present();
 
                 if (renderable.Count != 0 && renderThread.IsAlive)
                 {
