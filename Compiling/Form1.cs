@@ -6,6 +6,7 @@ using System.Text;
 using System.Drawing;
 using SlimDX.RawInput;
 using SDX3D9 = SlimDX.Direct3D9;
+using System.Collections.Generic;
 
 namespace Graphics
 {
@@ -22,6 +23,7 @@ namespace Graphics
         private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
+        List<IShape> renderable = new List<IShape>();
 
         float xMovement = 0.0f;
 
@@ -51,6 +53,32 @@ namespace Graphics
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
             this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
             this.MouseClick += new MouseEventHandler(Form1_MouseClick);
+        }
+
+        public void RenderScene()
+        {
+            while (true)
+            {
+                DeviceManager.LocalDevice.Clear(SDX3D9.ClearFlags.Target | SDX3D9.ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+                DeviceManager.LocalDevice.BeginScene();
+                lock (renderable)
+                {
+                }
+                DeviceManager.LocalDevice.EndScene();
+                DeviceManager.LocalDevice.Present();
+
+                if (renderable.Count != 0 && renderThread.IsAlive)
+                {
+                    camera.RayCalculation(new SlimDX.Vector2(MousePosition.X, MousePosition.Y), renderable[0]);
+                }
+            }
+        }
+
+
+        public void Init()
+        {
+            renderThread = new Thread(new ThreadStart(RenderScene));
+            renderThread.Start();
         }
 
         void Form1_MouseClick(object sender, MouseEventArgs e)
