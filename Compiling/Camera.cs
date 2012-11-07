@@ -195,7 +195,7 @@ namespace Graphics
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
 
-        public void RayCalculaton(Vector2 mousePosition, BasicShape shape)
+        public void RayCalculation(Vector2 mousePosition, BasicShape shape)
         {
             Vector3 rayPos = new Vector3(mousePosition, 0.0f);
             Vector3 rayDir = new Vector3(mousePosition, 1.0f);

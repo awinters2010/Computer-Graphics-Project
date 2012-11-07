@@ -27,7 +27,7 @@ namespace Graphics
 
                 if (renderable.Count != 0 && renderThread.IsAlive)
                 {
-                    camera.RayCalculaton(new SlimDX.Vector2(MousePosition.X, MousePosition.Y), renderable[0]);
+                    camera.RayCalculation(new SlimDX.Vector2(MousePosition.X, MousePosition.Y), renderable[0]);
                 }
             }
         }
