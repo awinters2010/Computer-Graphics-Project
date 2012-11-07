@@ -7,61 +7,50 @@ namespace Graphics
     public class Camera
     {
         // where we are stationed at
-        public Vector3 eye;
+        public Vector3 Eye;
         // what we are looking at (location)
-        public Vector3 lookAt;
+        public Vector3 LookAt;
         // which way is up
-        public Vector3 up;
+        public Vector3 Up;
         // how far away are we from origin
-        public float distanceFromCamera = 5f;
+        public float DistanceFromCamera = 5f;
         // the actual view from eye, lookat, and up
-        public Matrix view;
+        public Matrix View;
 
         // field of view how wide can we see
-        public float fov;
+        public float FOV;
         // how the screen is displayed such as wide screen
-        public float aspectRatio;
+        public float AspectRatio;
         // how close to us ( camera ) are things drawn
-        public float near;
+        public float Near;
         // how far away from us are things drawn
-        public float far;
+        public float Far;
         // project ( what is actually being seen ) from fov, aspect, near, and far
-        public Matrix projection;
-
-        //for the ray for selecting objects
-        private Ray ray;
-
-        public Ray Ray
-        {
-            get { return ray; }
-            set { ray = value; }
-        }
+        public Matrix Projection;
 
         /// <summary>
         /// Constructor that sets basic values for view and projection
         /// </summary>
         public Camera()
         {
-            DeviceManager.Device.SetTransform(TransformState.World, Matrix.Identity);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, -5);
-            lookAt = Vector3.Zero;
-            up = Vector3.UnitY;
+            Eye = new Vector3(0, 0, -5);
+            LookAt = Vector3.Zero;
+            Up = Vector3.UnitY;
 
-            view = Matrix.LookAtLH(eye, lookAt, up);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            View = Matrix.LookAtLH(Eye, LookAt, Up);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
 
-            fov = (float)Math.PI / 4.0f;
-            aspectRatio = (float)DeviceManager.Device.Viewport.Width / DeviceManager.Device.Viewport.Height;
-            near = 1.0f;
-            far = 100.0f;
+            FOV = (float)Math.PI / 4.0f;
+            AspectRatio = (float)DeviceManager.LocalDevice.Viewport.Width / DeviceManager.LocalDevice.Viewport.Height;
+            Near = 1.0f;
+            Far = 100.0f;
 
-            projection = Matrix.PerspectiveFovLH(fov, aspectRatio,
-                near, far);
-            DeviceManager.Device.SetTransform(TransformState.Projection,
-                projection);
-
-            ray = new Ray();
+            Projection = Matrix.PerspectiveFovLH(FOV, AspectRatio,
+                Near, Far);
+            DeviceManager.LocalDevice.SetTransform(TransformState.Projection,
+                Projection);
         }
 
 
@@ -73,11 +62,11 @@ namespace Graphics
         /// <param name="up"> which way is up</param>
         public void SetView(Vector3 eye, Vector3 lookat, Vector3 up)
         {
-            this.eye = eye;
-            this.lookAt = lookat;
-            this.up = up;
-            view = Matrix.LookAtLH(this.eye, lookAt, this.up);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            this.Eye = eye;
+            this.LookAt = lookat;
+            this.Up = up;
+            View = Matrix.LookAtLH(this.Eye, LookAt, this.Up);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
             //System.Diagnostics.Debug.WriteLine(view.ToString());
         }
 
@@ -91,14 +80,14 @@ namespace Graphics
         public void SetProjection(float fov, float aspectRatio,
             float close, float far)
         {
-            this.fov = fov;
-            this.aspectRatio = aspectRatio;
-            near = close;
-            this.far = far;
-            projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio,
-                near, this.far);
-            DeviceManager.Device.SetTransform(TransformState.Projection,
-                projection);
+            this.FOV = fov;
+            this.AspectRatio = aspectRatio;
+            Near = close;
+            this.Far = far;
+            Projection = Matrix.PerspectiveFovLH(this.FOV, this.AspectRatio,
+                Near, this.Far);
+            DeviceManager.LocalDevice.SetTransform(TransformState.Projection,
+                Projection);
         }
 
         /// <summary>
@@ -108,10 +97,10 @@ namespace Graphics
         /// <param name="lookAt">what you want the camera to look at</param>
         public void ChangeView(Vector3 eye, Vector3 lookAt)
         {
-            this.eye = eye;
-            this.lookAt = lookAt;
-            view = Matrix.LookAtLH(this.eye, this.lookAt, up);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            this.Eye = eye;
+            this.LookAt = lookAt;
+            View = Matrix.LookAtLH(this.Eye, this.LookAt, Up);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -122,7 +111,7 @@ namespace Graphics
         {
             Matrix result;
             Matrix.RotationX(angle, out result);
-            DeviceManager.Device.SetTransform(TransformState.World, result);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, result);
         }
 
         /// <summary>
@@ -133,7 +122,7 @@ namespace Graphics
         {
             Matrix result;
             Matrix.RotationY(angle, out result);
-            DeviceManager.Device.SetTransform(TransformState.View, result * view);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
         }
 
         /// <summary>
@@ -144,7 +133,7 @@ namespace Graphics
         {
             Matrix result;
             Matrix.RotationZ(angle, out result);
-            DeviceManager.Device.SetTransform(TransformState.View, result * view);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
         }
 
         /// <summary>
@@ -153,9 +142,9 @@ namespace Graphics
         /// <param name="units">number of units you want to move</param>
         public void MoveCameraX(float units)
         {
-            eye.X += units;
-            view = Matrix.Translation(eye);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            Eye.X += units;
+            View = Matrix.Translation(Eye);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -164,9 +153,9 @@ namespace Graphics
         /// <param name="units">number of units you want to move</param>
         public void MoveCameraY(float units)
         {
-            eye.Y += units;
-            Matrix.Translation(ref eye, out view);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            Eye.Y += units;
+            Matrix.Translation(ref Eye, out View);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -175,9 +164,9 @@ namespace Graphics
         /// <param name="units">number of units you want to move</param>
         public void MoveCameraZ(float units)
         {
-            eye.Z += units;
-            view = Matrix.Translation(eye);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            Eye.Z += units;
+            View = Matrix.Translation(Eye);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -185,45 +174,33 @@ namespace Graphics
         /// </summary>
         public void ResetCamera()
         {
-            DeviceManager.Device.SetTransform(TransformState.World, Matrix.Identity);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, -5);
-            lookAt = Vector3.Zero;
-            up = Vector3.UnitY;
+            Eye = new Vector3(0, 0, -5);
+            LookAt = Vector3.Zero;
+            Up = Vector3.UnitY;
 
-            view = Matrix.LookAtLH(eye, lookAt, up);
-            DeviceManager.Device.SetTransform(TransformState.View, view);
+            View = Matrix.LookAtLH(Eye, LookAt, Up);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
-        public void RayCalculation(Vector2 mousePosition, BasicShape shape)
+        public void RayCalculation(Vector2 mousePosition, IShape shape)
         {
-            Vector3 rayPos = new Vector3(mousePosition, 0.0f);
-            Vector3 rayDir = new Vector3(mousePosition, 1.0f);
+            var rayPos = new Vector3(mousePosition, 0.0f);
+            var rayDir = new Vector3(mousePosition, 1.0f);
 
-            Matrix objectMat = DeviceManager.Device.GetTransform(TransformState.World | TransformState.View);
+            Matrix objectMat = DeviceManager.LocalDevice.GetTransform(TransformState.World | TransformState.View);
 
-            Vector3.Unproject(ref rayPos, DeviceManager.Device.Viewport.X, DeviceManager.Device.Viewport.Y,
-                DeviceManager.Device.Viewport.Width, DeviceManager.Device.Viewport.Height, 0f, 1f, ref objectMat, out rayPos);
-            Vector3.Unproject(ref rayDir, DeviceManager.Device.Viewport.X, DeviceManager.Device.Viewport.Y,
-                DeviceManager.Device.Viewport.Width, DeviceManager.Device.Viewport.Height, 0f, 1f, ref objectMat, out rayDir);
+            Vector3.Unproject(ref rayPos, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
+                DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref objectMat, out rayPos);
+            Vector3.Unproject(ref rayDir, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
+                DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref objectMat, out rayDir);
 
             rayDir -= rayPos;
 
             //Vector3.Normalize(ref rayPos, out rayPos);
             //Vector3.Normalize(ref rayDir, out rayDir);
-
-            ray.Direction = rayDir;
-            ray.Position = rayPos;
-
-            Mesh m = new Mesh(DeviceManager.Device, 36, 8, MeshFlags.DoNotClip, VertexUntransformed.vertexDecl.Elements);
-            m.LockIndexBuffer(LockFlags.Discard).WriteRange(((Cube)shape).indices);
-            m.UnlockIndexBuffer();
-            m.LockVertexBuffer(LockFlags.Discard).WriteRange(((Cube)shape).vertex);
-            m.UnlockIndexBuffer();
-
-            Console.WriteLine(m.Intersects(ray));
-
-            m.Dispose();
+            var selectionRay = new Ray(rayPos, rayDir);
         }
     }
 }

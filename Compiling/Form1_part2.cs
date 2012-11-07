@@ -5,25 +5,21 @@ using System.Drawing;
 
 namespace Graphics
 {
-    public partial class Form1
+    public partial class MainPage
     {
-        List<BasicShape> renderable = new List<BasicShape>();
+        List<IShape> renderable = new List<IShape>();
 
-        public void renderScene()
+        public void RenderScene()
         {
             while (true)
             {
-                DeviceManager.Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                DeviceManager.Device.BeginScene();
+                DeviceManager.LocalDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+                DeviceManager.LocalDevice.BeginScene();
                 lock (renderable)
                 {
-                    foreach (var item in renderable)
-                    {
-                        item.Render();
-                    }
                 }
-                DeviceManager.Device.EndScene();
-                DeviceManager.Device.Present();
+                DeviceManager.LocalDevice.EndScene();
+                DeviceManager.LocalDevice.Present();
 
                 if (renderable.Count != 0 && renderThread.IsAlive)
                 {
@@ -33,9 +29,9 @@ namespace Graphics
         }
 
 
-        public void init()
+        public void Init()
         {
-            renderThread = new Thread(new ThreadStart(renderScene));
+            renderThread = new Thread(new ThreadStart(RenderScene));
             renderThread.Start();
         }
     }

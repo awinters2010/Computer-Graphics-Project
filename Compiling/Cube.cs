@@ -1,68 +1,32 @@
 ﻿using SlimDX.Direct3D9;
 using System.Drawing;
 using SlimDX;
+using System;
 
 namespace Graphics
 {
-    public class Cube : BasicShape
+    public class Cube : IShape
     {
-        public short[] indices;
-        public VertexUntransformed[] vertex;
+        public bool Selected { get; set; }
+        public Vector3 Position { get; set; }
+        public Matrix World { get; set; }
+        public short[] ShapeIndices { get; set; }
+        public VertexUntransformed[] ShapeVertices { get; set; }
 
-        public Cube(Device device, Result r = new SlimDX.Result())
-            : base(device)
+
+        public void Rotate()
         {
-            SetUpTriangle();
+            throw new NotImplementedException();
         }
 
-        private void SetUpTriangle()
+        public void Translate()
         {
-            vertex = new VertexUntransformed[]
-            {
-                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, -1f) },
-                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, -1f) },
-                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, -1f) },
-                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, -1f) },
-                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-1f, 1f, 1f) },
-                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(1f, 1f, 1f) },
-                new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, 1f) },
-                new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, 1f) },
-            };
-
-            vertices = new VertexBuffer(device, 8 * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
-            vertices.Lock(0, 0, LockFlags.Discard).WriteRange(vertex);
-            vertices.Unlock();
-
-            indices = new short[]
-            {
-                0,1,2,
-                2,1,3,
-                4,0,6,
-                6,0,2,
-                7,5,6,
-                6,5,4,
-                3,1,7,
-                7,1,5,
-                4,5,0,
-                0,5,1,
-                3,7,2,
-                2,7,6,
-            };
-
-            index = new IndexBuffer(device, 36 * sizeof(short), Usage.WriteOnly, Pool.Default, true);
-            index.Lock(0, 36 * sizeof(short), LockFlags.Discard).WriteRange(indices);
-            index.Unlock();
-
-            device.Indices = index;
-            device.SetStreamSource(0, vertices, 0, VertexUntransformed.VertexByteSize);
-            device.VertexDeclaration = VertexUntransformed.vertexDecl;
-
+            throw new NotImplementedException();
         }
 
-        public override void Render()
+        public void Scale()
         {
-            device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 8, 0, 12);
-            //Device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+            throw new NotImplementedException();
         }
     }
 }

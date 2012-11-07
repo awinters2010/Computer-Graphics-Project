@@ -9,12 +9,12 @@ using SDX3D9 = SlimDX.Direct3D9;
 
 namespace Graphics
 {
-    public partial class Form1 : Form
+    public partial class MainPage : Form
     {
         //the thread that the graphics will be running in so the UI doesn't lock up.
         private Thread renderThread;
 
-        private Result r;
+        private Result errorResult;
 
         private Camera camera;
 
@@ -25,7 +25,7 @@ namespace Graphics
 
         float xMovement = 0.0f;
 
-        public Form1()
+        public MainPage()
         {
             //don't touch this method. microsoft created
             InitializeComponent();
@@ -38,13 +38,13 @@ namespace Graphics
 
             camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
 
-            DeviceManager.Device.SetRenderState(SDX3D9.RenderState.Lighting, false);
+            DeviceManager.LocalDevice.SetRenderState(SDX3D9.RenderState.Lighting, false);
 
             //this method starts the thread that the graphics run on.
-            init();
+            Init();
 
             //set GUI control attributes
-            setGui();
+            SetGui();
 
             panel1.Focus();
 
@@ -67,18 +67,18 @@ namespace Graphics
         #region Program Shutdown
 
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
-        public void shutDown()
+        public void ShutDown()
         {
             while (renderThread.IsAlive)
             {
                 renderThread.Abort();
             }
-            DeviceManager.Device.Dispose();
+            DeviceManager.LocalDevice.Dispose();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            shutDown();
+            ShutDown();
         }
 
         #endregion
@@ -86,26 +86,19 @@ namespace Graphics
         #region Shape Menu Drawing
 
         //adds a new cube to the screen
-        private void cubeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lock (renderable)
             {
-                renderable.Add(new Cube(DeviceManager.Device, r));
             }
         }
 
         //adds a new triangle to the screen
-        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lock (renderable)
             {
-                renderable.Add(new Triangle(DeviceManager.Device, r));
             }
-        }
-
-        private void sixSidesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         #endregion
@@ -122,14 +115,13 @@ namespace Graphics
         //displays the number of vertices on the screen
         private void OLblUpdate(string text)
         {
-            lblMem.Text = "Vertices: " + BasicShape.VerticesCount.ToString();
         }
 
         #endregion
 
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            SDX3D9.FillMode fm = DeviceManager.Device.GetRenderState
+            SDX3D9.FillMode fm = DeviceManager.LocalDevice.GetRenderState
                 <SDX3D9.FillMode>(SDX3D9.RenderState.FillMode);
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
@@ -138,7 +130,7 @@ namespace Graphics
                     SDX3D9.FillMode.Wireframe : SDX3D9.FillMode.Solid;
             }
 
-            DeviceManager.Device.SetRenderState(SDX3D9.RenderState.FillMode, fm);
+            DeviceManager.LocalDevice.SetRenderState(SDX3D9.RenderState.FillMode, fm);
 
             if (e.KeyChar.ToString() == Keys.X.ToString().ToLower())
             {
@@ -155,7 +147,7 @@ namespace Graphics
         /// <summary>
         /// Sets GUI Menu items and controls including width and colors
         /// </summary>
-        private void setGui()
+        private void SetGui()
         {
             //set colors
 

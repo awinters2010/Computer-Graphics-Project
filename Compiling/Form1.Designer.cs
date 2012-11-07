@@ -1,6 +1,6 @@
 ﻿namespace Graphics
 {
-    partial class Form1
+    partial class MainPage
     {
         /// <summary>
         /// Required designer variable.
@@ -102,14 +102,14 @@
             this.cubeToolStripMenuItem.Name = "cubeToolStripMenuItem";
             this.cubeToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.cubeToolStripMenuItem.Text = "Cube";
-            this.cubeToolStripMenuItem.Click += new System.EventHandler(this.cubeToolStripMenuItem_Click);
+            this.cubeToolStripMenuItem.Click += new System.EventHandler(this.CubeToolStripMenuItem_Click);
             // 
             // triangleToolStripMenuItem
             // 
             this.triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
             this.triangleToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.triangleToolStripMenuItem.Text = "Triangle";
-            this.triangleToolStripMenuItem.Click += new System.EventHandler(this.triangleToolStripMenuItem_Click);
+            this.triangleToolStripMenuItem.Click += new System.EventHandler(this.TriangleToolStripMenuItem_Click);
             // 
             // cylinderToolStripMenuItem
             // 
@@ -122,7 +122,6 @@
             this.sixSidesToolStripMenuItem.Name = "sixSidesToolStripMenuItem";
             this.sixSidesToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.sixSidesToolStripMenuItem.Text = "six sides";
-            this.sixSidesToolStripMenuItem.Click += new System.EventHandler(this.sixSidesToolStripMenuItem_Click);
             // 
             // txtNotificationArea
             // 

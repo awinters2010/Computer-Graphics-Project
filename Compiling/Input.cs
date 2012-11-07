@@ -8,9 +8,9 @@ namespace Graphics
 {
     public static class Input
     {
-        static DirectInput input;
-        static Keyboard keyBoard;
-        static Mouse mouse;
+        private static DirectInput input;
+        private static Keyboard keyBoard;
+        private static Mouse mouse;
 
         public static void Initialize()
         {
