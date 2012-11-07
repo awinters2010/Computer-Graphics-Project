@@ -3,7 +3,7 @@ using SlimDX.Direct3D9;
 
 namespace Graphics
 {
-    struct VertexUntransformed
+    public struct VertexUntransformed
     {
         public Vector3 Position { get; set; }
         public int Color { get; set; }
