@@ -33,6 +33,39 @@ namespace Graphics
 
         protected IndexBuffer index;
 
+        private Vector3 position;
+
+        protected Matrix world;
+
+        private bool selected;
+
+        public bool Selected
+        {
+            get { return selected; }
+            set { selected = value; }
+        }
+
+        public Vector3 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        public Matrix World
+        {
+            get { return world; }
+        }
+
+        public VertexBuffer VertexBuffer
+        {
+            get { return vertices; }
+        }
+
+        public IndexBuffer IndexBuffer
+        {
+            get { return index; }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -41,6 +74,8 @@ namespace Graphics
         {
             this.device = device;
         }
+
+        public virtual void Move() { }
 
         /// <summary>
         /// for rendering the shape on the screen
