@@ -194,5 +194,38 @@ namespace Graphics
             view = Matrix.LookAtLH(eye, lookAt, up);
             DeviceManager.device.SetTransform(TransformState.View, view);
         }
+
+        public void RayCalculaton(Vector2 mousePosition, BasicShape shape)
+        {
+            Vector3 rayPos = new Vector3(mousePosition, 0.0f);
+            Vector3 rayDir = new Vector3(mousePosition, 1.0f);
+
+            Matrix objectMat = DeviceManager.device.GetTransform(TransformState.World | TransformState.View);
+
+            Vector3.Unproject(ref rayPos, DeviceManager.device.Viewport.X, DeviceManager.device.Viewport.Y,
+                DeviceManager.device.Viewport.Width, DeviceManager.device.Viewport.Height, 0f, 1f, ref objectMat, out rayPos);
+            Vector3.Unproject(ref rayDir, DeviceManager.device.Viewport.X, DeviceManager.device.Viewport.Y,
+                DeviceManager.device.Viewport.Width, DeviceManager.device.Viewport.Height, 0f, 1f, ref objectMat, out rayDir);
+
+            rayDir -= rayPos;
+
+            //Vector3.Normalize(ref rayPos, out rayPos);
+            //Vector3.Normalize(ref rayDir, out rayDir);
+
+            ray.Direction = rayDir;
+            ray.Position = rayPos;
+
+            /*
+            Mesh m = new Mesh(DeviceManager.device, 36, 8, MeshFlags.DoNotClip, VertexUntransformed.vertexDecl.Elements);
+            m.LockIndexBuffer(LockFlags.Discard).WriteRange(((Cube)shape).indices);
+            m.UnlockIndexBuffer();
+            m.LockVertexBuffer(LockFlags.Discard).WriteRange(((Cube)shape).vertex);
+            m.UnlockIndexBuffer();
+
+            Console.WriteLine(m.Intersects(ray));
+
+            m.Dispose();
+             * */
+        }
     }
 }
