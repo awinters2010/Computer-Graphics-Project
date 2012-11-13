@@ -7,6 +7,8 @@ using System.Drawing;
 using SlimDX.RawInput;
 using SDX3D9 = SlimDX.Direct3D9;
 using System.Collections.Generic;
+using SlimDX.Direct3D9;
+using System.Collections.ObjectModel;
 
 namespace Graphics
 {
@@ -23,9 +25,15 @@ namespace Graphics
         private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
-        private List<IShape> Shapes = new List<IShape>();
+        private ObservableCollection<IShape> Shapes = new ObservableCollection<IShape>();
 
         private float xMovement = 0.0f;
+
+        private VertexBuffer vBuffer;
+        private IndexBuffer iBuffer;
+
+        private int verticesCount = 0;
+        private int indiciesCount = 0;
 
         public MainPage()
         {
@@ -51,8 +59,35 @@ namespace Graphics
             panel1.Focus();
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
-            this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
-            this.MouseClick += new MouseEventHandler(Form1_MouseClick);
+
+            Shapes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Shapes_CollectionChanged);
+        }
+
+        void Shapes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            verticesCount += Shapes[e.NewStartingIndex].ShapeVertices.Length;
+            indiciesCount += Shapes[e.NewStartingIndex].ShapeIndices.Length;
+
+            List<VertexUntransformed> v = new List<VertexUntransformed>();
+            List<short> i = new List<short>();
+
+            foreach (var item in Shapes)
+            {
+                v.AddRange(item.ShapeVertices);
+                i.AddRange(item.ShapeIndices);
+            }
+
+            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, verticesCount * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
+            vBuffer.Lock(0, verticesCount * VertexUntransformed.VertexByteSize, LockFlags.Discard).WriteRange(v.ToArray());
+            vBuffer.Unlock();
+
+            iBuffer = new IndexBuffer(DeviceManager.LocalDevice, indiciesCount * sizeof(short), Usage.WriteOnly, Pool.Default, true);
+            iBuffer.Lock(0, indiciesCount * sizeof(short), LockFlags.Discard).WriteRange(i.ToArray());
+            iBuffer.Unlock();
+
+            DeviceManager.LocalDevice.Indices = iBuffer;
+            DeviceManager.LocalDevice.SetStreamSource(0, vBuffer, 0, VertexUntransformed.VertexByteSize);
+            DeviceManager.LocalDevice.VertexDeclaration = VertexUntransformed.VertexDecl;
         }
 
         public void RenderScene()
@@ -61,16 +96,17 @@ namespace Graphics
             {
                 DeviceManager.LocalDevice.Clear(SDX3D9.ClearFlags.Target | SDX3D9.ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
                 DeviceManager.LocalDevice.BeginScene();
+
                 lock (Shapes)
                 {
+                    if (Shapes.Count != 0)
+                    {
+                        DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
+                    }
                 }
+
                 DeviceManager.LocalDevice.EndScene();
                 DeviceManager.LocalDevice.Present();
-
-                if (Shapes.Count != 0 && renderThread.IsAlive)
-                {
-                    camera.RayCalculation(new SlimDX.Vector2(MousePosition.X, MousePosition.Y), Shapes[0]);
-                }
             }
         }
 
@@ -79,17 +115,6 @@ namespace Graphics
         {
             renderThread = new Thread(new ThreadStart(RenderScene));
             renderThread.Start();
-        }
-
-        void Form1_MouseClick(object sender, MouseEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(e.Button.ToString());
-        }
-
-        void Form1_MouseWheel(object sender, MouseEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(e.Button.ToString());
-            camera.MoveCameraZ(e.Delta / 120f);
         }
 
         #region Program Shutdown
@@ -101,7 +126,16 @@ namespace Graphics
             {
                 renderThread.Abort();
             }
+            if (vBuffer != null && iBuffer != null)
+            {
+                vBuffer.Dispose();
+                vBuffer = null;
+                iBuffer.Dispose();
+                iBuffer = null;
+            }
+            VertexUntransformed.VertexDecl.Dispose();
             DeviceManager.LocalDevice.Dispose();
+            System.Diagnostics.Debug.WriteLine("stuff disposed");
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -118,6 +152,7 @@ namespace Graphics
         {
             lock (Shapes)
             {
+                Shapes.Add(new Cube());
             }
         }
 
@@ -126,6 +161,7 @@ namespace Graphics
         {
             lock (Shapes)
             {
+                Shapes.Add(new Triangle());
             }
         }
 
