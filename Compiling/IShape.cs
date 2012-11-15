@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SlimDX;
-using SlimDX.Direct3D9;
-using System.Drawing;
+﻿using SlimDX;
 
 namespace Graphics
 {
@@ -15,9 +9,12 @@ namespace Graphics
         Matrix World { get; }
         VertexUntransformed[] ShapeVertices { get; }
         short[] ShapeIndices { get; }
+        string Name { get; set; }
+        string Type { get; }
 
         void Rotate();
-        void Translate();
+        void Translate(float x, float y, float z);
         void Scale();
+        void Render();
     }
 }

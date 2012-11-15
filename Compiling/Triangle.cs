@@ -14,6 +14,7 @@ namespace Graphics
         public short[] ShapeIndices { get; private set; }
         public VertexUntransformed[] ShapeVertices { get; private set; }
         public string Name { get; set; }
+        public string Type { get; internal set; }
 
         public Triangle()
         {
@@ -34,6 +35,12 @@ namespace Graphics
                 3, 2, 4,
                 2, 0, 4,
             };
+
+            Position = Vector3.Zero;
+            World = Matrix.Translation(Position);
+            Name = "Triangle";
+            Selected = false;
+            Type = "triangle";
         }
 
         public void Rotate()
@@ -41,7 +48,7 @@ namespace Graphics
             throw new NotImplementedException();
         }
 
-        public void Translate()
+        public void Translate(float x, float y, float z)
         {
             throw new NotImplementedException();
         }
@@ -49,6 +56,10 @@ namespace Graphics
         public void Scale()
         {
             throw new NotImplementedException();
+        }
+
+        public void Render()
+        {
         }
     }
 }

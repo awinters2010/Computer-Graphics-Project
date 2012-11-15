@@ -12,6 +12,8 @@ namespace Graphics
         public Matrix World { get; private set; }
         public short[] ShapeIndices { get; private set; }
         public VertexUntransformed[] ShapeVertices { get; private set; }
+        public string Name { get; set; }
+        public string Type { get; private set; }
 
         public Cube()
         {
@@ -25,7 +27,7 @@ namespace Graphics
                     new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-1f, -1f, 1f) },
                     new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(1f, -1f, 1f) }
                 };
-            
+
             ShapeIndices = new short[] {
                 0,1,2,
                 2,1,3,
@@ -40,7 +42,12 @@ namespace Graphics
                 3,7,2,
                 2,7,6,
             };
-            
+
+            Position = new Vector3(5, 0, 0);
+            World = Matrix.Translation(Position);
+            Name = "Cube";
+            Selected = false;
+            Type = "cube";
         }
 
         public void Rotate()
@@ -48,7 +55,7 @@ namespace Graphics
             throw new NotImplementedException();
         }
 
-        public void Translate()
+        public void Translate(float x, float y, float z)
         {
             throw new NotImplementedException();
         }
@@ -56,6 +63,11 @@ namespace Graphics
         public void Scale()
         {
             throw new NotImplementedException();
+        }
+
+        public void Render()
+        {
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
         }
     }
 }
