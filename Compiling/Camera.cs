@@ -53,7 +53,6 @@ namespace Graphics
                 Projection);
         }
 
-
         /// <summary>
         /// Sets a new view
         /// </summary>
@@ -77,8 +76,7 @@ namespace Graphics
         /// <param name="aspectRatio"> width/height</param>
         /// <param name="close"> how close do we draw objects</param>
         /// <param name="far"> how far away do we draw objects</param>
-        public void SetProjection(float fov, float aspectRatio,
-            float close, float far)
+        public void SetProjection(float fov, float aspectRatio, float close, float far)
         {
             this.FOV = fov;
             this.AspectRatio = aspectRatio;
@@ -184,23 +182,59 @@ namespace Graphics
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
-        public void RayCalculation(Vector2 mousePosition, IShape shape)
+        /// <summary>
+        /// Used to find which primitive object the mouse is currently hold over for selecting that object
+        /// </summary>
+        /// <param name="mousePosition">the mouses location</param>
+        /// <param name="shape">the primitive that you wish to see if the mouse is currently hovering over</param>
+        /// <param name="distance">the distance from the mouse to the shape</param>
+        /// <returns>true is mouse is over that primitive; false otherwise</returns>
+        public bool RayCalculation(Vector2 mousePosition, IShape shape, out float distance)
         {
-            var rayPos = new Vector3(mousePosition, 0.0f);
-            var rayDir = new Vector3(mousePosition, 1.0f);
+            var mouseNear = new Vector3(mousePosition, 0.0f);
+            var mouseFar = new Vector3(mousePosition, 1.0f);
+            var box = new BoundingBox();
 
-            Matrix objectMat = DeviceManager.LocalDevice.GetTransform(TransformState.World | TransformState.View);
+            var mat = this.View * this.Projection * DeviceManager.LocalDevice.GetTransform(TransformState.World);
 
-            Vector3.Unproject(ref rayPos, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
-                DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref objectMat, out rayPos);
-            Vector3.Unproject(ref rayDir, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
-                DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref objectMat, out rayDir);
+            Vector3.Unproject(ref mouseNear, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
+                DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref mat, out mouseNear);
+            Vector3.Unproject(ref mouseFar, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
+                DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
 
-            rayDir -= rayPos;
+            var direction = mouseFar - mouseNear;
 
-            //Vector3.Normalize(ref rayPos, out rayPos);
-            //Vector3.Normalize(ref rayDir, out rayDir);
-            var selectionRay = new Ray(rayPos, rayDir);
+            var selectionRay = new Ray(mouseNear, direction);
+
+            for (int i = 0; i < shape.ShapeVertices.Length; i++)
+            {
+                if (shape.ShapeVertices[i].Position.X < box.Minimum.X)
+                {
+                    box.Minimum.X = shape.ShapeVertices[i].Position.X;
+                }
+                if (shape.ShapeVertices[i].Position.Y < box.Minimum.Y)
+                {
+                    box.Minimum.Y = shape.ShapeVertices[i].Position.Y;
+                }
+                if (shape.ShapeVertices[i].Position.Z < box.Minimum.Z)
+                {
+                    box.Minimum.Z = shape.ShapeVertices[i].Position.Z;
+                }
+                if (shape.ShapeVertices[i].Position.X > box.Maximum.X)
+                {
+                    box.Maximum.X = shape.ShapeVertices[i].Position.X;
+                }
+                if (shape.ShapeVertices[i].Position.Y > box.Maximum.Y)
+                {
+                    box.Maximum.Y = shape.ShapeVertices[i].Position.Y;
+                }
+                if (shape.ShapeVertices[i].Position.Z > box.Maximum.Z)
+                {
+                    box.Maximum.Z = shape.ShapeVertices[i].Position.Z;
+                }
+            }
+
+            return Ray.Intersects(selectionRay, box, out distance);
         }
     }
 }
