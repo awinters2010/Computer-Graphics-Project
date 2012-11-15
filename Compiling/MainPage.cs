@@ -2,9 +2,7 @@
 using System.Windows.Forms;
 using SlimDX;
 using System.Threading;
-using System.Text;
 using System.Drawing;
-using SlimDX.RawInput;
 using SDX3D9 = SlimDX.Direct3D9;
 using System.Collections.Generic;
 using SlimDX.Direct3D9;
@@ -34,6 +32,9 @@ namespace Graphics
 
         private int verticesCount = 0;
         private int indiciesCount = 0;
+
+        Point p;
+        bool objectSelected = false;
 
         public MainPage()
         {
@@ -101,7 +102,15 @@ namespace Graphics
                 {
                     if (Shapes.Count != 0)
                     {
-                        DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
+                        for (int i = 0; i < 1; i++)
+                        {
+                            if (Shapes[i].Type == "cube")
+                            {
+                                Shapes[i].Render();
+                                DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
+                            }
+                        }
+
                     }
                 }
 
@@ -109,7 +118,6 @@ namespace Graphics
                 DeviceManager.LocalDevice.Present();
             }
         }
-
 
         public void Init()
         {
@@ -163,22 +171,6 @@ namespace Graphics
             {
                 Shapes.Add(new Triangle());
             }
-        }
-
-        #endregion
-
-        #region Memory and Vertices Display
-
-        //for displaying how much memory we are currently using 
-        private void LblUpdate(string text)
-        {
-            lblMemoryUsage.Text = text;
-
-        }
-
-        //displays the number of vertices on the screen
-        private void OLblUpdate(string text)
-        {
         }
 
         #endregion
