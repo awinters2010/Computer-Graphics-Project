@@ -52,6 +52,7 @@
             this.lblDes1 = new System.Windows.Forms.Label();
             this.lblSS1 = new System.Windows.Forms.Label();
             this.lblSS2 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -120,6 +121,7 @@
             this.cylinderToolStripMenuItem.Name = "cylinderToolStripMenuItem";
             this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cylinderToolStripMenuItem.Text = "Cylinder";
+            this.cylinderToolStripMenuItem.Visible = false;
             this.cylinderToolStripMenuItem.Click += new System.EventHandler(this.cylinderToolStripMenuItem_Click);
             // 
             // sixSidesToolStripMenuItem
@@ -127,6 +129,7 @@
             this.sixSidesToolStripMenuItem.Name = "sixSidesToolStripMenuItem";
             this.sixSidesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sixSidesToolStripMenuItem.Text = "six sides";
+            this.sixSidesToolStripMenuItem.Visible = false;
             this.sixSidesToolStripMenuItem.Click += new System.EventHandler(this.sixSidesToolStripMenuItem_Click);
             // 
             // txtNotificationArea
@@ -218,6 +221,7 @@
             // 
             // gbDesigner
             // 
+            this.gbDesigner.Controls.Add(this.label2);
             this.gbDesigner.Controls.Add(this.lblSS2);
             this.gbDesigner.Controls.Add(this.lblSS1);
             this.gbDesigner.Controls.Add(this.lblSCnt2);
@@ -243,7 +247,7 @@
             // lblSCnt1
             // 
             this.lblSCnt1.AutoSize = true;
-            this.lblSCnt1.Location = new System.Drawing.Point(158, 47);
+            this.lblSCnt1.Location = new System.Drawing.Point(158, 27);
             this.lblSCnt1.Name = "lblSCnt1";
             this.lblSCnt1.Size = new System.Drawing.Size(44, 13);
             this.lblSCnt1.TabIndex = 2;
@@ -253,7 +257,7 @@
             // 
             this.cboShapeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboShapeList.FormattingEnabled = true;
-            this.cboShapeList.Location = new System.Drawing.Point(7, 63);
+            this.cboShapeList.Location = new System.Drawing.Point(7, 43);
             this.cboShapeList.Name = "cboShapeList";
             this.cboShapeList.Size = new System.Drawing.Size(265, 21);
             this.cboShapeList.TabIndex = 1;
@@ -262,7 +266,7 @@
             // lblDes1
             // 
             this.lblDes1.AutoSize = true;
-            this.lblDes1.Location = new System.Drawing.Point(6, 47);
+            this.lblDes1.Location = new System.Drawing.Point(6, 27);
             this.lblDes1.Name = "lblDes1";
             this.lblDes1.Size = new System.Drawing.Size(67, 13);
             this.lblDes1.TabIndex = 0;
@@ -271,7 +275,7 @@
             // lblSS1
             // 
             this.lblSS1.AutoSize = true;
-            this.lblSS1.Location = new System.Drawing.Point(6, 27);
+            this.lblSS1.Location = new System.Drawing.Point(6, 81);
             this.lblSS1.Name = "lblSS1";
             this.lblSS1.Size = new System.Drawing.Size(101, 13);
             this.lblSS1.TabIndex = 4;
@@ -281,11 +285,20 @@
             // 
             this.lblSS2.AutoSize = true;
             this.lblSS2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSS2.Location = new System.Drawing.Point(113, 27);
+            this.lblSS2.Location = new System.Drawing.Point(113, 81);
             this.lblSS2.Name = "lblSS2";
             this.lblSS2.Size = new System.Drawing.Size(43, 13);
             this.lblSS2.TabIndex = 5;
             this.lblSS2.Text = "<none>";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 109);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Shape List";
             // 
             // MainPage
             // 
@@ -340,6 +353,7 @@
         private System.Windows.Forms.Label lblSCnt1;
         private System.Windows.Forms.Label lblSS2;
         private System.Windows.Forms.Label lblSS1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
