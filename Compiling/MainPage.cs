@@ -161,6 +161,9 @@ namespace Graphics
             lock (Shapes)
             {
                 Shapes.Add(new Cube());
+                
+                //there may be a better place to put this
+                AddToShapeList("Cube");
             }
         }
 
@@ -170,6 +173,8 @@ namespace Graphics
             lock (Shapes)
             {
                 Shapes.Add(new Triangle());
+                //there may be a better place to put this
+                AddToShapeList("Triangle");
             }
         }
 
@@ -214,12 +219,58 @@ namespace Graphics
             plNotArea.BackColor = GUIBackColor;
             gbMemUsage.BackColor = GUISubWindowColor;
 
-            //tab panel area
-            tpRight1.BackColor = GUISubWindowColor;
-            tpRight2.BackColor = GUISubWindowColor;
-
             //set control sizes
             plNotArea.Width = this.Width;
+
+            //set shape drop down list value and display members
+            cboShapeList.ValueMember = "ID";
+            cboShapeList.DisplayMember = "ShapeDesc";
+        }
+
+        #region "Shape DropDownList Related Methods"
+        /// <summary>
+        /// Adds a new shape to the shape list combo box
+        /// </summary>
+        public void AddToShapeList(string ShapeDesc)
+        {
+            //update shape count
+            UpdateShapeCount();
+
+            //create new object, set ID = shape count, set description to shape type
+            ShapeListItem sliToAdd = new ShapeListItem(Shapes.Count, ShapeDesc);
+
+            //Add object    
+            cboShapeList.Items.Add(sliToAdd);
+        }
+
+        /// <summary>
+        /// Updates shape count label
+        /// </summary>
+        public void UpdateShapeCount()
+        {
+            //update shape count
+            lblSCnt2.Text = Shapes.Count.ToString();
+        }
+
+        private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboShapeList.SelectedIndex != -1)
+            {
+                lblSS2.Text = cboShapeList.Text.ToString();
+            }
+        }
+        #endregion
+
+        
+
+        private void cylinderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //code for cylinder here
+        }
+
+        private void sixSidesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //code for sixSides here
         }
     }
 }

@@ -45,13 +45,17 @@
             this.plNotArea = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.lblNotArea = new System.Windows.Forms.Label();
-            this.tcRight = new System.Windows.Forms.TabControl();
-            this.tpRight1 = new System.Windows.Forms.TabPage();
-            this.tpRight2 = new System.Windows.Forms.TabPage();
+            this.gbDesigner = new System.Windows.Forms.GroupBox();
+            this.lblSCnt2 = new System.Windows.Forms.Label();
+            this.lblSCnt1 = new System.Windows.Forms.Label();
+            this.cboShapeList = new System.Windows.Forms.ComboBox();
+            this.lblDes1 = new System.Windows.Forms.Label();
+            this.lblSS1 = new System.Windows.Forms.Label();
+            this.lblSS2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
-            this.tcRight.SuspendLayout();
+            this.gbDesigner.SuspendLayout();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -100,28 +104,30 @@
             // cubeToolStripMenuItem
             // 
             this.cubeToolStripMenuItem.Name = "cubeToolStripMenuItem";
-            this.cubeToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.cubeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cubeToolStripMenuItem.Text = "Cube";
             this.cubeToolStripMenuItem.Click += new System.EventHandler(this.CubeToolStripMenuItem_Click);
             // 
             // triangleToolStripMenuItem
             // 
             this.triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
-            this.triangleToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.triangleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.triangleToolStripMenuItem.Text = "Triangle";
             this.triangleToolStripMenuItem.Click += new System.EventHandler(this.TriangleToolStripMenuItem_Click);
             // 
             // cylinderToolStripMenuItem
             // 
             this.cylinderToolStripMenuItem.Name = "cylinderToolStripMenuItem";
-            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cylinderToolStripMenuItem.Text = "Cylinder";
+            this.cylinderToolStripMenuItem.Click += new System.EventHandler(this.cylinderToolStripMenuItem_Click);
             // 
             // sixSidesToolStripMenuItem
             // 
             this.sixSidesToolStripMenuItem.Name = "sixSidesToolStripMenuItem";
-            this.sixSidesToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.sixSidesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sixSidesToolStripMenuItem.Text = "six sides";
+            this.sixSidesToolStripMenuItem.Click += new System.EventHandler(this.sixSidesToolStripMenuItem_Click);
             // 
             // txtNotificationArea
             // 
@@ -210,42 +216,83 @@
             this.lblNotArea.TabIndex = 12;
             this.lblNotArea.Text = "Notification Area";
             // 
-            // tcRight
+            // gbDesigner
             // 
-            this.tcRight.Controls.Add(this.tpRight1);
-            this.tcRight.Controls.Add(this.tpRight2);
-            this.tcRight.Location = new System.Drawing.Point(844, 27);
-            this.tcRight.Name = "tcRight";
-            this.tcRight.SelectedIndex = 0;
-            this.tcRight.Size = new System.Drawing.Size(281, 525);
-            this.tcRight.TabIndex = 11;
+            this.gbDesigner.Controls.Add(this.lblSS2);
+            this.gbDesigner.Controls.Add(this.lblSS1);
+            this.gbDesigner.Controls.Add(this.lblSCnt2);
+            this.gbDesigner.Controls.Add(this.lblSCnt1);
+            this.gbDesigner.Controls.Add(this.cboShapeList);
+            this.gbDesigner.Controls.Add(this.lblDes1);
+            this.gbDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbDesigner.Location = new System.Drawing.Point(847, 27);
+            this.gbDesigner.Name = "gbDesigner";
+            this.gbDesigner.Size = new System.Drawing.Size(278, 525);
+            this.gbDesigner.TabIndex = 11;
+            this.gbDesigner.TabStop = false;
+            this.gbDesigner.Text = "Designer";
             // 
-            // tpRight1
+            // lblSCnt2
             // 
-            this.tpRight1.Location = new System.Drawing.Point(4, 22);
-            this.tpRight1.Name = "tpRight1";
-            this.tpRight1.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRight1.Size = new System.Drawing.Size(273, 499);
-            this.tpRight1.TabIndex = 0;
-            this.tpRight1.Text = "Tab 1";
-            this.tpRight1.UseVisualStyleBackColor = true;
+            this.lblSCnt2.AutoSize = true;
+            this.lblSCnt2.Location = new System.Drawing.Point(202, 27);
+            this.lblSCnt2.Name = "lblSCnt2";
+            this.lblSCnt2.Size = new System.Drawing.Size(0, 13);
+            this.lblSCnt2.TabIndex = 3;
             // 
-            // tpRight2
+            // lblSCnt1
             // 
-            this.tpRight2.Location = new System.Drawing.Point(4, 22);
-            this.tpRight2.Name = "tpRight2";
-            this.tpRight2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRight2.Size = new System.Drawing.Size(273, 499);
-            this.tpRight2.TabIndex = 1;
-            this.tpRight2.Text = "Tab 2";
-            this.tpRight2.UseVisualStyleBackColor = true;
+            this.lblSCnt1.AutoSize = true;
+            this.lblSCnt1.Location = new System.Drawing.Point(158, 47);
+            this.lblSCnt1.Name = "lblSCnt1";
+            this.lblSCnt1.Size = new System.Drawing.Size(44, 13);
+            this.lblSCnt1.TabIndex = 2;
+            this.lblSCnt1.Text = "Count:";
+            // 
+            // cboShapeList
+            // 
+            this.cboShapeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboShapeList.FormattingEnabled = true;
+            this.cboShapeList.Location = new System.Drawing.Point(7, 63);
+            this.cboShapeList.Name = "cboShapeList";
+            this.cboShapeList.Size = new System.Drawing.Size(265, 21);
+            this.cboShapeList.TabIndex = 1;
+            this.cboShapeList.SelectedIndexChanged += new System.EventHandler(this.cboShapeList_SelectedIndexChanged);
+            // 
+            // lblDes1
+            // 
+            this.lblDes1.AutoSize = true;
+            this.lblDes1.Location = new System.Drawing.Point(6, 47);
+            this.lblDes1.Name = "lblDes1";
+            this.lblDes1.Size = new System.Drawing.Size(67, 13);
+            this.lblDes1.TabIndex = 0;
+            this.lblDes1.Text = "Shape List";
+            // 
+            // lblSS1
+            // 
+            this.lblSS1.AutoSize = true;
+            this.lblSS1.Location = new System.Drawing.Point(6, 27);
+            this.lblSS1.Name = "lblSS1";
+            this.lblSS1.Size = new System.Drawing.Size(101, 13);
+            this.lblSS1.TabIndex = 4;
+            this.lblSS1.Text = "Selected Shape:";
+            // 
+            // lblSS2
+            // 
+            this.lblSS2.AutoSize = true;
+            this.lblSS2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSS2.Location = new System.Drawing.Point(113, 27);
+            this.lblSS2.Name = "lblSS2";
+            this.lblSS2.Size = new System.Drawing.Size(43, 13);
+            this.lblSS2.TabIndex = 5;
+            this.lblSS2.Text = "<none>";
             // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
             this.ClientSize = new System.Drawing.Size(1137, 562);
-            this.Controls.Add(this.tcRight);
+            this.Controls.Add(this.gbDesigner);
             this.Controls.Add(this.plNotArea);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -260,7 +307,8 @@
             this.gbMemUsage.PerformLayout();
             this.plNotArea.ResumeLayout(false);
             this.plNotArea.PerformLayout();
-            this.tcRight.ResumeLayout(false);
+            this.gbDesigner.ResumeLayout(false);
+            this.gbDesigner.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,11 +331,15 @@
         private System.Windows.Forms.GroupBox gbMemUsage;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel plNotArea;
-        private System.Windows.Forms.TabControl tcRight;
-        private System.Windows.Forms.TabPage tpRight1;
-        private System.Windows.Forms.TabPage tpRight2;
         private System.Windows.Forms.Label lblNotArea;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox gbDesigner;
+        private System.Windows.Forms.ComboBox cboShapeList;
+        private System.Windows.Forms.Label lblDes1;
+        private System.Windows.Forms.Label lblSCnt2;
+        private System.Windows.Forms.Label lblSCnt1;
+        private System.Windows.Forms.Label lblSS2;
+        private System.Windows.Forms.Label lblSS1;
     }
 }
 
