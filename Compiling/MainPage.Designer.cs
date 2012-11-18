@@ -183,6 +183,7 @@
             this.plNotArea.Controls.Add(this.label1);
             this.plNotArea.Controls.Add(this.lblNotArea);
             this.plNotArea.Controls.Add(this.gbMemUsage);
+            this.plNotArea.Controls.Add(this.progressBar1);
             this.plNotArea.Controls.Add(this.txtNotificationArea);
             this.plNotArea.Location = new System.Drawing.Point(0, 467);
             this.plNotArea.Name = "plNotArea";
@@ -239,7 +240,7 @@
             this.tpRight2.Text = "Tab 2";
             this.tpRight2.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
@@ -247,12 +248,11 @@
             this.Controls.Add(this.tcRight);
             this.Controls.Add(this.plNotArea);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainPage";
+            this.Text = "Computer Graphics - Term Project";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
