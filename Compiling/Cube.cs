@@ -43,7 +43,7 @@ namespace Graphics
                 2,7,6,
             };
 
-            Position = new Vector3(5, 0, 0);
+            Position = new Vector3(0, 0, 0);
             World = Matrix.Translation(Position);
             Name = "Cube";
             Selected = false;

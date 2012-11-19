@@ -7,6 +7,7 @@ using SDX3D9 = SlimDX.Direct3D9;
 using System.Collections.Generic;
 using SlimDX.Direct3D9;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Graphics
 {
@@ -223,6 +224,11 @@ namespace Graphics
             //notification area
             plNotArea.BackColor = GUIBackColor;
             gbMemUsage.BackColor = GUISubWindowColor;
+            gbCamera.BackColor = GUISubWindowColor;
+            gbRotate.BackColor = GUISubWindowColor;
+            gbScale.BackColor = GUISubWindowColor;
+            gbShapes.BackColor = GUISubWindowColor;
+            gbTranslate.BackColor = GUISubWindowColor;
 
             //set control sizes
             plNotArea.Width = this.Width;
@@ -277,5 +283,218 @@ namespace Graphics
         {
             //code for sixSides here
         }
+
+        private void btnDeleteShape_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                //get id of selected shape
+                ShapeListItem sliToDelete = new ShapeListItem(1, "");
+
+                sliToDelete = (ShapeListItem)cboShapeList.SelectedItem;
+                //remove shape from list
+
+                Shapes.RemoveAt(sliToDelete.ID - 1);
+
+                ComboBox myComboBox = new ComboBox();
+
+                //renumber shape list to renumber ids
+                foreach (ShapeListItem sliToSearch in cboShapeList.Items)
+                {
+                    if (sliToSearch.ID > sliToDelete.ID)
+                    {
+                        //decrement id
+                        myComboBox.Items.Add(new ShapeListItem(sliToSearch.ID-1, sliToSearch.ShapeDesc));
+                    }
+                    else
+                    {
+                        //Add without incrementing
+                        myComboBox.Items.Add(sliToSearch);
+                    }
+                }
+
+                cboShapeList.Items.Clear();
+                cboShapeList = myComboBox;
+  
+            }
+            else
+            {
+                MessageBox.Show("Delete failed: No Shape is selected!");
+            }
+        }
+
+        #region "Translation Related Methods"
+        private void btnTransL_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+            //get index (id) of selected shape
+            ShapeListItem sliSelected = new ShapeListItem(1, "");
+            sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
+
+            Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X - 1, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z);
+            }
+            else
+            {
+                MessageBox.Show("Translation failed: No Shape is selected!");
+            }
+        }
+        private void btnTransU_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                //get index (id) of selected shape
+                ShapeListItem sliSelected = new ShapeListItem(1, "");
+                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
+
+                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y + 1, Shapes[sliSelected.ID - 1].Position.Z);
+            }
+            else
+            {
+                MessageBox.Show("Translation failed: No Shape is selected!");
+            }
+        }
+        private void btnTransR_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                //get index (id) of selected shape
+                ShapeListItem sliSelected = new ShapeListItem(1, "");
+                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
+
+                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X + 1, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z);
+            }
+            else
+            {
+                MessageBox.Show("Translation failed: No Shape is selected!");
+            }
+        }
+        private void btnTransD_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                //get index (id) of selected shape
+                ShapeListItem sliSelected = new ShapeListItem(1, "");
+                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
+
+                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y - 1, Shapes[sliSelected.ID - 1].Position.Z);
+            }
+            else
+            {
+                MessageBox.Show("Translation failed: No Shape is selected!");
+            }
+        }
+        private void TransB_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                //get index (id) of selected shape
+                ShapeListItem sliSelected = new ShapeListItem(1, "");
+                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
+
+                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z + 1);
+            }
+            else
+            {
+                MessageBox.Show("Translation failed: No Shape is selected!");
+            }
+        }
+        private void TransF_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                //get index (id) of selected shape
+                ShapeListItem sliSelected = new ShapeListItem(1, "");
+                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
+
+                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z - 1);
+            }
+            else
+            {
+                MessageBox.Show("Translation failed: No Shape is selected!");
+            }
+        }
+        #endregion
+
+        #region "Cameral Related Methods"
+        private void btnCamL_Click(object sender, EventArgs e)
+        {
+            camera.MoveCameraX(-1);
+        }
+        private void btnCamR_Click(object sender, EventArgs e)
+        {
+            camera.MoveCameraX(1);
+        }
+        private void CamB_Click(object sender, EventArgs e)
+        {
+            camera.MoveCameraZ(1);
+        }
+        private void CamF_Click(object sender, EventArgs e)
+        {
+            camera.MoveCameraZ(-1);
+        }
+        private void btnCamU_Click(object sender, EventArgs e)
+        {
+            camera.MoveCameraY(1);
+        }
+        private void btnCamD_Click(object sender, EventArgs e)
+        {
+            camera.MoveCameraY(-1);
+        }
+        private void btnRCamL_Click(object sender, EventArgs e)
+        {
+            camera.RotateCameraY(1);
+        }
+        private void btnRCamU_Click(object sender, EventArgs e)
+        {
+            camera.RotateCameraX(1);
+        }
+        private void btnRCamR_Click(object sender, EventArgs e)
+        {
+            camera.RotateCameraY(-1);
+        }
+        private void btnRCamD_Click(object sender, EventArgs e)
+        {
+            camera.RotateCameraX(-1);
+        }
+        #endregion
+
+        #region "Mesh Loading Functions"
+        private void miLoadMesh_Click(object sender, EventArgs e)
+        {
+            ofdMesh.ShowDialog();
+        }
+
+        private void ofdMesh_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Try to read file
+            try
+            {
+                string filename = ofdMesh.FileName;
+                if (File.Exists(filename))
+                {
+                    //Make sure it's a .x file
+                    if (filename.ToUpper().Contains(".X"))
+                    {
+                        //Code to load Mesh
+                    }
+                    else
+                    {
+                        MessageBox.Show("The file " + filename + " is not a valid .x Mesh file!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The file " + filename + " does not exist!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error has occured trying to load Mesh file!");
+            }
+        }
+        #endregion
+
+        
     }
 }
