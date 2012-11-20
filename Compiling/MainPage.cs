@@ -271,21 +271,13 @@ namespace Graphics
             {
                 lblSS2.Text = cboShapeList.Text.ToString();
                 xTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.X.ToString();
+                yTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.Y.ToString();
+                zTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.Z.ToString();
+                xRotation.Text = Shapes[cboShapeList.SelectedIndex].Rotation.X.ToString();
+                xScaling.Text = Shapes[cboShapeList.SelectedIndex].Scaling.X.ToString();
             }
         }
         #endregion
-
-        
-
-        private void cylinderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //code for cylinder here
-        }
-
-        private void sixSidesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //code for sixSides here
-        }
 
         private void btnDeleteShape_Click(object sender, EventArgs e)
         {
@@ -508,7 +500,51 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), 0, 0);
+                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                }
+            }
+        }
+
+        private void yTranslation_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                }
+            }
+        }
+
+        private void zTranslation_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                }
+            }
+        }
+
+        private void xRotation_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    Shapes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), 0, 0);
+                }
+            }
+        }
+
+        private void xScaling_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    Shapes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), 1, 1));
                 }
             }
         }
