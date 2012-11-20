@@ -26,7 +26,7 @@ namespace Graphics
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
         private ObservableCollection<IShape> Shapes = new ObservableCollection<IShape>();
 
-        private float xMovement = 0.0f;
+        private float xRotate = 0.0f;
 
         private VertexBuffer vBuffer;
         private IndexBuffer iBuffer;
@@ -201,8 +201,8 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.X.ToString().ToLower())
             {
-                xMovement++;
-                camera.MoveCameraX(xMovement);
+                xRotate++;
+                camera.MoveCameraX(xRotate);
             }
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
@@ -447,7 +447,7 @@ namespace Graphics
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            camera.RotateCameraX(1);
+            camera.RotateCameraX(xRotate+=.01f);
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {

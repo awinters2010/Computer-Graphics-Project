@@ -109,7 +109,7 @@ namespace Graphics
         {
             Matrix result;
             Matrix.RotationX(angle, out result);
-            DeviceManager.LocalDevice.SetTransform(TransformState.World, result);
+            DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Graphics
         {
             Matrix result;
             Matrix.RotationZ(angle, out result);
-            DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, result * View);
         }
 
         /// <summary>
