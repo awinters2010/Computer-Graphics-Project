@@ -43,7 +43,7 @@ namespace Graphics
                 2,7,6,
             };
 
-            Position = new Vector3(0, 0, 0);
+            Position = new Vector3(5, 0, 0);
             World = Matrix.Translation(Position);
             Name = "Cube";
             Selected = false;
@@ -57,7 +57,8 @@ namespace Graphics
 
         public void Translate(float x, float y, float z)
         {
-            throw new NotImplementedException();
+            Position = new Vector3(x, y, z);
+            World = Matrix.Translation(Position);
         }
 
         public void Scale()

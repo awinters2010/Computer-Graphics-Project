@@ -6,27 +6,24 @@ namespace Graphics
 {
     public class Camera
     {
-        // where we are stationed at
-        public Vector3 Eye;
+        private Vector3 Eye;
         // what we are looking at (location)
-        public Vector3 LookAt;
+        private Vector3 LookAt;
         // which way is up
-        public Vector3 Up;
-        // how far away are we from origin
-        public float DistanceFromCamera = 5f;
+        private Vector3 Up;
         // the actual view from eye, lookat, and up
         public Matrix View;
 
         // field of view how wide can we see
-        public float FOV;
+        private float FOV;
         // how the screen is displayed such as wide screen
-        public float AspectRatio;
+        private float AspectRatio;
         // how close to us ( camera ) are things drawn
-        public float Near;
+        private float Near;
         // how far away from us are things drawn
-        public float Far;
+        private float Far;
         // project ( what is actually being seen ) from fov, aspect, near, and far
-        public Matrix Projection;
+        private Matrix Projection;
 
         /// <summary>
         /// Constructor that sets basic values for view and projection
@@ -235,6 +232,15 @@ namespace Graphics
             }
 
             return Ray.Intersects(selectionRay, box, out distance);
+        }
+
+        /// <summary>
+        /// The position of the camera
+        /// </summary>
+        /// <returns>returns a vector3 which has the x, y, and z of the camera</returns>
+        public Vector3 CameraPosition()
+        {
+            return Eye;
         }
     }
 }

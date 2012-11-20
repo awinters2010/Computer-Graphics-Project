@@ -37,6 +37,8 @@ namespace Graphics
         Point p;
         bool objectSelected = false;
 
+        private List<MeshClass> Meshes = new List<MeshClass>();
+
         public MainPage()
         {
             //don't touch this method. microsoft created
@@ -268,6 +270,7 @@ namespace Graphics
             if (cboShapeList.SelectedIndex != -1)
             {
                 lblSS2.Text = cboShapeList.Text.ToString();
+                xTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.X.ToString();
             }
         }
         #endregion
@@ -477,6 +480,9 @@ namespace Graphics
                     if (filename.ToUpper().Contains(".X"))
                     {
                         //Code to load Mesh
+                        System.Diagnostics.Debug.WriteLine(filename.ToString());
+                        Mesh m = Mesh.FromFile(DeviceManager.LocalDevice, filename, MeshFlags.SystemMemory);
+                        m.Dispose();
                     }
                     else
                     {
@@ -491,10 +497,20 @@ namespace Graphics
             catch (Exception ex)
             {
                 MessageBox.Show("An error has occured trying to load Mesh file!");
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
         #endregion
 
-        
+        private void xTranslation_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), 0, 0);
+                }
+            }
+        }
     }
 }

@@ -31,7 +31,6 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadMesh = new System.Windows.Forms.ToolStripMenuItem();
             this.shapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,6 +76,12 @@
             this.gbRotate = new System.Windows.Forms.GroupBox();
             this.gbScale = new System.Windows.Forms.GroupBox();
             this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.xTranslation = new System.Windows.Forms.TextBox();
+            this.yTranslation = new System.Windows.Forms.TextBox();
+            this.zTranslation = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -106,17 +111,10 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dFormToolStripMenuItem,
             this.miLoadMesh});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // dFormToolStripMenuItem
-            // 
-            this.dFormToolStripMenuItem.Name = "dFormToolStripMenuItem";
-            this.dFormToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.dFormToolStripMenuItem.Text = "3D Form";
             // 
             // miLoadMesh
             // 
@@ -520,6 +518,12 @@
             // 
             // gbTranslate
             // 
+            this.gbTranslate.Controls.Add(this.zTranslation);
+            this.gbTranslate.Controls.Add(this.yTranslation);
+            this.gbTranslate.Controls.Add(this.xTranslation);
+            this.gbTranslate.Controls.Add(this.label6);
+            this.gbTranslate.Controls.Add(this.label4);
+            this.gbTranslate.Controls.Add(this.label2);
             this.gbTranslate.Controls.Add(this.TransB);
             this.gbTranslate.Controls.Add(this.btnTransR);
             this.gbTranslate.Controls.Add(this.TransF);
@@ -579,6 +583,58 @@
             this.ofdMesh.Filter = "|*.x;";
             this.ofdMesh.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdMesh_FileOk);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Enabled = false;
+            this.label2.Location = new System.Drawing.Point(7, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(15, 13);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "X";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Enabled = false;
+            this.label4.Location = new System.Drawing.Point(83, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(15, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Y";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Enabled = false;
+            this.label6.Location = new System.Drawing.Point(164, 20);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(15, 13);
+            this.label6.TabIndex = 29;
+            this.label6.Text = "Z";
+            // 
+            // xTranslation
+            // 
+            this.xTranslation.Location = new System.Drawing.Point(29, 13);
+            this.xTranslation.Name = "xTranslation";
+            this.xTranslation.Size = new System.Drawing.Size(51, 20);
+            this.xTranslation.TabIndex = 30;
+            this.xTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xTranslation_KeyDown);
+            // 
+            // yTranslation
+            // 
+            this.yTranslation.Location = new System.Drawing.Point(100, 14);
+            this.yTranslation.Name = "yTranslation";
+            this.yTranslation.Size = new System.Drawing.Size(51, 20);
+            this.yTranslation.TabIndex = 31;
+            // 
+            // zTranslation
+            // 
+            this.zTranslation.Location = new System.Drawing.Point(185, 17);
+            this.zTranslation.Name = "zTranslation";
+            this.zTranslation.Size = new System.Drawing.Size(51, 20);
+            this.zTranslation.TabIndex = 32;
+            // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -608,6 +664,7 @@
             this.gbCamera.ResumeLayout(false);
             this.gbCamera.PerformLayout();
             this.gbTranslate.ResumeLayout(false);
+            this.gbTranslate.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -618,7 +675,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dFormToolStripMenuItem;
         private System.Windows.Forms.TextBox txtNotificationArea;
         private System.Windows.Forms.ToolStripMenuItem shapesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
@@ -664,6 +720,12 @@
         private System.Windows.Forms.Button btnRCamR;
         private System.Windows.Forms.Button btnRCamU;
         private System.Windows.Forms.Button btnRCamD;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox zTranslation;
+        private System.Windows.Forms.TextBox yTranslation;
+        private System.Windows.Forms.TextBox xTranslation;
     }
 }
 

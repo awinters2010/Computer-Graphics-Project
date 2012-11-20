@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Input.cs" />
     <Compile Include="IShape.cs" />
+    <Compile Include="MeshClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShapeListItem.cs" />
