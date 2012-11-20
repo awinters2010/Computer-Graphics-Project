@@ -43,8 +43,8 @@ namespace Graphics
             Name = "Triangle";
             Selected = false;
             Type = "triangle";
-            Scaling = Vector3.Zero;
-            Rotation = new Vector3(1, 1, 1);
+            Scaling = new Vector3(1, 1, 1);
+            Rotation = Vector3.Zero;
         }
 
         public void Rotate(float x, float y, float z)
