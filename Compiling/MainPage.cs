@@ -26,8 +26,6 @@ namespace Graphics
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
         private ObservableCollection<IShape> Shapes = new ObservableCollection<IShape>();
 
-        private float xRotate = 0.0f;
-
         private VertexBuffer vBuffer;
         private IndexBuffer iBuffer;
 
@@ -92,6 +90,8 @@ namespace Graphics
             DeviceManager.LocalDevice.Indices = iBuffer;
             DeviceManager.LocalDevice.SetStreamSource(0, vBuffer, 0, VertexUntransformed.VertexByteSize);
             DeviceManager.LocalDevice.VertexDeclaration = VertexUntransformed.VertexDecl;
+
+            Console.WriteLine(Environment.WorkingSet / 1048576);
         }
 
         public void RenderScene()
@@ -138,20 +138,27 @@ namespace Graphics
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
         public void ShutDown()
         {
+            
+
             while (renderThread.IsAlive)
             {
                 renderThread.Abort();
             }
-            if (vBuffer != null && iBuffer != null)
+
+            while (!vBuffer.Disposed && !iBuffer.Disposed)
             {
                 vBuffer.Dispose();
-                vBuffer = null;
                 iBuffer.Dispose();
-                iBuffer = null;
             }
+
             VertexUntransformed.VertexDecl.Dispose();
-            DeviceManager.LocalDevice.Dispose();
-            System.Diagnostics.Debug.WriteLine("stuff disposed");
+
+            while (!DeviceManager.LocalDevice.Disposed)
+            {
+                DeviceManager.LocalDevice.EvictManagedResources();
+                DeviceManager.LocalDevice.Direct3D.Dispose();
+                DeviceManager.LocalDevice.Dispose();
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -201,16 +208,11 @@ namespace Graphics
 
             DeviceManager.LocalDevice.SetRenderState(SDX3D9.RenderState.FillMode, fm);
 
-            if (e.KeyChar.ToString() == Keys.X.ToString().ToLower())
-            {
-                xRotate++;
-                camera.MoveCameraX(xRotate);
-            }
-
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
                 camera.MoveCameraZ(1f);
             }
+            Console.WriteLine(Environment.StackTrace);
         }
 
         /// <summary>
@@ -438,19 +440,19 @@ namespace Graphics
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
-            camera.RotateCameraY(1);
+            //camera.RotateCameraY(.1f);
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            camera.RotateCameraX(xRotate+=.01f);
+            //camera.RotateCameraZ(.1f);
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
-            camera.RotateCameraY(-1);
+            //camera.RotateCameraY(-.1f);
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
-            camera.RotateCameraX(-1);
+            //camera.RotateCameraZ(-.1f);
         }
         #endregion
 
