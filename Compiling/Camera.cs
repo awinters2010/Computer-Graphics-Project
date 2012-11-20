@@ -25,6 +25,8 @@ namespace Graphics
         // project ( what is actually being seen ) from fov, aspect, near, and far
         private Matrix Projection;
 
+        public Vector3 Rotate { get; set; }
+
         /// <summary>
         /// Constructor that sets basic values for view and projection
         /// </summary>
@@ -48,6 +50,8 @@ namespace Graphics
                 Near, Far);
             DeviceManager.LocalDevice.SetTransform(TransformState.Projection,
                 Projection);
+
+            Rotate = Vector3.Zero;
         }
 
         /// <summary>
@@ -99,36 +103,14 @@ namespace Graphics
         }
 
         /// <summary>
-        /// rotate the camera around the x axis
+        /// To rotate the camera around the axis or axis's of your choice
         /// </summary>
-        /// <param name="angle">the amount of the angle you want to rotate</param>
-        public void RotateCameraX(float angle)
+        /// <param name="rotate">the vector axis and amount to rotate</param>
+        public void RotateCamera(Vector3 rotate)
         {
-            Matrix result;
-            Matrix.RotationX(angle, out result);
+            Rotate = new Vector3(Rotate.X + rotate.X, Rotate.Y + rotate.Y, Rotate.Z + rotate.Z);
+            Matrix result = Matrix.RotationYawPitchRoll(Rotate.Y, Rotate.Z, Rotate.X);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
-        }
-
-        /// <summary>
-        /// rotate the camera around the y axis
-        /// </summary>
-        /// <param name="angle">the amount of the angle you want to rotate</param>
-        public void RotateCameraY(float angle)
-        {
-            Matrix result;
-            Matrix.RotationY(angle, out result);
-            DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
-        }
-
-        /// <summary>
-        /// rotate the camera around the z axis
-        /// </summary>
-        /// <param name="angle">the amount of the angle you want to rotate</param>
-        public void RotateCameraZ(float angle)
-        {
-            Matrix result;
-            Matrix.RotationZ(angle, out result);
-            DeviceManager.LocalDevice.SetTransform(TransformState.World, result * View);
         }
 
         /// <summary>
@@ -242,5 +224,7 @@ namespace Graphics
         {
             return Eye;
         }
+        
+        
     }
 }
