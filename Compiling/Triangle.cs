@@ -14,7 +14,9 @@ namespace Graphics
         public short[] ShapeIndices { get; private set; }
         public VertexUntransformed[] ShapeVertices { get; private set; }
         public string Name { get; set; }
-        public string Type { get; internal set; }
+        public string Type { get; private set; }
+        public Vector3 Scaling { get; set; }
+        public Vector3 Rotation { get; set; }
 
         public Triangle()
         {
@@ -41,25 +43,28 @@ namespace Graphics
             Name = "Triangle";
             Selected = false;
             Type = "triangle";
+            Scaling = Vector3.Zero;
+            Rotation = new Vector3(1, 1, 1);
         }
 
-        public void Rotate()
+        public void Rotate(float x, float y, float z)
         {
-            throw new NotImplementedException();
+            Rotation = new Vector3(x, y, z);
         }
 
         public void Translate(float x, float y, float z)
         {
-            throw new NotImplementedException();
+            Position = new Vector3(x, y, z);
         }
 
-        public void Scale()
+        public void Scale(Vector3 scale)
         {
-            throw new NotImplementedException();
+            Scaling = scale;
         }
 
         public void Render()
         {
+            World = Matrix.Translation(Position) * Matrix.RotationYawPitchRoll(Rotation.X, Rotation.Y, Rotation.Z) * Matrix.Scaling(Scaling);
             DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
         }
     }
