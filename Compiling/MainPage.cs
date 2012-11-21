@@ -63,6 +63,8 @@ namespace Graphics
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
 
             Shapes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Shapes_CollectionChanged);
+
+            Configuration.EnableObjectTracking = true;
         }
 
         void Shapes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -79,7 +81,7 @@ namespace Graphics
                 i.AddRange(item.ShapeIndices);
             }
 
-            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, verticesCount * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Default);
+            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, verticesCount * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Managed);
             vBuffer.Lock(0, verticesCount * VertexUntransformed.VertexByteSize, LockFlags.Discard).WriteRange(v.ToArray());
             vBuffer.Unlock();
 
