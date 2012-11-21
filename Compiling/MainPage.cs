@@ -24,13 +24,11 @@ namespace Graphics
         private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
-        private ObservableCollection<IShape> Shapes = new ObservableCollection<IShape>();
 
         private VertexBuffer vBuffer;
         private IndexBuffer iBuffer;
 
-        private int verticesCount = 0;
-        private int indiciesCount = 0;
+        private Renderer renderer;
 
         Point p;
         bool objectSelected = false;
@@ -52,9 +50,6 @@ namespace Graphics
 
             DeviceManager.LocalDevice.SetRenderState(SDX3D9.RenderState.Lighting, false);
 
-            //this method starts the thread that the graphics run on.
-            Init();
-
             //set GUI control attributes
             SetGui();
 
@@ -62,31 +57,35 @@ namespace Graphics
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
 
-            Shapes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Shapes_CollectionChanged);
 
             Configuration.EnableObjectTracking = true;
+
+            renderer = new Renderer();
+            Init();
+            renderer.Shapes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Shapes_CollectionChanged);
+
         }
 
         void Shapes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            verticesCount += Shapes[e.NewStartingIndex].ShapeVertices.Length;
-            indiciesCount += Shapes[e.NewStartingIndex].ShapeIndices.Length;
+            renderer.verticesCount += renderer.Shapes[e.NewStartingIndex].ShapeVertices.Length;
+            renderer.indiciesCount += renderer.Shapes[e.NewStartingIndex].ShapeIndices.Length;
 
             List<VertexUntransformed> v = new List<VertexUntransformed>();
             List<short> i = new List<short>();
 
-            foreach (var item in Shapes)
+            foreach (var item in renderer.Shapes)
             {
                 v.AddRange(item.ShapeVertices);
                 i.AddRange(item.ShapeIndices);
             }
 
-            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, verticesCount * VertexUntransformed.VertexByteSize, Usage.Dynamic, VertexUntransformed.format, Pool.Default);
-            vBuffer.Lock(0, verticesCount * VertexUntransformed.VertexByteSize, LockFlags.Discard).WriteRange(v.ToArray());
+            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, renderer.verticesCount * VertexUntransformed.VertexByteSize, Usage.Dynamic, VertexUntransformed.format, Pool.Default);
+            vBuffer.Lock(0, renderer.verticesCount * VertexUntransformed.VertexByteSize, LockFlags.Discard).WriteRange(v.ToArray());
             vBuffer.Unlock();
 
-            iBuffer = new IndexBuffer(DeviceManager.LocalDevice, indiciesCount * sizeof(short), Usage.WriteOnly, Pool.Default, true);
-            iBuffer.Lock(0, indiciesCount * sizeof(short), LockFlags.Discard).WriteRange(i.ToArray());
+            iBuffer = new IndexBuffer(DeviceManager.LocalDevice, renderer.indiciesCount * sizeof(short), Usage.WriteOnly, Pool.Default, true);
+            iBuffer.Lock(0, renderer.indiciesCount * sizeof(short), LockFlags.Discard).WriteRange(i.ToArray());
             iBuffer.Unlock();
 
             DeviceManager.LocalDevice.Indices = iBuffer;
@@ -99,42 +98,9 @@ namespace Graphics
             iBuffer.Dispose();
         }
 
-        public void RenderScene()
-        {
-            while (true)
-            {
-                DeviceManager.LocalDevice.Clear(SDX3D9.ClearFlags.Target | SDX3D9.ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                DeviceManager.LocalDevice.BeginScene();
-
-                lock (Shapes)
-                {
-                    if (Shapes.Count != 0)
-                    {
-                        for (int i = 0; i < Shapes.Count; i++)
-                        {
-                            if (Shapes[i].Type == "cube")
-                            {
-                                Shapes[i].Render();
-                                DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
-                            }
-                            else if (Shapes[i].Type == "triangle")
-                            {
-                                Shapes[i].Render();
-                                DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
-                            }
-                        }
-
-                    }
-                }
-
-                DeviceManager.LocalDevice.EndScene();
-                DeviceManager.LocalDevice.Present();
-            }
-        }
-
         public void Init()
         {
-            renderThread = new Thread(new ThreadStart(RenderScene));
+            renderThread = new Thread(new ThreadStart(renderer.RenderScene));
             renderThread.Start();
         }
 
@@ -143,14 +109,9 @@ namespace Graphics
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
         public void ShutDown()
         {
-            
+            renderer.RequestShutdown();
 
-            while (renderThread.IsAlive)
-            {
-                renderThread.Abort();
-            }
-
-            while (!vBuffer.Disposed && !iBuffer.Disposed)
+            if (vBuffer !=null && iBuffer != null)
             {
                 vBuffer.Dispose();
                 iBuffer.Dispose();
@@ -178,9 +139,9 @@ namespace Graphics
         //adds a new cube to the screen
         private void CubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (Shapes)
+            lock (renderer.Shapes)
             {
-                Shapes.Add(new Cube());
+                renderer.Shapes.Add(new Cube());
                 
                 //there may be a better place to put this
                 AddToShapeList("Cube");
@@ -190,9 +151,9 @@ namespace Graphics
         //adds a new triangle to the screen
         private void TriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (Shapes)
+            lock (renderer.Shapes)
             {
-                Shapes.Add(new Triangle());
+                renderer.Shapes.Add(new Triangle());
                 //there may be a better place to put this
                 AddToShapeList("Triangle");
             }
@@ -257,7 +218,7 @@ namespace Graphics
             UpdateShapeCount();
 
             //create new object, set ID = shape count, set description to shape type
-            ShapeListItem sliToAdd = new ShapeListItem(Shapes.Count, ShapeDesc);
+            ShapeListItem sliToAdd = new ShapeListItem(renderer.Shapes.Count, ShapeDesc);
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
@@ -269,7 +230,7 @@ namespace Graphics
         public void UpdateShapeCount()
         {
             //update shape count
-            lblSCnt2.Text = Shapes.Count.ToString();
+            lblSCnt2.Text = renderer.Shapes.Count.ToString();
         }
 
         private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
@@ -277,11 +238,11 @@ namespace Graphics
             if (cboShapeList.SelectedIndex != -1)
             {
                 lblSS2.Text = cboShapeList.Text.ToString();
-                xTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.X.ToString();
-                yTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.Y.ToString();
-                zTranslation.Text = Shapes[cboShapeList.SelectedIndex].Position.Z.ToString();
-                xRotation.Text = Shapes[cboShapeList.SelectedIndex].Rotation.X.ToString();
-                xScaling.Text = Shapes[cboShapeList.SelectedIndex].Scaling.X.ToString();
+                xTranslation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Position.X.ToString();
+                yTranslation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Position.Y.ToString();
+                zTranslation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Position.Z.ToString();
+                xRotation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Rotation.X.ToString();
+                xScaling.Text = renderer.Shapes[cboShapeList.SelectedIndex].Scaling.X.ToString();
             }
         }
         #endregion
@@ -290,33 +251,6 @@ namespace Graphics
         {
             if (lblSS2.Text != "<none>")
             {
-                //get id of selected shape
-                ShapeListItem sliToDelete = new ShapeListItem(1, "");
-
-                sliToDelete = (ShapeListItem)cboShapeList.SelectedItem;
-                //remove shape from list
-
-                Shapes.RemoveAt(sliToDelete.ID - 1);
-
-                ComboBox myComboBox = new ComboBox();
-
-                //renumber shape list to renumber ids
-                foreach (ShapeListItem sliToSearch in cboShapeList.Items)
-                {
-                    if (sliToSearch.ID > sliToDelete.ID)
-                    {
-                        //decrement id
-                        myComboBox.Items.Add(new ShapeListItem(sliToSearch.ID-1, sliToSearch.ShapeDesc));
-                    }
-                    else
-                    {
-                        //Add without incrementing
-                        myComboBox.Items.Add(sliToSearch);
-                    }
-                }
-
-                cboShapeList.Items.Clear();
-                cboShapeList = myComboBox;
   
             }
             else
@@ -334,7 +268,7 @@ namespace Graphics
             ShapeListItem sliSelected = new ShapeListItem(1, "");
             sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-            Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X - 1, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z);
+            renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X - 1, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z);
             }
             else
             {
@@ -349,7 +283,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y + 1, Shapes[sliSelected.ID - 1].Position.Z);
+                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y + 1, renderer.Shapes[sliSelected.ID - 1].Position.Z);
             }
             else
             {
@@ -364,7 +298,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X + 1, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z);
+                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X + 1, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z);
             }
             else
             {
@@ -379,7 +313,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y - 1, Shapes[sliSelected.ID - 1].Position.Z);
+                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y - 1, renderer.Shapes[sliSelected.ID - 1].Position.Z);
             }
             else
             {
@@ -394,7 +328,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z + 1);
+                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z + 1);
             }
             else
             {
@@ -409,7 +343,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                Shapes[sliSelected.ID - 1].Translate(Shapes[sliSelected.ID - 1].Position.X, Shapes[sliSelected.ID - 1].Position.Y, Shapes[sliSelected.ID - 1].Position.Z - 1);
+                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z - 1);
             }
             else
             {
@@ -507,7 +441,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    renderer.Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -518,7 +452,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    renderer.Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -529,7 +463,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    renderer.Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -540,7 +474,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    Shapes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), 0, 0);
+                    renderer.Shapes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), 0, 0);
                 }
             }
         }
@@ -551,7 +485,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    Shapes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), 1, 1));
+                    renderer.Shapes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), 1, 1));
                 }
             }
         }

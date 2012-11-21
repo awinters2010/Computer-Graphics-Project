@@ -79,6 +79,7 @@
     <Compile Include="MeshClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer.cs" />
     <Compile Include="ShapeListItem.cs" />
     <Compile Include="Triangle.cs" />
     <Compile Include="VertexUntransformed.cs" />
