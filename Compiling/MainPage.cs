@@ -81,7 +81,7 @@ namespace Graphics
                 i.AddRange(item.ShapeIndices);
             }
 
-            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, verticesCount * VertexUntransformed.VertexByteSize, Usage.WriteOnly, VertexUntransformed.format, Pool.Managed);
+            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, verticesCount * VertexUntransformed.VertexByteSize, Usage.Dynamic, VertexUntransformed.format, Pool.Default);
             vBuffer.Lock(0, verticesCount * VertexUntransformed.VertexByteSize, LockFlags.Discard).WriteRange(v.ToArray());
             vBuffer.Unlock();
 
@@ -94,6 +94,9 @@ namespace Graphics
             DeviceManager.LocalDevice.VertexDeclaration = VertexUntransformed.VertexDecl;
 
             Console.WriteLine(Environment.WorkingSet / 1048576);
+
+            vBuffer.Dispose();
+            iBuffer.Dispose();
         }
 
         public void RenderScene()
