@@ -3,10 +3,8 @@ using System.Windows.Forms;
 using SlimDX;
 using System.Threading;
 using System.Drawing;
-using SDX3D9 = SlimDX.Direct3D9;
 using System.Collections.Generic;
 using SlimDX.Direct3D9;
-using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Graphics
@@ -25,15 +23,10 @@ namespace Graphics
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
 
-        private VertexBuffer vBuffer;
-        private IndexBuffer iBuffer;
-
         private Renderer renderer;
 
         Point p;
         bool objectSelected = false;
-
-        private List<MeshClass> Meshes = new List<MeshClass>();
 
         public MainPage()
         {
@@ -41,14 +34,13 @@ namespace Graphics
             InitializeComponent();
 
             //this method initializes the Device
-            DeviceManager.CreateDevice(panel1.Handle,
-                panel1.Width, panel1.Height);
+            DeviceManager.CreateDevice(panel1.Handle, panel1.Width, panel1.Height);
 
             camera = new Camera();
 
             camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
 
-            DeviceManager.LocalDevice.SetRenderState(SDX3D9.RenderState.Lighting, false);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
 
             //set GUI control attributes
             SetGui();
@@ -57,45 +49,10 @@ namespace Graphics
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
 
-
             Configuration.EnableObjectTracking = true;
 
             renderer = new Renderer();
             Init();
-            renderer.Shapes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Shapes_CollectionChanged);
-
-        }
-
-        void Shapes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            renderer.verticesCount += renderer.Shapes[e.NewStartingIndex].ShapeVertices.Length;
-            renderer.indiciesCount += renderer.Shapes[e.NewStartingIndex].ShapeIndices.Length;
-
-            List<VertexUntransformed> v = new List<VertexUntransformed>();
-            List<short> i = new List<short>();
-
-            foreach (var item in renderer.Shapes)
-            {
-                v.AddRange(item.ShapeVertices);
-                i.AddRange(item.ShapeIndices);
-            }
-
-            vBuffer = new VertexBuffer(DeviceManager.LocalDevice, renderer.verticesCount * VertexUntransformed.VertexByteSize, Usage.Dynamic, VertexUntransformed.format, Pool.Default);
-            vBuffer.Lock(0, renderer.verticesCount * VertexUntransformed.VertexByteSize, LockFlags.Discard).WriteRange(v.ToArray());
-            vBuffer.Unlock();
-
-            iBuffer = new IndexBuffer(DeviceManager.LocalDevice, renderer.indiciesCount * sizeof(short), Usage.WriteOnly, Pool.Default, true);
-            iBuffer.Lock(0, renderer.indiciesCount * sizeof(short), LockFlags.Discard).WriteRange(i.ToArray());
-            iBuffer.Unlock();
-
-            DeviceManager.LocalDevice.Indices = iBuffer;
-            DeviceManager.LocalDevice.SetStreamSource(0, vBuffer, 0, VertexUntransformed.VertexByteSize);
-            DeviceManager.LocalDevice.VertexDeclaration = VertexUntransformed.VertexDecl;
-
-            Console.WriteLine(Environment.WorkingSet / 1048576);
-
-            vBuffer.Dispose();
-            iBuffer.Dispose();
         }
 
         public void Init()
@@ -110,12 +67,6 @@ namespace Graphics
         public void ShutDown()
         {
             renderer.RequestShutdown();
-
-            if (vBuffer !=null && iBuffer != null)
-            {
-                vBuffer.Dispose();
-                iBuffer.Dispose();
-            }
 
             VertexUntransformed.VertexDecl.Dispose();
 
@@ -163,16 +114,16 @@ namespace Graphics
 
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            SDX3D9.FillMode fm = DeviceManager.LocalDevice.GetRenderState
-                <SDX3D9.FillMode>(SDX3D9.RenderState.FillMode);
+            FillMode fm = DeviceManager.LocalDevice.GetRenderState
+                <FillMode>(RenderState.FillMode);
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
             {
-                fm = fm == SDX3D9.FillMode.Solid ?
-                    SDX3D9.FillMode.Wireframe : SDX3D9.FillMode.Solid;
+                fm = fm == FillMode.Solid ?
+                    FillMode.Wireframe : FillMode.Solid;
             }
 
-            DeviceManager.LocalDevice.SetRenderState(SDX3D9.RenderState.FillMode, fm);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, fm);
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
@@ -406,25 +357,26 @@ namespace Graphics
             //Try to read file
             try
             {
-                string filename = ofdMesh.FileName;
-                if (File.Exists(filename))
+                string file = ofdMesh.FileName;
+                string fileName = ofdMesh.SafeFileName;
+                Console.WriteLine(ofdMesh.SafeFileName);
+                if (File.Exists(file))
                 {
                     //Make sure it's a .x file
-                    if (filename.ToUpper().Contains(".X"))
+                    if (file.ToUpper().Contains(".X"))
                     {
                         //Code to load Mesh
-                        System.Diagnostics.Debug.WriteLine(filename.ToString());
-                        Mesh m = Mesh.FromFile(DeviceManager.LocalDevice, filename, MeshFlags.SystemMemory);
-                        m.Dispose();
+                        Console.WriteLine(file.ToString());
+                        renderer.Meshes.Add(new MeshClass(file, fileName));
                     }
                     else
                     {
-                        MessageBox.Show("The file " + filename + " is not a valid .x Mesh file!");
+                        MessageBox.Show("The file " + file + " is not a valid .x Mesh file!");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("The file " + filename + " does not exist!");
+                    MessageBox.Show("The file " + file + " does not exist!");
                 }
             }
             catch (Exception ex)
