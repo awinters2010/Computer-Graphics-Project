@@ -26,7 +26,21 @@ namespace Graphics
         // project ( what is actually being seen ) from fov, aspect, near, and far
         private Matrix Projection;
 
-        public Vector3 Rotate { get; set; }
+        private Vector3 cameraRotation;
+        public Vector3 CameraRotation 
+        {
+            get
+            {
+                return cameraRotation;
+            }
+
+            set
+            {
+                cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
+                Matrix result = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.Z, cameraRotation.X);
+                DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
+            }
+        }
 
         /// <summary>
         /// Constructor that sets basic values for view and projection
@@ -52,7 +66,7 @@ namespace Graphics
             DeviceManager.LocalDevice.SetTransform(TransformState.Projection,
                 Projection);
 
-            Rotate = Vector3.Zero;
+            cameraRotation = Vector3.Zero;
         }
 
         /// <summary>
@@ -101,17 +115,6 @@ namespace Graphics
             this.LookAt = lookAt;
             View = Matrix.LookAtLH(this.eye, this.LookAt, Up);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
-        }
-
-        /// <summary>
-        /// To rotate the camera around the axis or axis's of your choice
-        /// </summary>
-        /// <param name="rotate">the vector axis and amount to rotate</param>
-        public void RotateCamera(Vector3 rotate)
-        {
-            Rotate = new Vector3(Rotate.X + rotate.X, Rotate.Y + rotate.Y, Rotate.Z + rotate.Z);
-            Matrix result = Matrix.RotationYawPitchRoll(Rotate.Y, Rotate.Z, Rotate.X);
-            DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
         }
 
         /// <summary>

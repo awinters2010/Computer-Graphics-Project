@@ -342,19 +342,19 @@ namespace Graphics
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
-            camera.RotateCamera(new Vector3(0,1,0));
+            camera.CameraRotation = new Vector3(0, 1, 0);
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            camera.RotateCamera(new Vector3(0,0,1));
+            camera.CameraRotation = new Vector3(0, 0, 1);
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
-            camera.RotateCamera(new Vector3(0,-1,0));
+            camera.CameraRotation = new Vector3(0, -1, 0);
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
-            camera.RotateCamera(new Vector3(0,0,-1));
+            camera.CameraRotation = new Vector3(0, 0, -1);
         }
         #endregion
 
