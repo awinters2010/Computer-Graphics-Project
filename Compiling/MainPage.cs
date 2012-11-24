@@ -441,5 +441,20 @@ namespace Graphics
                 }
             }
         }
+
+        private void btnClearScene_Click(object sender, EventArgs e)
+        {
+            DialogResult = MessageBox.Show("Are you SURE you want to CLEAR this entire scene?\n Please select one option Yes/No",
+                                "Conditional", MessageBoxButtons.YesNo,  MessageBoxIcon.Information);
+            
+            if (DialogResult == DialogResult.Yes)
+            {
+                //Code to clear scene
+            }
+            else
+            {
+                //do nothing
+            }
+        }
     }
 }

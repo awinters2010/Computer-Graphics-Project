@@ -78,12 +78,13 @@
             this.TransB = new System.Windows.Forms.Button();
             this.TransF = new System.Windows.Forms.Button();
             this.gbRotate = new System.Windows.Forms.GroupBox();
-            this.gbScale = new System.Windows.Forms.GroupBox();
-            this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
-            this.label3 = new System.Windows.Forms.Label();
             this.xRotation = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.gbScale = new System.Windows.Forms.GroupBox();
             this.xScaling = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
+            this.btnClearScene = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -239,6 +240,7 @@
             // 
             // gbShapes
             // 
+            this.gbShapes.Controls.Add(this.btnClearScene);
             this.gbShapes.Controls.Add(this.btnDeleteShape);
             this.gbShapes.Controls.Add(this.lblSS2);
             this.gbShapes.Controls.Add(this.lblSS1);
@@ -526,7 +528,7 @@
             // 
             // zTranslation
             // 
-            this.zTranslation.Location = new System.Drawing.Point(185, 17);
+            this.zTranslation.Location = new System.Drawing.Point(185, 13);
             this.zTranslation.Name = "zTranslation";
             this.zTranslation.Size = new System.Drawing.Size(51, 20);
             this.zTranslation.TabIndex = 32;
@@ -610,6 +612,24 @@
             this.gbRotate.TabStop = false;
             this.gbRotate.Text = "Rotate";
             // 
+            // xRotation
+            // 
+            this.xRotation.Location = new System.Drawing.Point(29, 20);
+            this.xRotation.Name = "xRotation";
+            this.xRotation.Size = new System.Drawing.Size(51, 20);
+            this.xRotation.TabIndex = 33;
+            this.xRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xRotation_KeyDown);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Enabled = false;
+            this.label3.Location = new System.Drawing.Point(7, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(15, 13);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "X";
+            // 
             // gbScale
             // 
             this.gbScale.Controls.Add(this.xScaling);
@@ -622,28 +642,13 @@
             this.gbScale.TabStop = false;
             this.gbScale.Text = "Scale";
             // 
-            // ofdMesh
+            // xScaling
             // 
-            this.ofdMesh.Filter = "|*.x;";
-            this.ofdMesh.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdMesh_FileOk);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Enabled = false;
-            this.label3.Location = new System.Drawing.Point(7, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(15, 13);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "X";
-            // 
-            // xRotation
-            // 
-            this.xRotation.Location = new System.Drawing.Point(29, 20);
-            this.xRotation.Name = "xRotation";
-            this.xRotation.Size = new System.Drawing.Size(51, 20);
-            this.xRotation.TabIndex = 33;
-            this.xRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xRotation_KeyDown);
+            this.xScaling.Location = new System.Drawing.Point(28, 21);
+            this.xScaling.Name = "xScaling";
+            this.xScaling.Size = new System.Drawing.Size(51, 20);
+            this.xScaling.TabIndex = 34;
+            this.xScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xScaling_KeyDown);
             // 
             // label5
             // 
@@ -655,13 +660,20 @@
             this.label5.TabIndex = 34;
             this.label5.Text = "X";
             // 
-            // xScaling
+            // ofdMesh
             // 
-            this.xScaling.Location = new System.Drawing.Point(28, 21);
-            this.xScaling.Name = "xScaling";
-            this.xScaling.Size = new System.Drawing.Size(51, 20);
-            this.xScaling.TabIndex = 34;
-            this.xScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xScaling_KeyDown);
+            this.ofdMesh.Filter = "|*.x;";
+            this.ofdMesh.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdMesh_FileOk);
+            // 
+            // btnClearScene
+            // 
+            this.btnClearScene.Location = new System.Drawing.Point(116, 101);
+            this.btnClearScene.Name = "btnClearScene";
+            this.btnClearScene.Size = new System.Drawing.Size(108, 23);
+            this.btnClearScene.TabIndex = 9;
+            this.btnClearScene.Text = "Clear Scene";
+            this.btnClearScene.UseVisualStyleBackColor = true;
+            this.btnClearScene.Click += new System.EventHandler(this.btnClearScene_Click);
             // 
             // MainPage
             // 
@@ -760,6 +772,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox xScaling;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnClearScene;
     }
 }
 
