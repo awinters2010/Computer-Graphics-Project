@@ -128,7 +128,7 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
-                camera.MoveCameraZ(1f);
+                camera.MoveEyeZ(1f);
             }
             Console.WriteLine(Environment.StackTrace);
         }
@@ -317,27 +317,27 @@ namespace Graphics
         #region "Cameral Related Methods"
         private void btnCamL_Click(object sender, EventArgs e)
         {
-            camera.MoveCameraX(-1);
+            camera.MoveEyeX(-1);
         }
         private void btnCamR_Click(object sender, EventArgs e)
         {
-            camera.MoveCameraX(1);
+            camera.MoveEyeX(1);
         }
         private void CamB_Click(object sender, EventArgs e)
         {
-            camera.MoveCameraZ(1);
+            camera.MoveEyeZ(1);
         }
         private void CamF_Click(object sender, EventArgs e)
         {
-            camera.MoveCameraZ(-1);
+            camera.MoveEyeZ(-1);
         }
         private void btnCamU_Click(object sender, EventArgs e)
         {
-            camera.MoveCameraY(1);
+            camera.MoveEyeY(1);
         }
         private void btnCamD_Click(object sender, EventArgs e)
         {
-            camera.MoveCameraY(-1);
+            camera.MoveEyeY(-1);
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {

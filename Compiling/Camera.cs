@@ -35,11 +35,11 @@ namespace Graphics
         {
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            Eye = new Vector3(0, 0, -5);
+            eye = new Vector3(0, 0, -5);
             LookAt = Vector3.Zero;
             Up = Vector3.UnitY;
 
-            View = Matrix.LookAtLH(Eye, LookAt, Up);
+            View = Matrix.LookAtLH(eye, LookAt, Up);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
 
             FOV = (float)Math.PI / 4.0f;
@@ -63,10 +63,10 @@ namespace Graphics
         /// <param name="up"> which way is up</param>
         public void SetView(Vector3 eye, Vector3 lookat, Vector3 up)
         {
-            this.Eye = eye;
+            this.eye = eye;
             this.LookAt = lookat;
             this.Up = up;
-            View = Matrix.LookAtLH(this.Eye, LookAt, this.Up);
+            View = Matrix.LookAtLH(this.eye, LookAt, this.Up);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
             //System.Diagnostics.Debug.WriteLine(view.ToString());
         }
@@ -97,9 +97,9 @@ namespace Graphics
         /// <param name="lookAt">what you want the camera to look at</param>
         public void ChangeView(Vector3 eye, Vector3 lookAt)
         {
-            this.Eye = eye;
+            this.eye = eye;
             this.LookAt = lookAt;
-            View = Matrix.LookAtLH(this.Eye, this.LookAt, Up);
+            View = Matrix.LookAtLH(this.eye, this.LookAt, Up);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
@@ -118,10 +118,10 @@ namespace Graphics
         /// move the camera along the x axis in x amount of units
         /// </summary>
         /// <param name="units">number of units you want to move</param>
-        public void MoveCameraX(float units)
+        public void MoveEyeX(float units)
         {
             eye.X += units;
-            View = Matrix.Translation(Eye);
+            View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
@@ -129,7 +129,7 @@ namespace Graphics
         /// move the camera along the y axis in x amount of units
         /// </summary>
         /// <param name="units">number of units you want to move</param>
-        public void MoveCameraY(float units)
+        public void MoveEyeY(float units)
         {
             eye.Y += units;
             Matrix.Translation(ref eye, out View);
@@ -140,25 +140,25 @@ namespace Graphics
         /// move the camera along the z axis in x amount of units
         /// </summary>
         /// <param name="units">number of units you want to move</param>
-        public void MoveCameraZ(float units)
+        public void MoveEyeZ(float units)
         {
             eye.Z += units;
-            View = Matrix.Translation(Eye);
+            View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
         /// Resets the Camera to look at the origin with a distance of 5 units from it
         /// </summary>
-        public void ResetCamera()
+        public void ResetEye()
         {
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            Eye = new Vector3(0, 0, -5);
+            eye = new Vector3(0, 0, -5);
             LookAt = Vector3.Zero;
             Up = Vector3.UnitY;
 
-            View = Matrix.LookAtLH(Eye, LookAt, Up);
+            View = Matrix.LookAtLH(eye, LookAt, Up);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
