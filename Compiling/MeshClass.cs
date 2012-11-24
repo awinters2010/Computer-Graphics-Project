@@ -6,37 +6,51 @@ namespace Graphics
 {
     public class MeshClass: IDisposable
     {
-        public ExtendedMaterial[] m;
-        public Texture[] t;
-        public Material[] mat;
+        public Texture[] CurrentTexture { get; set; }
+        private Material[] material;
         public Mesh mesh;
-        uint nummaterials = 0;
         public Vector3 Position { get; set; }
         public Matrix World { get; set; }
+        public Vector3 Roate { get; set; }
+        VertexBuffer vBuffer;
+        IndexBuffer iBuffer;
+        public string Type { get; private set; }
+        public string Name { get; set; }
 
         public MeshClass(string file, string fileName)
         {
             mesh = Mesh.FromFile(DeviceManager.LocalDevice, file, MeshFlags.SystemMemory);
-            m = mesh.GetMaterials();
-            mat = new Material[m.Length];
-            t = new Texture[m.Length];
+            ExtendedMaterial[] m = mesh.GetMaterials();
+            material = new Material[m.Length];
+            CurrentTexture = new Texture[m.Length];
+
             for (int i = 0; i < m.Length; i++)
             {
-                mat[i] = m[i].MaterialD3D;
-                mat[i].Ambient = mat[i].Diffuse;
+                material[i] = m[i].MaterialD3D;
+                material[i].Ambient = material[i].Diffuse;
+
                 string s = file;
-                Console.WriteLine(s.Length);
                 int index = s.IndexOf(fileName);
                 string tex = s.Remove(index);
                 s = tex.Insert(index, m[i].TextureFileName);
-                Console.WriteLine(s);
-                Console.WriteLine(tex);
-                
-                t[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
+
+                CurrentTexture[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
             }
 
             Position = Vector3.Zero;
             World = Matrix.Identity;
+        }
+
+        public MeshClass(string type)
+        {
+            if (type == "cube")
+            {
+                //mesh = new Mesh(DeviceManager.LocalDevice, 100, 100, options, vDec);
+            }
+            else if (type == "triangle")
+            {
+                //mesh = new Mesh(DeviceManager.LocalDevice, faceCount, vertexCount, options, vDec);
+            }
         }
 
         ~MeshClass()
@@ -46,9 +60,9 @@ namespace Graphics
 
         public void Dispose()
         {
-            for (int i = 0; i < t.Length; i++)
+            for (int i = 0; i < CurrentTexture.Length; i++)
             {
-                t[i].Dispose();
+                CurrentTexture[i].Dispose();
             }
 
             mesh.Dispose();
@@ -58,14 +72,15 @@ namespace Graphics
         {
             World = Matrix.Translation(Position);
             DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
-            for (int i = 0; i < mat.Length; ++i)
+
+            foreach (var item in material)
             {
-                DeviceManager.LocalDevice.Material = mat[i];
+                DeviceManager.LocalDevice.Material = item;
             }
 
-            for (int i = 0; i < t.Length; i++)
+            foreach (var item in CurrentTexture)
             {
-                DeviceManager.LocalDevice.SetTexture(0, t[i]);
+                DeviceManager.LocalDevice.SetTexture(0, item);
             }
 
             mesh.DrawSubset(0);
