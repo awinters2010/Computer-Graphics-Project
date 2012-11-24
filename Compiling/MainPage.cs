@@ -128,7 +128,7 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
-                camera.MoveEyeZ(1f);
+                camera.MoveCameraZ(1f);
             }
             Console.WriteLine(Environment.StackTrace);
         }
@@ -317,43 +317,43 @@ namespace Graphics
         #region "Cameral Related Methods"
         private void btnCamL_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeX(-1);
+            camera.MoveCameraX(-1);
         }
         private void btnCamR_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeX(1);
+            camera.MoveCameraX(1);
         }
         private void CamB_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeZ(1);
+            camera.MoveCameraZ(1);
         }
         private void CamF_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeZ(-1);
+            camera.MoveCameraZ(-1);
         }
         private void btnCamU_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeY(1);
+            camera.MoveCameraY(1);
         }
         private void btnCamD_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeY(-1);
+            camera.MoveCameraY(-1);
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
-            camera.EyeRotation = new Vector3(0, 1, 0);
+            camera.RotateCamera(new Vector3(0,1,0));
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            camera.EyeRotation = new Vector3(0, 0, 1);
+            camera.RotateCamera(new Vector3(0,0,1));
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
-            camera.EyeRotation = new Vector3(0, -1, 0);
+            camera.RotateCamera(new Vector3(0,-1,0));
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
-            camera.EyeRotation = new Vector3(0, 0, -1);
+            camera.RotateCamera(new Vector3(0,0,-1));
         }
         #endregion
 
