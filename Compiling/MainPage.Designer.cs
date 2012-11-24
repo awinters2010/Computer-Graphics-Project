@@ -56,10 +56,27 @@
             this.btnCamU = new System.Windows.Forms.Button();
             this.btnCamL = new System.Windows.Forms.Button();
             this.gbCamera = new System.Windows.Forms.GroupBox();
+            this.btnRCamF = new System.Windows.Forms.Button();
+            this.btnRCamB = new System.Windows.Forms.Button();
+            this.btnCamReset = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblCamLocationTitle = new System.Windows.Forms.Label();
+            this.lblCamZRot = new System.Windows.Forms.Label();
+            this.lblCamYRot = new System.Windows.Forms.Label();
+            this.lblCamXRot = new System.Windows.Forms.Label();
+            this.lblCamZPos = new System.Windows.Forms.Label();
+            this.lblCamYPos = new System.Windows.Forms.Label();
+            this.lblCamXPos = new System.Windows.Forms.Label();
+            this.lblCamTitleZRot = new System.Windows.Forms.Label();
+            this.lblCamTitleYRot = new System.Windows.Forms.Label();
+            this.lblCamTitleXRot = new System.Windows.Forms.Label();
             this.btnRCamL = new System.Windows.Forms.Button();
             this.btnRCamR = new System.Windows.Forms.Button();
+            this.lblCamTitleZPos = new System.Windows.Forms.Label();
             this.btnRCamU = new System.Windows.Forms.Button();
+            this.lblCamTitleYPos = new System.Windows.Forms.Label();
             this.btnRCamD = new System.Windows.Forms.Button();
+            this.lblCamTitleXPos = new System.Windows.Forms.Label();
             this.CamB = new System.Windows.Forms.Button();
             this.CamF = new System.Windows.Forms.Button();
             this.lblCam2 = new System.Windows.Forms.Label();
@@ -72,35 +89,21 @@
             this.lblyTranslate = new System.Windows.Forms.Label();
             this.lblxTranslate = new System.Windows.Forms.Label();
             this.gbRotate = new System.Windows.Forms.GroupBox();
+            this.lblzRotate = new System.Windows.Forms.Label();
+            this.zRotation = new System.Windows.Forms.TextBox();
+            this.lblyRotate = new System.Windows.Forms.Label();
+            this.yRotation = new System.Windows.Forms.TextBox();
             this.xRotation = new System.Windows.Forms.TextBox();
             this.lblxRotate = new System.Windows.Forms.Label();
             this.gbScale = new System.Windows.Forms.GroupBox();
+            this.zScaling = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.yScaling = new System.Windows.Forms.TextBox();
+            this.lblyScale = new System.Windows.Forms.Label();
             this.xScaling = new System.Windows.Forms.TextBox();
             this.lblxScale = new System.Windows.Forms.Label();
             this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
-            this.yRotation = new System.Windows.Forms.TextBox();
-            this.zRotation = new System.Windows.Forms.TextBox();
-            this.lblzRotate = new System.Windows.Forms.Label();
-            this.lblyRotate = new System.Windows.Forms.Label();
-            this.yScaling = new System.Windows.Forms.TextBox();
-            this.lblyScale = new System.Windows.Forms.Label();
-            this.zScaling = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.gbColor = new System.Windows.Forms.GroupBox();
-            this.lblCamTitleZPos = new System.Windows.Forms.Label();
-            this.lblCamTitleYPos = new System.Windows.Forms.Label();
-            this.lblCamTitleXPos = new System.Windows.Forms.Label();
-            this.lblCamTitleZRot = new System.Windows.Forms.Label();
-            this.lblCamTitleYRot = new System.Windows.Forms.Label();
-            this.lblCamTitleXRot = new System.Windows.Forms.Label();
-            this.lblCamXPos = new System.Windows.Forms.Label();
-            this.lblCamYPos = new System.Windows.Forms.Label();
-            this.lblCamZPos = new System.Windows.Forms.Label();
-            this.lblCamZRot = new System.Windows.Forms.Label();
-            this.lblCamYRot = new System.Windows.Forms.Label();
-            this.lblCamXRot = new System.Windows.Forms.Label();
-            this.lblCamLocationTitle = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -141,14 +144,14 @@
             // miLoadMesh
             // 
             this.miLoadMesh.Name = "miLoadMesh";
-            this.miLoadMesh.Size = new System.Drawing.Size(152, 22);
+            this.miLoadMesh.Size = new System.Drawing.Size(132, 22);
             this.miLoadMesh.Text = "Load Mesh";
             this.miLoadMesh.Click += new System.EventHandler(this.miLoadMesh_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -335,7 +338,7 @@
             // 
             // btnCamR
             // 
-            this.btnCamR.Location = new System.Drawing.Point(168, 38);
+            this.btnCamR.Location = new System.Drawing.Point(169, 66);
             this.btnCamR.Name = "btnCamR";
             this.btnCamR.Size = new System.Drawing.Size(75, 23);
             this.btnCamR.TabIndex = 17;
@@ -345,7 +348,7 @@
             // 
             // btnCamD
             // 
-            this.btnCamD.Location = new System.Drawing.Point(87, 56);
+            this.btnCamD.Location = new System.Drawing.Point(88, 84);
             this.btnCamD.Name = "btnCamD";
             this.btnCamD.Size = new System.Drawing.Size(75, 23);
             this.btnCamD.TabIndex = 16;
@@ -355,7 +358,7 @@
             // 
             // btnCamU
             // 
-            this.btnCamU.Location = new System.Drawing.Point(87, 27);
+            this.btnCamU.Location = new System.Drawing.Point(88, 55);
             this.btnCamU.Name = "btnCamU";
             this.btnCamU.Size = new System.Drawing.Size(75, 23);
             this.btnCamU.TabIndex = 15;
@@ -365,7 +368,7 @@
             // 
             // btnCamL
             // 
-            this.btnCamL.Location = new System.Drawing.Point(6, 38);
+            this.btnCamL.Location = new System.Drawing.Point(7, 66);
             this.btnCamL.Name = "btnCamL";
             this.btnCamL.Size = new System.Drawing.Size(75, 23);
             this.btnCamL.TabIndex = 14;
@@ -375,6 +378,9 @@
             // 
             // gbCamera
             // 
+            this.gbCamera.Controls.Add(this.btnRCamF);
+            this.gbCamera.Controls.Add(this.btnRCamB);
+            this.gbCamera.Controls.Add(this.btnCamReset);
             this.gbCamera.Controls.Add(this.label2);
             this.gbCamera.Controls.Add(this.lblCamLocationTitle);
             this.gbCamera.Controls.Add(this.lblCamZRot);
@@ -404,15 +410,148 @@
             this.gbCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbCamera.Location = new System.Drawing.Point(6, 28);
             this.gbCamera.Name = "gbCamera";
-            this.gbCamera.Size = new System.Drawing.Size(249, 217);
+            this.gbCamera.Size = new System.Drawing.Size(249, 262);
             this.gbCamera.TabIndex = 18;
             this.gbCamera.TabStop = false;
             this.gbCamera.Text = "Camera Functions";
-            this.gbCamera.Enter += new System.EventHandler(this.gbCamera_Enter);
+            // 
+            // btnRCamF
+            // 
+            this.btnRCamF.Location = new System.Drawing.Point(168, 204);
+            this.btnRCamF.Name = "btnRCamF";
+            this.btnRCamF.Size = new System.Drawing.Size(75, 23);
+            this.btnRCamF.TabIndex = 62;
+            this.btnRCamF.Text = "Forward";
+            this.btnRCamF.UseVisualStyleBackColor = true;
+            this.btnRCamF.Click += new System.EventHandler(this.btnRCamF_Click);
+            // 
+            // btnRCamB
+            // 
+            this.btnRCamB.Location = new System.Drawing.Point(7, 204);
+            this.btnRCamB.Name = "btnRCamB";
+            this.btnRCamB.Size = new System.Drawing.Size(75, 23);
+            this.btnRCamB.TabIndex = 61;
+            this.btnRCamB.Text = "Back";
+            this.btnRCamB.UseVisualStyleBackColor = true;
+            this.btnRCamB.Click += new System.EventHandler(this.btnRCamB_Click);
+            // 
+            // btnCamReset
+            // 
+            this.btnCamReset.Location = new System.Drawing.Point(6, 22);
+            this.btnCamReset.Name = "btnCamReset";
+            this.btnCamReset.Size = new System.Drawing.Size(103, 23);
+            this.btnCamReset.TabIndex = 60;
+            this.btnCamReset.Text = "Reset Camera";
+            this.btnCamReset.UseVisualStyleBackColor = true;
+            this.btnCamReset.Click += new System.EventHandler(this.btnCamReset_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 246);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 13);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "Camera Rotation:";
+            // 
+            // lblCamLocationTitle
+            // 
+            this.lblCamLocationTitle.AutoSize = true;
+            this.lblCamLocationTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCamLocationTitle.Location = new System.Drawing.Point(9, 124);
+            this.lblCamLocationTitle.Name = "lblCamLocationTitle";
+            this.lblCamLocationTitle.Size = new System.Drawing.Size(106, 13);
+            this.lblCamLocationTitle.TabIndex = 58;
+            this.lblCamLocationTitle.Text = "Camera Location:";
+            // 
+            // lblCamZRot
+            // 
+            this.lblCamZRot.AutoSize = true;
+            this.lblCamZRot.Location = new System.Drawing.Point(218, 246);
+            this.lblCamZRot.Name = "lblCamZRot";
+            this.lblCamZRot.Size = new System.Drawing.Size(11, 13);
+            this.lblCamZRot.TabIndex = 57;
+            this.lblCamZRot.Text = "-";
+            // 
+            // lblCamYRot
+            // 
+            this.lblCamYRot.AutoSize = true;
+            this.lblCamYRot.Location = new System.Drawing.Point(180, 246);
+            this.lblCamYRot.Name = "lblCamYRot";
+            this.lblCamYRot.Size = new System.Drawing.Size(11, 13);
+            this.lblCamYRot.TabIndex = 56;
+            this.lblCamYRot.Text = "-";
+            // 
+            // lblCamXRot
+            // 
+            this.lblCamXRot.AutoSize = true;
+            this.lblCamXRot.Location = new System.Drawing.Point(142, 246);
+            this.lblCamXRot.Name = "lblCamXRot";
+            this.lblCamXRot.Size = new System.Drawing.Size(11, 13);
+            this.lblCamXRot.TabIndex = 55;
+            this.lblCamXRot.Text = "-";
+            // 
+            // lblCamZPos
+            // 
+            this.lblCamZPos.AutoSize = true;
+            this.lblCamZPos.Location = new System.Drawing.Point(218, 124);
+            this.lblCamZPos.Name = "lblCamZPos";
+            this.lblCamZPos.Size = new System.Drawing.Size(11, 13);
+            this.lblCamZPos.TabIndex = 54;
+            this.lblCamZPos.Text = "-";
+            // 
+            // lblCamYPos
+            // 
+            this.lblCamYPos.AutoSize = true;
+            this.lblCamYPos.Location = new System.Drawing.Point(180, 124);
+            this.lblCamYPos.Name = "lblCamYPos";
+            this.lblCamYPos.Size = new System.Drawing.Size(11, 13);
+            this.lblCamYPos.TabIndex = 53;
+            this.lblCamYPos.Text = "-";
+            // 
+            // lblCamXPos
+            // 
+            this.lblCamXPos.AutoSize = true;
+            this.lblCamXPos.Location = new System.Drawing.Point(142, 124);
+            this.lblCamXPos.Name = "lblCamXPos";
+            this.lblCamXPos.Size = new System.Drawing.Size(11, 13);
+            this.lblCamXPos.TabIndex = 52;
+            this.lblCamXPos.Text = "-";
+            // 
+            // lblCamTitleZRot
+            // 
+            this.lblCamTitleZRot.AutoSize = true;
+            this.lblCamTitleZRot.Enabled = false;
+            this.lblCamTitleZRot.Location = new System.Drawing.Point(197, 246);
+            this.lblCamTitleZRot.Name = "lblCamTitleZRot";
+            this.lblCamTitleZRot.Size = new System.Drawing.Size(15, 13);
+            this.lblCamTitleZRot.TabIndex = 48;
+            this.lblCamTitleZRot.Text = "Z";
+            // 
+            // lblCamTitleYRot
+            // 
+            this.lblCamTitleYRot.AutoSize = true;
+            this.lblCamTitleYRot.Enabled = false;
+            this.lblCamTitleYRot.Location = new System.Drawing.Point(159, 246);
+            this.lblCamTitleYRot.Name = "lblCamTitleYRot";
+            this.lblCamTitleYRot.Size = new System.Drawing.Size(15, 13);
+            this.lblCamTitleYRot.TabIndex = 47;
+            this.lblCamTitleYRot.Text = "Y";
+            // 
+            // lblCamTitleXRot
+            // 
+            this.lblCamTitleXRot.AutoSize = true;
+            this.lblCamTitleXRot.Enabled = false;
+            this.lblCamTitleXRot.Location = new System.Drawing.Point(121, 246);
+            this.lblCamTitleXRot.Name = "lblCamTitleXRot";
+            this.lblCamTitleXRot.Size = new System.Drawing.Size(15, 13);
+            this.lblCamTitleXRot.TabIndex = 46;
+            this.lblCamTitleXRot.Text = "X";
             // 
             // btnRCamL
             // 
-            this.btnRCamL.Location = new System.Drawing.Point(6, 147);
+            this.btnRCamL.Location = new System.Drawing.Point(7, 175);
             this.btnRCamL.Name = "btnRCamL";
             this.btnRCamL.Size = new System.Drawing.Size(75, 23);
             this.btnRCamL.TabIndex = 23;
@@ -422,7 +561,7 @@
             // 
             // btnRCamR
             // 
-            this.btnRCamR.Location = new System.Drawing.Point(168, 147);
+            this.btnRCamR.Location = new System.Drawing.Point(169, 175);
             this.btnRCamR.Name = "btnRCamR";
             this.btnRCamR.Size = new System.Drawing.Size(75, 23);
             this.btnRCamR.TabIndex = 26;
@@ -430,9 +569,19 @@
             this.btnRCamR.UseVisualStyleBackColor = true;
             this.btnRCamR.Click += new System.EventHandler(this.btnRCamR_Click);
             // 
+            // lblCamTitleZPos
+            // 
+            this.lblCamTitleZPos.AutoSize = true;
+            this.lblCamTitleZPos.Enabled = false;
+            this.lblCamTitleZPos.Location = new System.Drawing.Point(197, 124);
+            this.lblCamTitleZPos.Name = "lblCamTitleZPos";
+            this.lblCamTitleZPos.Size = new System.Drawing.Size(15, 13);
+            this.lblCamTitleZPos.TabIndex = 42;
+            this.lblCamTitleZPos.Text = "Z";
+            // 
             // btnRCamU
             // 
-            this.btnRCamU.Location = new System.Drawing.Point(87, 136);
+            this.btnRCamU.Location = new System.Drawing.Point(88, 164);
             this.btnRCamU.Name = "btnRCamU";
             this.btnRCamU.Size = new System.Drawing.Size(75, 23);
             this.btnRCamU.TabIndex = 24;
@@ -440,9 +589,19 @@
             this.btnRCamU.UseVisualStyleBackColor = true;
             this.btnRCamU.Click += new System.EventHandler(this.btnRCamU_Click);
             // 
+            // lblCamTitleYPos
+            // 
+            this.lblCamTitleYPos.AutoSize = true;
+            this.lblCamTitleYPos.Enabled = false;
+            this.lblCamTitleYPos.Location = new System.Drawing.Point(159, 124);
+            this.lblCamTitleYPos.Name = "lblCamTitleYPos";
+            this.lblCamTitleYPos.Size = new System.Drawing.Size(15, 13);
+            this.lblCamTitleYPos.TabIndex = 41;
+            this.lblCamTitleYPos.Text = "Y";
+            // 
             // btnRCamD
             // 
-            this.btnRCamD.Location = new System.Drawing.Point(87, 165);
+            this.btnRCamD.Location = new System.Drawing.Point(88, 193);
             this.btnRCamD.Name = "btnRCamD";
             this.btnRCamD.Size = new System.Drawing.Size(75, 23);
             this.btnRCamD.TabIndex = 25;
@@ -450,9 +609,19 @@
             this.btnRCamD.UseVisualStyleBackColor = true;
             this.btnRCamD.Click += new System.EventHandler(this.btnRCamD_Click);
             // 
+            // lblCamTitleXPos
+            // 
+            this.lblCamTitleXPos.AutoSize = true;
+            this.lblCamTitleXPos.Enabled = false;
+            this.lblCamTitleXPos.Location = new System.Drawing.Point(121, 124);
+            this.lblCamTitleXPos.Name = "lblCamTitleXPos";
+            this.lblCamTitleXPos.Size = new System.Drawing.Size(15, 13);
+            this.lblCamTitleXPos.TabIndex = 40;
+            this.lblCamTitleXPos.Text = "X";
+            // 
             // CamB
             // 
-            this.CamB.Location = new System.Drawing.Point(6, 67);
+            this.CamB.Location = new System.Drawing.Point(7, 95);
             this.CamB.Name = "CamB";
             this.CamB.Size = new System.Drawing.Size(75, 23);
             this.CamB.TabIndex = 22;
@@ -462,7 +631,7 @@
             // 
             // CamF
             // 
-            this.CamF.Location = new System.Drawing.Point(168, 67);
+            this.CamF.Location = new System.Drawing.Point(169, 95);
             this.CamF.Name = "CamF";
             this.CamF.Size = new System.Drawing.Size(75, 23);
             this.CamF.TabIndex = 21;
@@ -474,7 +643,7 @@
             // 
             this.lblCam2.AutoSize = true;
             this.lblCam2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCam2.Location = new System.Drawing.Point(8, 126);
+            this.lblCam2.Location = new System.Drawing.Point(4, 150);
             this.lblCam2.Name = "lblCam2";
             this.lblCam2.Size = new System.Drawing.Size(45, 13);
             this.lblCam2.TabIndex = 20;
@@ -484,7 +653,7 @@
             // 
             this.lblCam1.AutoSize = true;
             this.lblCam1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCam1.Location = new System.Drawing.Point(3, 22);
+            this.lblCam1.Location = new System.Drawing.Point(4, 50);
             this.lblCam1.Name = "lblCam1";
             this.lblCam1.Size = new System.Drawing.Size(38, 13);
             this.lblCam1.TabIndex = 19;
@@ -576,6 +745,40 @@
             this.gbRotate.TabStop = false;
             this.gbRotate.Text = "Rotate";
             // 
+            // lblzRotate
+            // 
+            this.lblzRotate.AutoSize = true;
+            this.lblzRotate.Enabled = false;
+            this.lblzRotate.Location = new System.Drawing.Point(172, 21);
+            this.lblzRotate.Name = "lblzRotate";
+            this.lblzRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblzRotate.TabIndex = 34;
+            this.lblzRotate.Text = "Z";
+            // 
+            // zRotation
+            // 
+            this.zRotation.Location = new System.Drawing.Point(187, 14);
+            this.zRotation.Name = "zRotation";
+            this.zRotation.Size = new System.Drawing.Size(51, 20);
+            this.zRotation.TabIndex = 35;
+            // 
+            // lblyRotate
+            // 
+            this.lblyRotate.AutoSize = true;
+            this.lblyRotate.Enabled = false;
+            this.lblyRotate.Location = new System.Drawing.Point(89, 22);
+            this.lblyRotate.Name = "lblyRotate";
+            this.lblyRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblyRotate.TabIndex = 33;
+            this.lblyRotate.Text = "Y";
+            // 
+            // yRotation
+            // 
+            this.yRotation.Location = new System.Drawing.Point(107, 14);
+            this.yRotation.Name = "yRotation";
+            this.yRotation.Size = new System.Drawing.Size(51, 20);
+            this.yRotation.TabIndex = 34;
+            // 
             // xRotation
             // 
             this.xRotation.Location = new System.Drawing.Point(29, 15);
@@ -610,6 +813,40 @@
             this.gbScale.TabStop = false;
             this.gbScale.Text = "Scale";
             // 
+            // zScaling
+            // 
+            this.zScaling.Location = new System.Drawing.Point(187, 15);
+            this.zScaling.Name = "zScaling";
+            this.zScaling.Size = new System.Drawing.Size(51, 20);
+            this.zScaling.TabIndex = 37;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Enabled = false;
+            this.label10.Location = new System.Drawing.Point(166, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(15, 13);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Z";
+            // 
+            // yScaling
+            // 
+            this.yScaling.Location = new System.Drawing.Point(107, 17);
+            this.yScaling.Name = "yScaling";
+            this.yScaling.Size = new System.Drawing.Size(51, 20);
+            this.yScaling.TabIndex = 35;
+            // 
+            // lblyScale
+            // 
+            this.lblyScale.AutoSize = true;
+            this.lblyScale.Enabled = false;
+            this.lblyScale.Location = new System.Drawing.Point(86, 24);
+            this.lblyScale.Name = "lblyScale";
+            this.lblyScale.Size = new System.Drawing.Size(15, 13);
+            this.lblyScale.TabIndex = 36;
+            this.lblyScale.Text = "Y";
+            // 
             // xScaling
             // 
             this.xScaling.Location = new System.Drawing.Point(30, 17);
@@ -633,74 +870,6 @@
             this.ofdMesh.Filter = "|*.x;";
             this.ofdMesh.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdMesh_FileOk);
             // 
-            // yRotation
-            // 
-            this.yRotation.Location = new System.Drawing.Point(107, 14);
-            this.yRotation.Name = "yRotation";
-            this.yRotation.Size = new System.Drawing.Size(51, 20);
-            this.yRotation.TabIndex = 34;
-            // 
-            // zRotation
-            // 
-            this.zRotation.Location = new System.Drawing.Point(187, 14);
-            this.zRotation.Name = "zRotation";
-            this.zRotation.Size = new System.Drawing.Size(51, 20);
-            this.zRotation.TabIndex = 35;
-            // 
-            // lblzRotate
-            // 
-            this.lblzRotate.AutoSize = true;
-            this.lblzRotate.Enabled = false;
-            this.lblzRotate.Location = new System.Drawing.Point(172, 21);
-            this.lblzRotate.Name = "lblzRotate";
-            this.lblzRotate.Size = new System.Drawing.Size(15, 13);
-            this.lblzRotate.TabIndex = 34;
-            this.lblzRotate.Text = "Z";
-            // 
-            // lblyRotate
-            // 
-            this.lblyRotate.AutoSize = true;
-            this.lblyRotate.Enabled = false;
-            this.lblyRotate.Location = new System.Drawing.Point(89, 22);
-            this.lblyRotate.Name = "lblyRotate";
-            this.lblyRotate.Size = new System.Drawing.Size(15, 13);
-            this.lblyRotate.TabIndex = 33;
-            this.lblyRotate.Text = "Y";
-            // 
-            // yScaling
-            // 
-            this.yScaling.Location = new System.Drawing.Point(107, 17);
-            this.yScaling.Name = "yScaling";
-            this.yScaling.Size = new System.Drawing.Size(51, 20);
-            this.yScaling.TabIndex = 35;
-            // 
-            // lblyScale
-            // 
-            this.lblyScale.AutoSize = true;
-            this.lblyScale.Enabled = false;
-            this.lblyScale.Location = new System.Drawing.Point(86, 24);
-            this.lblyScale.Name = "lblyScale";
-            this.lblyScale.Size = new System.Drawing.Size(15, 13);
-            this.lblyScale.TabIndex = 36;
-            this.lblyScale.Text = "Y";
-            // 
-            // zScaling
-            // 
-            this.zScaling.Location = new System.Drawing.Point(187, 15);
-            this.zScaling.Name = "zScaling";
-            this.zScaling.Size = new System.Drawing.Size(51, 20);
-            this.zScaling.TabIndex = 37;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Enabled = false;
-            this.label10.Location = new System.Drawing.Point(166, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(15, 13);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "Z";
-            // 
             // gbColor
             // 
             this.gbColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -710,140 +879,6 @@
             this.gbColor.TabIndex = 39;
             this.gbColor.TabStop = false;
             this.gbColor.Text = "Color";
-            // 
-            // lblCamTitleZPos
-            // 
-            this.lblCamTitleZPos.AutoSize = true;
-            this.lblCamTitleZPos.Enabled = false;
-            this.lblCamTitleZPos.Location = new System.Drawing.Point(196, 96);
-            this.lblCamTitleZPos.Name = "lblCamTitleZPos";
-            this.lblCamTitleZPos.Size = new System.Drawing.Size(15, 13);
-            this.lblCamTitleZPos.TabIndex = 42;
-            this.lblCamTitleZPos.Text = "Z";
-            // 
-            // lblCamTitleYPos
-            // 
-            this.lblCamTitleYPos.AutoSize = true;
-            this.lblCamTitleYPos.Enabled = false;
-            this.lblCamTitleYPos.Location = new System.Drawing.Point(158, 96);
-            this.lblCamTitleYPos.Name = "lblCamTitleYPos";
-            this.lblCamTitleYPos.Size = new System.Drawing.Size(15, 13);
-            this.lblCamTitleYPos.TabIndex = 41;
-            this.lblCamTitleYPos.Text = "Y";
-            // 
-            // lblCamTitleXPos
-            // 
-            this.lblCamTitleXPos.AutoSize = true;
-            this.lblCamTitleXPos.Enabled = false;
-            this.lblCamTitleXPos.Location = new System.Drawing.Point(120, 96);
-            this.lblCamTitleXPos.Name = "lblCamTitleXPos";
-            this.lblCamTitleXPos.Size = new System.Drawing.Size(15, 13);
-            this.lblCamTitleXPos.TabIndex = 40;
-            this.lblCamTitleXPos.Text = "X";
-            // 
-            // lblCamTitleZRot
-            // 
-            this.lblCamTitleZRot.AutoSize = true;
-            this.lblCamTitleZRot.Enabled = false;
-            this.lblCamTitleZRot.Location = new System.Drawing.Point(196, 191);
-            this.lblCamTitleZRot.Name = "lblCamTitleZRot";
-            this.lblCamTitleZRot.Size = new System.Drawing.Size(15, 13);
-            this.lblCamTitleZRot.TabIndex = 48;
-            this.lblCamTitleZRot.Text = "Z";
-            // 
-            // lblCamTitleYRot
-            // 
-            this.lblCamTitleYRot.AutoSize = true;
-            this.lblCamTitleYRot.Enabled = false;
-            this.lblCamTitleYRot.Location = new System.Drawing.Point(158, 191);
-            this.lblCamTitleYRot.Name = "lblCamTitleYRot";
-            this.lblCamTitleYRot.Size = new System.Drawing.Size(15, 13);
-            this.lblCamTitleYRot.TabIndex = 47;
-            this.lblCamTitleYRot.Text = "Y";
-            // 
-            // lblCamTitleXRot
-            // 
-            this.lblCamTitleXRot.AutoSize = true;
-            this.lblCamTitleXRot.Enabled = false;
-            this.lblCamTitleXRot.Location = new System.Drawing.Point(120, 191);
-            this.lblCamTitleXRot.Name = "lblCamTitleXRot";
-            this.lblCamTitleXRot.Size = new System.Drawing.Size(15, 13);
-            this.lblCamTitleXRot.TabIndex = 46;
-            this.lblCamTitleXRot.Text = "X";
-            // 
-            // lblCamXPos
-            // 
-            this.lblCamXPos.AutoSize = true;
-            this.lblCamXPos.Location = new System.Drawing.Point(141, 96);
-            this.lblCamXPos.Name = "lblCamXPos";
-            this.lblCamXPos.Size = new System.Drawing.Size(11, 13);
-            this.lblCamXPos.TabIndex = 52;
-            this.lblCamXPos.Text = "-";
-            // 
-            // lblCamYPos
-            // 
-            this.lblCamYPos.AutoSize = true;
-            this.lblCamYPos.Location = new System.Drawing.Point(179, 96);
-            this.lblCamYPos.Name = "lblCamYPos";
-            this.lblCamYPos.Size = new System.Drawing.Size(11, 13);
-            this.lblCamYPos.TabIndex = 53;
-            this.lblCamYPos.Text = "-";
-            // 
-            // lblCamZPos
-            // 
-            this.lblCamZPos.AutoSize = true;
-            this.lblCamZPos.Location = new System.Drawing.Point(217, 96);
-            this.lblCamZPos.Name = "lblCamZPos";
-            this.lblCamZPos.Size = new System.Drawing.Size(11, 13);
-            this.lblCamZPos.TabIndex = 54;
-            this.lblCamZPos.Text = "-";
-            // 
-            // lblCamZRot
-            // 
-            this.lblCamZRot.AutoSize = true;
-            this.lblCamZRot.Location = new System.Drawing.Point(217, 250);
-            this.lblCamZRot.Name = "lblCamZRot";
-            this.lblCamZRot.Size = new System.Drawing.Size(11, 13);
-            this.lblCamZRot.TabIndex = 57;
-            this.lblCamZRot.Text = "-";
-            // 
-            // lblCamYRot
-            // 
-            this.lblCamYRot.AutoSize = true;
-            this.lblCamYRot.Location = new System.Drawing.Point(179, 191);
-            this.lblCamYRot.Name = "lblCamYRot";
-            this.lblCamYRot.Size = new System.Drawing.Size(11, 13);
-            this.lblCamYRot.TabIndex = 56;
-            this.lblCamYRot.Text = "-";
-            // 
-            // lblCamXRot
-            // 
-            this.lblCamXRot.AutoSize = true;
-            this.lblCamXRot.Location = new System.Drawing.Point(141, 191);
-            this.lblCamXRot.Name = "lblCamXRot";
-            this.lblCamXRot.Size = new System.Drawing.Size(11, 13);
-            this.lblCamXRot.TabIndex = 55;
-            this.lblCamXRot.Text = "-";
-            // 
-            // lblCamLocationTitle
-            // 
-            this.lblCamLocationTitle.AutoSize = true;
-            this.lblCamLocationTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCamLocationTitle.Location = new System.Drawing.Point(8, 96);
-            this.lblCamLocationTitle.Name = "lblCamLocationTitle";
-            this.lblCamLocationTitle.Size = new System.Drawing.Size(106, 13);
-            this.lblCamLocationTitle.TabIndex = 58;
-            this.lblCamLocationTitle.Text = "Camera Location:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(11, 191);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 13);
-            this.label2.TabIndex = 59;
-            this.label2.Text = "Camera Rotation:";
             // 
             // MainPage
             // 
@@ -864,6 +899,7 @@
             this.Name = "MainPage";
             this.Text = "Computer Graphics - Term Project";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainPage_KeyPress);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.gbMemUsage.ResumeLayout(false);
@@ -960,6 +996,9 @@
         private System.Windows.Forms.Label lblCamTitleZPos;
         private System.Windows.Forms.Label lblCamTitleYPos;
         private System.Windows.Forms.Label lblCamTitleXPos;
+        private System.Windows.Forms.Button btnCamReset;
+        private System.Windows.Forms.Button btnRCamF;
+        private System.Windows.Forms.Button btnRCamB;
     }
 }
 

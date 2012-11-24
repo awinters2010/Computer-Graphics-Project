@@ -311,9 +311,23 @@ namespace Graphics
                 MessageBox.Show("Translation failed: No Shape is selected!");
             }
         }
+        private void MainPage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                //
+            }
+
+        }
         #endregion
 
         #region "Cameral Related Methods"
+        private void btnCamReset_Click(object sender, EventArgs e)
+        {
+            camera.ResetCamera();
+            SetCameraPosition();
+            SetCameraRotation();
+        }
         private void btnCamL_Click(object sender, EventArgs e)
         {
             camera.MoveCameraX(-1);
@@ -347,18 +361,32 @@ namespace Graphics
         private void btnRCamL_Click(object sender, EventArgs e)
         {
             camera.RotateCamera(new Vector3(0,1,0));
+            SetCameraRotation();
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
             camera.RotateCamera(new Vector3(0,0,1));
+            SetCameraRotation();
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
             camera.RotateCamera(new Vector3(0,-1,0));
+            SetCameraRotation();
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
             camera.RotateCamera(new Vector3(0,0,-1));
+            SetCameraRotation();
+        }
+        private void btnRCamB_Click(object sender, EventArgs e)
+        {
+            camera.RotateCamera(new Vector3(1, 0, 0));
+            SetCameraRotation();
+        }
+        private void btnRCamF_Click(object sender, EventArgs e)
+        {
+            camera.RotateCamera(new Vector3(-1, 0, 0));
+            SetCameraRotation();
         }
         /// <summary>
         /// Enters the camera's current position into GUI labels
@@ -375,9 +403,10 @@ namespace Graphics
         /// </summary>
         private void SetCameraRotation()
         {
-            //lblCamXRot.Text = 
-            //lblCamYRot.Text =
-            //lblCamZRot.Text =
+            Vector3 cameraRotate = camera.Rotate;
+            lblCamXRot.Text = cameraRotate.X.ToString();
+            lblCamYRot.Text = cameraRotate.Y.ToString();
+            lblCamZRot.Text = cameraRotate.Z.ToString();
         }
         #endregion
 
@@ -506,11 +535,6 @@ namespace Graphics
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void gbCamera_Enter(object sender, EventArgs e)
-        {
-
         }
 
     }
