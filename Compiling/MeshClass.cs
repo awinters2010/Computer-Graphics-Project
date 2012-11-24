@@ -1,5 +1,6 @@
 ﻿using System;
 using SlimDX.Direct3D9;
+using SlimDX;
 
 namespace Graphics
 {
@@ -10,6 +11,8 @@ namespace Graphics
         public Material[] mat;
         public Mesh mesh;
         uint nummaterials = 0;
+        public Vector3 Position { get; set; }
+        public Matrix World { get; set; }
 
         public MeshClass(string file, string fileName)
         {
@@ -31,6 +34,9 @@ namespace Graphics
                 
                 t[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
             }
+
+            Position = Vector3.Zero;
+            World = Matrix.Identity;
         }
 
         ~MeshClass()
@@ -50,6 +56,8 @@ namespace Graphics
 
         public void RenderMesh()
         {
+            World = Matrix.Translation(Position);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
             for (int i = 0; i < mat.Length; ++i)
             {
                 DeviceManager.LocalDevice.Material = mat[i];

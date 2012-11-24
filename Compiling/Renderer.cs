@@ -68,6 +68,14 @@ namespace Graphics
                 DeviceManager.LocalDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
                 DeviceManager.LocalDevice.BeginScene();
 
+                lock (Meshes)
+                {
+                    foreach (var item in Meshes)
+                    {
+                        item.RenderMesh();
+                    }
+                }
+
                 lock (Shapes)
                 {
                     if (Shapes.Count != 0)
@@ -85,14 +93,6 @@ namespace Graphics
                                 DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
                             }
                         }
-                    }
-                }
-
-                lock (Meshes)
-                {
-                    foreach (var item in Meshes)
-                    {
-                        item.RenderMesh();
                     }
                 }
 
