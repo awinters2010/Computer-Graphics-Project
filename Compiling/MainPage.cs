@@ -202,7 +202,17 @@ namespace Graphics
         {
             if (lblSS2.Text != "<none>")
             {
-  
+                  DialogResult = MessageBox.Show("Are you SURE you want to Delete this shape!? \n Please select one option Yes/No",
+                                                "Conditional", MessageBoxButtons.YesNo,  MessageBoxIcon.Information);
+
+                  if (DialogResult == DialogResult.Yes)
+                  {
+                      //code to remove shape
+                  }
+                  else
+                  {
+                      //do nothing
+                  }
             }
             else
             {
@@ -449,7 +459,18 @@ namespace Graphics
             
             if (DialogResult == DialogResult.Yes)
             {
-                //Code to clear scene
+                try
+                {
+                    //Code to clear scene
+                }
+                catch (Exception ex)
+                {
+                    //handel exception
+                }
+                finally
+                {
+                    MessageBox.Show("Clear Scene failed: An error has occured!");
+                }
             }
             else
             {
