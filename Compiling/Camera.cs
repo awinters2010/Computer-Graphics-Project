@@ -35,7 +35,7 @@ namespace Graphics
         {
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, -5);
+            eye = new Vector3(0, 0, 3.5f);
             LookAt = Vector3.Zero;
             Up = Vector3.UnitY;
 
@@ -154,7 +154,7 @@ namespace Graphics
         {
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, -5);
+            eye = new Vector3(0, 0, 3.5f);
             LookAt = Vector3.Zero;
             Up = Vector3.UnitY;
 

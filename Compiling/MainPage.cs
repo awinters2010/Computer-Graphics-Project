@@ -38,7 +38,7 @@ namespace Graphics
 
             camera = new Camera();
 
-            camera.SetView(new Vector3(0, 0, -3.5f), Vector3.Zero, Vector3.UnitY);
+            camera.SetView(new Vector3(0, 0, 3.5f), Vector3.Zero, Vector3.UnitY);
 
             DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
 
@@ -130,6 +130,7 @@ namespace Graphics
             {
                 camera.MoveEyeZ(1f);
             }
+
             Console.WriteLine(Environment.StackTrace);
         }
 
