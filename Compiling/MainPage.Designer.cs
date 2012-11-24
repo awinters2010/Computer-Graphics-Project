@@ -42,7 +42,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.plNotArea = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.gbShapes = new System.Windows.Forms.GroupBox();
+            this.gbObjects = new System.Windows.Forms.GroupBox();
             this.btnClearScene = new System.Windows.Forms.Button();
             this.btnDeleteShape = new System.Windows.Forms.Button();
             this.lblSS2 = new System.Windows.Forms.Label();
@@ -78,25 +78,25 @@
             this.TransB = new System.Windows.Forms.Button();
             this.TransF = new System.Windows.Forms.Button();
             this.gbRotate = new System.Windows.Forms.GroupBox();
+            this.lblzRotate = new System.Windows.Forms.Label();
+            this.zRotation = new System.Windows.Forms.TextBox();
+            this.lblyRotate = new System.Windows.Forms.Label();
+            this.yRotation = new System.Windows.Forms.TextBox();
             this.xRotation = new System.Windows.Forms.TextBox();
             this.lblxRotate = new System.Windows.Forms.Label();
             this.gbScale = new System.Windows.Forms.GroupBox();
+            this.zScaling = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.yScaling = new System.Windows.Forms.TextBox();
+            this.lblyScale = new System.Windows.Forms.Label();
             this.xScaling = new System.Windows.Forms.TextBox();
             this.lblxScale = new System.Windows.Forms.Label();
             this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
-            this.yRotation = new System.Windows.Forms.TextBox();
-            this.zRotation = new System.Windows.Forms.TextBox();
-            this.lblzRotate = new System.Windows.Forms.Label();
-            this.lblyRotate = new System.Windows.Forms.Label();
-            this.yScaling = new System.Windows.Forms.TextBox();
-            this.lblyScale = new System.Windows.Forms.Label();
-            this.zScaling = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.gbColor = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
-            this.gbShapes.SuspendLayout();
+            this.gbObjects.SuspendLayout();
             this.gbCamera.SuspendLayout();
             this.gbTranslate.SuspendLayout();
             this.gbRotate.SuspendLayout();
@@ -133,14 +133,14 @@
             // miLoadMesh
             // 
             this.miLoadMesh.Name = "miLoadMesh";
-            this.miLoadMesh.Size = new System.Drawing.Size(152, 22);
+            this.miLoadMesh.Size = new System.Drawing.Size(132, 22);
             this.miLoadMesh.Text = "Load Mesh";
             this.miLoadMesh.Click += new System.EventHandler(this.miLoadMesh_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -231,23 +231,23 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Memory Usage (MB)";
             // 
-            // gbShapes
+            // gbObjects
             // 
-            this.gbShapes.Controls.Add(this.btnClearScene);
-            this.gbShapes.Controls.Add(this.btnDeleteShape);
-            this.gbShapes.Controls.Add(this.lblSS2);
-            this.gbShapes.Controls.Add(this.lblSS1);
-            this.gbShapes.Controls.Add(this.lblSCnt2);
-            this.gbShapes.Controls.Add(this.lblSCnt1);
-            this.gbShapes.Controls.Add(this.cboShapeList);
-            this.gbShapes.Controls.Add(this.lblDes1);
-            this.gbShapes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbShapes.Location = new System.Drawing.Point(887, 26);
-            this.gbShapes.Name = "gbShapes";
-            this.gbShapes.Size = new System.Drawing.Size(246, 115);
-            this.gbShapes.TabIndex = 11;
-            this.gbShapes.TabStop = false;
-            this.gbShapes.Text = "Shapes";
+            this.gbObjects.Controls.Add(this.btnClearScene);
+            this.gbObjects.Controls.Add(this.btnDeleteShape);
+            this.gbObjects.Controls.Add(this.lblSS2);
+            this.gbObjects.Controls.Add(this.lblSS1);
+            this.gbObjects.Controls.Add(this.lblSCnt2);
+            this.gbObjects.Controls.Add(this.lblSCnt1);
+            this.gbObjects.Controls.Add(this.cboShapeList);
+            this.gbObjects.Controls.Add(this.lblDes1);
+            this.gbObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbObjects.Location = new System.Drawing.Point(887, 26);
+            this.gbObjects.Name = "gbObjects";
+            this.gbObjects.Size = new System.Drawing.Size(246, 115);
+            this.gbObjects.TabIndex = 11;
+            this.gbObjects.TabStop = false;
+            this.gbObjects.Text = "Objects";
             // 
             // btnClearScene
             // 
@@ -265,7 +265,7 @@
             this.btnDeleteShape.Name = "btnDeleteShape";
             this.btnDeleteShape.Size = new System.Drawing.Size(98, 23);
             this.btnDeleteShape.TabIndex = 8;
-            this.btnDeleteShape.Text = "Delete Shape";
+            this.btnDeleteShape.Text = "Delete Object";
             this.btnDeleteShape.UseVisualStyleBackColor = true;
             this.btnDeleteShape.Click += new System.EventHandler(this.btnDeleteShape_Click);
             // 
@@ -284,9 +284,9 @@
             this.lblSS1.AutoSize = true;
             this.lblSS1.Location = new System.Drawing.Point(6, 71);
             this.lblSS1.Name = "lblSS1";
-            this.lblSS1.Size = new System.Drawing.Size(101, 13);
+            this.lblSS1.Size = new System.Drawing.Size(102, 13);
             this.lblSS1.TabIndex = 4;
-            this.lblSS1.Text = "Selected Shape:";
+            this.lblSS1.Text = "Selected Object:";
             // 
             // lblSCnt2
             // 
@@ -321,9 +321,9 @@
             this.lblDes1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDes1.Location = new System.Drawing.Point(6, 24);
             this.lblDes1.Name = "lblDes1";
-            this.lblDes1.Size = new System.Drawing.Size(67, 13);
+            this.lblDes1.Size = new System.Drawing.Size(68, 13);
             this.lblDes1.TabIndex = 0;
-            this.lblDes1.Text = "Shape List";
+            this.lblDes1.Text = "Object List";
             // 
             // btnTransR
             // 
@@ -619,6 +619,40 @@
             this.gbRotate.TabStop = false;
             this.gbRotate.Text = "Rotate";
             // 
+            // lblzRotate
+            // 
+            this.lblzRotate.AutoSize = true;
+            this.lblzRotate.Enabled = false;
+            this.lblzRotate.Location = new System.Drawing.Point(172, 21);
+            this.lblzRotate.Name = "lblzRotate";
+            this.lblzRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblzRotate.TabIndex = 34;
+            this.lblzRotate.Text = "Z";
+            // 
+            // zRotation
+            // 
+            this.zRotation.Location = new System.Drawing.Point(187, 14);
+            this.zRotation.Name = "zRotation";
+            this.zRotation.Size = new System.Drawing.Size(51, 20);
+            this.zRotation.TabIndex = 35;
+            // 
+            // lblyRotate
+            // 
+            this.lblyRotate.AutoSize = true;
+            this.lblyRotate.Enabled = false;
+            this.lblyRotate.Location = new System.Drawing.Point(89, 22);
+            this.lblyRotate.Name = "lblyRotate";
+            this.lblyRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblyRotate.TabIndex = 33;
+            this.lblyRotate.Text = "Y";
+            // 
+            // yRotation
+            // 
+            this.yRotation.Location = new System.Drawing.Point(107, 14);
+            this.yRotation.Name = "yRotation";
+            this.yRotation.Size = new System.Drawing.Size(51, 20);
+            this.yRotation.TabIndex = 34;
+            // 
             // xRotation
             // 
             this.xRotation.Location = new System.Drawing.Point(29, 15);
@@ -653,6 +687,40 @@
             this.gbScale.TabStop = false;
             this.gbScale.Text = "Scale";
             // 
+            // zScaling
+            // 
+            this.zScaling.Location = new System.Drawing.Point(187, 15);
+            this.zScaling.Name = "zScaling";
+            this.zScaling.Size = new System.Drawing.Size(51, 20);
+            this.zScaling.TabIndex = 37;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Enabled = false;
+            this.label10.Location = new System.Drawing.Point(166, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(15, 13);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Z";
+            // 
+            // yScaling
+            // 
+            this.yScaling.Location = new System.Drawing.Point(107, 17);
+            this.yScaling.Name = "yScaling";
+            this.yScaling.Size = new System.Drawing.Size(51, 20);
+            this.yScaling.TabIndex = 35;
+            // 
+            // lblyScale
+            // 
+            this.lblyScale.AutoSize = true;
+            this.lblyScale.Enabled = false;
+            this.lblyScale.Location = new System.Drawing.Point(86, 24);
+            this.lblyScale.Name = "lblyScale";
+            this.lblyScale.Size = new System.Drawing.Size(15, 13);
+            this.lblyScale.TabIndex = 36;
+            this.lblyScale.Text = "Y";
+            // 
             // xScaling
             // 
             this.xScaling.Location = new System.Drawing.Point(30, 17);
@@ -676,74 +744,6 @@
             this.ofdMesh.Filter = "|*.x;";
             this.ofdMesh.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdMesh_FileOk);
             // 
-            // yRotation
-            // 
-            this.yRotation.Location = new System.Drawing.Point(107, 14);
-            this.yRotation.Name = "yRotation";
-            this.yRotation.Size = new System.Drawing.Size(51, 20);
-            this.yRotation.TabIndex = 34;
-            // 
-            // zRotation
-            // 
-            this.zRotation.Location = new System.Drawing.Point(187, 14);
-            this.zRotation.Name = "zRotation";
-            this.zRotation.Size = new System.Drawing.Size(51, 20);
-            this.zRotation.TabIndex = 35;
-            // 
-            // lblzRotate
-            // 
-            this.lblzRotate.AutoSize = true;
-            this.lblzRotate.Enabled = false;
-            this.lblzRotate.Location = new System.Drawing.Point(172, 21);
-            this.lblzRotate.Name = "lblzRotate";
-            this.lblzRotate.Size = new System.Drawing.Size(15, 13);
-            this.lblzRotate.TabIndex = 34;
-            this.lblzRotate.Text = "Z";
-            // 
-            // lblyRotate
-            // 
-            this.lblyRotate.AutoSize = true;
-            this.lblyRotate.Enabled = false;
-            this.lblyRotate.Location = new System.Drawing.Point(89, 22);
-            this.lblyRotate.Name = "lblyRotate";
-            this.lblyRotate.Size = new System.Drawing.Size(15, 13);
-            this.lblyRotate.TabIndex = 33;
-            this.lblyRotate.Text = "Y";
-            // 
-            // yScaling
-            // 
-            this.yScaling.Location = new System.Drawing.Point(107, 17);
-            this.yScaling.Name = "yScaling";
-            this.yScaling.Size = new System.Drawing.Size(51, 20);
-            this.yScaling.TabIndex = 35;
-            // 
-            // lblyScale
-            // 
-            this.lblyScale.AutoSize = true;
-            this.lblyScale.Enabled = false;
-            this.lblyScale.Location = new System.Drawing.Point(86, 24);
-            this.lblyScale.Name = "lblyScale";
-            this.lblyScale.Size = new System.Drawing.Size(15, 13);
-            this.lblyScale.TabIndex = 36;
-            this.lblyScale.Text = "Y";
-            // 
-            // zScaling
-            // 
-            this.zScaling.Location = new System.Drawing.Point(187, 15);
-            this.zScaling.Name = "zScaling";
-            this.zScaling.Size = new System.Drawing.Size(51, 20);
-            this.zScaling.TabIndex = 37;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Enabled = false;
-            this.label10.Location = new System.Drawing.Point(166, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(15, 13);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "Z";
-            // 
             // gbColor
             // 
             this.gbColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -764,7 +764,7 @@
             this.Controls.Add(this.gbRotate);
             this.Controls.Add(this.gbTranslate);
             this.Controls.Add(this.gbCamera);
-            this.Controls.Add(this.gbShapes);
+            this.Controls.Add(this.gbObjects);
             this.Controls.Add(this.plNotArea);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -779,8 +779,8 @@
             this.gbMemUsage.PerformLayout();
             this.plNotArea.ResumeLayout(false);
             this.plNotArea.PerformLayout();
-            this.gbShapes.ResumeLayout(false);
-            this.gbShapes.PerformLayout();
+            this.gbObjects.ResumeLayout(false);
+            this.gbObjects.PerformLayout();
             this.gbCamera.ResumeLayout(false);
             this.gbCamera.PerformLayout();
             this.gbTranslate.ResumeLayout(false);
@@ -808,7 +808,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel plNotArea;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox gbShapes;
+        private System.Windows.Forms.GroupBox gbObjects;
         private System.Windows.Forms.ComboBox cboShapeList;
         private System.Windows.Forms.Label lblDes1;
         private System.Windows.Forms.Label lblSCnt2;

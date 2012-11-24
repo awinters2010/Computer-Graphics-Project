@@ -90,9 +90,9 @@ namespace Graphics
         //adds a new cube to the screen
         private void CubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (renderer.Shapes)
+            lock (renderer.Meshes)
             {
-                renderer.Shapes.Add(new Cube());
+                renderer.Meshes.Add(new MeshClass("cube"));
                 //renderer.Meshes.Add(new Mesh());
 
                 //there may be a better place to put this
@@ -103,9 +103,9 @@ namespace Graphics
         //adds a new triangle to the screen
         private void TriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (renderer.Shapes)
+            lock (renderer.Meshes)
             {
-                renderer.Shapes.Add(new Triangle());
+                renderer.Meshes.Add(new MeshClass("triangle"));
                 //there may be a better place to put this
                 AddToShapeList("Triangle");
             }
@@ -150,7 +150,7 @@ namespace Graphics
             gbCamera.BackColor = GUISubWindowColor;
             gbRotate.BackColor = GUISubWindowColor;
             gbScale.BackColor = GUISubWindowColor;
-            gbShapes.BackColor = GUISubWindowColor;
+            gbObjects.BackColor = GUISubWindowColor;
             gbTranslate.BackColor = GUISubWindowColor;
 
             //set control sizes
@@ -171,7 +171,7 @@ namespace Graphics
             UpdateShapeCount();
 
             //create new object, set ID = shape count, set description to shape type
-            ShapeListItem sliToAdd = new ShapeListItem(renderer.Shapes.Count, ShapeDesc);
+            ShapeListItem sliToAdd = new ShapeListItem(renderer.Meshes.Count, ShapeDesc);
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
@@ -183,7 +183,7 @@ namespace Graphics
         public void UpdateShapeCount()
         {
             //update shape count
-            lblSCnt2.Text = renderer.Shapes.Count.ToString();
+            lblSCnt2.Text = renderer.Meshes.Count.ToString();
         }
 
         private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
@@ -191,11 +191,11 @@ namespace Graphics
             if (cboShapeList.SelectedIndex != -1)
             {
                 lblSS2.Text = cboShapeList.Text.ToString();
-                xTranslation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Position.X.ToString();
-                yTranslation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Position.Y.ToString();
-                zTranslation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Position.Z.ToString();
-                xRotation.Text = renderer.Shapes[cboShapeList.SelectedIndex].Rotation.X.ToString();
-                xScaling.Text = renderer.Shapes[cboShapeList.SelectedIndex].Scaling.X.ToString();
+                xTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.X.ToString();
+                yTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Y.ToString();
+                zTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Z.ToString();
+                xRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
+                xScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
             }
         }
         #endregion
@@ -204,7 +204,7 @@ namespace Graphics
         {
             if (lblSS2.Text != "<none>")
             {
-                  DialogResult = MessageBox.Show("Are you SURE you want to Delete this shape!? \n Please select one option Yes/No",
+                  DialogResult = MessageBox.Show("Are you SURE you want to Delete this object!? \n Please select one option Yes/No",
                                                 "Conditional", MessageBoxButtons.YesNo,  MessageBoxIcon.Information);
 
                   if (DialogResult == DialogResult.Yes)
@@ -218,7 +218,7 @@ namespace Graphics
             }
             else
             {
-                MessageBox.Show("Delete failed: No Shape is selected!");
+                MessageBox.Show("Delete failed: No Object is selected!");
             }
         }
 
@@ -231,7 +231,7 @@ namespace Graphics
             ShapeListItem sliSelected = new ShapeListItem(1, "");
             sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-            renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X - 1, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z);
+            renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X - 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
             }
             else
             {
@@ -246,7 +246,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y + 1, renderer.Shapes[sliSelected.ID - 1].Position.Z);
+                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y + 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
             }
             else
             {
@@ -261,7 +261,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X + 1, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z);
+                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X + 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
             }
             else
             {
@@ -276,7 +276,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y - 1, renderer.Shapes[sliSelected.ID - 1].Position.Z);
+                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y - 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
             }
             else
             {
@@ -291,7 +291,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z + 1);
+                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z + 1);
             }
             else
             {
@@ -306,7 +306,7 @@ namespace Graphics
                 ShapeListItem sliSelected = new ShapeListItem(1, "");
                 sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
 
-                renderer.Shapes[sliSelected.ID - 1].Translate(renderer.Shapes[sliSelected.ID - 1].Position.X, renderer.Shapes[sliSelected.ID - 1].Position.Y, renderer.Shapes[sliSelected.ID - 1].Position.Z - 1);
+                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z - 1);
             }
             else
             {
@@ -405,7 +405,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -416,7 +416,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -427,7 +427,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Shapes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -438,7 +438,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Shapes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), 0, 0);
+                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), 0, 0);
                 }
             }
         }
@@ -449,7 +449,7 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Shapes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), 1, 1));
+                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), 1, 1));
                 }
             }
         }
