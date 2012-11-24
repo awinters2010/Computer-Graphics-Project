@@ -209,7 +209,6 @@ namespace Graphics
                   if (DialogResult == DialogResult.Yes)
                   {
                       //code to remove shape
-                      txtNotificationArea.Text += "Shape deleted!\r\n";
                   }
                   else
                   {
@@ -219,7 +218,6 @@ namespace Graphics
             else
             {
                 MessageBox.Show("Delete failed: No Shape is selected!");
-                txtNotificationArea.Text += "Delete failed: No Shape is selected!\r\n";
             }
         }
 
@@ -343,19 +341,19 @@ namespace Graphics
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
-            //camera.RotateCameraY(.1f);
+            camera.RotateCamera(new Vector3(0,1,0));
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            //camera.RotateCameraZ(.1f);
+            camera.RotateCamera(new Vector3(0,0,1));
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
-            //camera.RotateCameraY(-.1f);
+            camera.RotateCamera(new Vector3(0,-1,0));
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
-            //camera.RotateCameraZ(-.1f);
+            camera.RotateCamera(new Vector3(0,0,-1));
         }
         #endregion
 
@@ -468,8 +466,7 @@ namespace Graphics
                 }
                 catch (Exception ex)
                 {
-                    //handel exception
-                    txtNotificationArea.Text += "Clear Scene failed: " + ex.Message + " \r\n";
+                    //handle exception
                 }
                 finally
                 {

@@ -36,14 +36,12 @@
             this.shapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtNotificationArea = new System.Windows.Forms.TextBox();
             this.lblMemoryUsage = new System.Windows.Forms.Label();
             this.lblMem = new System.Windows.Forms.Label();
             this.gbMemUsage = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.plNotArea = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblNotArea = new System.Windows.Forms.Label();
             this.gbShapes = new System.Windows.Forms.GroupBox();
             this.btnClearScene = new System.Windows.Forms.Button();
             this.btnDeleteShape = new System.Windows.Forms.Button();
@@ -94,6 +92,7 @@
             this.lblyScale = new System.Windows.Forms.Label();
             this.zScaling = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.gbColor = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -168,16 +167,6 @@
             this.triangleToolStripMenuItem.Text = "Triangle";
             this.triangleToolStripMenuItem.Click += new System.EventHandler(this.TriangleToolStripMenuItem_Click);
             // 
-            // txtNotificationArea
-            // 
-            this.txtNotificationArea.Location = new System.Drawing.Point(258, 17);
-            this.txtNotificationArea.Multiline = true;
-            this.txtNotificationArea.Name = "txtNotificationArea";
-            this.txtNotificationArea.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNotificationArea.Size = new System.Drawing.Size(620, 69);
-            this.txtNotificationArea.TabIndex = 0;
-            this.txtNotificationArea.TabStop = false;
-            // 
             // lblMemoryUsage
             // 
             this.lblMemoryUsage.AutoSize = true;
@@ -218,20 +207,18 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(20);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(20);
-            this.panel1.Size = new System.Drawing.Size(624, 433);
+            this.panel1.Size = new System.Drawing.Size(624, 534);
             this.panel1.TabIndex = 6;
             // 
             // plNotArea
             // 
             this.plNotArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
             this.plNotArea.Controls.Add(this.label1);
-            this.plNotArea.Controls.Add(this.lblNotArea);
             this.plNotArea.Controls.Add(this.gbMemUsage);
             this.plNotArea.Controls.Add(this.progressBar1);
-            this.plNotArea.Controls.Add(this.txtNotificationArea);
             this.plNotArea.Location = new System.Drawing.Point(0, 467);
             this.plNotArea.Name = "plNotArea";
-            this.plNotArea.Size = new System.Drawing.Size(881, 95);
+            this.plNotArea.Size = new System.Drawing.Size(255, 95);
             this.plNotArea.TabIndex = 10;
             // 
             // label1
@@ -243,16 +230,6 @@
             this.label1.Size = new System.Drawing.Size(120, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Memory Usage (MB)";
-            // 
-            // lblNotArea
-            // 
-            this.lblNotArea.AutoSize = true;
-            this.lblNotArea.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNotArea.Location = new System.Drawing.Point(255, 1);
-            this.lblNotArea.Name = "lblNotArea";
-            this.lblNotArea.Size = new System.Drawing.Size(102, 13);
-            this.lblNotArea.TabIndex = 12;
-            this.lblNotArea.Text = "Notification Area";
             // 
             // gbShapes
             // 
@@ -267,14 +244,14 @@
             this.gbShapes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbShapes.Location = new System.Drawing.Point(887, 26);
             this.gbShapes.Name = "gbShapes";
-            this.gbShapes.Size = new System.Drawing.Size(246, 142);
+            this.gbShapes.Size = new System.Drawing.Size(246, 115);
             this.gbShapes.TabIndex = 11;
             this.gbShapes.TabStop = false;
             this.gbShapes.Text = "Shapes";
             // 
             // btnClearScene
             // 
-            this.btnClearScene.Location = new System.Drawing.Point(116, 101);
+            this.btnClearScene.Location = new System.Drawing.Point(128, 87);
             this.btnClearScene.Name = "btnClearScene";
             this.btnClearScene.Size = new System.Drawing.Size(108, 23);
             this.btnClearScene.TabIndex = 9;
@@ -284,7 +261,7 @@
             // 
             // btnDeleteShape
             // 
-            this.btnDeleteShape.Location = new System.Drawing.Point(6, 101);
+            this.btnDeleteShape.Location = new System.Drawing.Point(12, 87);
             this.btnDeleteShape.Name = "btnDeleteShape";
             this.btnDeleteShape.Size = new System.Drawing.Size(98, 23);
             this.btnDeleteShape.TabIndex = 8;
@@ -296,7 +273,7 @@
             // 
             this.lblSS2.AutoSize = true;
             this.lblSS2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSS2.Location = new System.Drawing.Point(113, 77);
+            this.lblSS2.Location = new System.Drawing.Point(113, 71);
             this.lblSS2.Name = "lblSS2";
             this.lblSS2.Size = new System.Drawing.Size(43, 13);
             this.lblSS2.TabIndex = 5;
@@ -305,7 +282,7 @@
             // lblSS1
             // 
             this.lblSS1.AutoSize = true;
-            this.lblSS1.Location = new System.Drawing.Point(6, 77);
+            this.lblSS1.Location = new System.Drawing.Point(6, 71);
             this.lblSS1.Name = "lblSS1";
             this.lblSS1.Size = new System.Drawing.Size(101, 13);
             this.lblSS1.TabIndex = 4;
@@ -350,7 +327,7 @@
             // 
             // btnTransR
             // 
-            this.btnTransR.Location = new System.Drawing.Point(167, 66);
+            this.btnTransR.Location = new System.Drawing.Point(167, 49);
             this.btnTransR.Name = "btnTransR";
             this.btnTransR.Size = new System.Drawing.Size(75, 23);
             this.btnTransR.TabIndex = 13;
@@ -360,7 +337,7 @@
             // 
             // btnTransD
             // 
-            this.btnTransD.Location = new System.Drawing.Point(86, 84);
+            this.btnTransD.Location = new System.Drawing.Point(86, 67);
             this.btnTransD.Name = "btnTransD";
             this.btnTransD.Size = new System.Drawing.Size(75, 23);
             this.btnTransD.TabIndex = 12;
@@ -370,7 +347,7 @@
             // 
             // btnTransU
             // 
-            this.btnTransU.Location = new System.Drawing.Point(86, 55);
+            this.btnTransU.Location = new System.Drawing.Point(86, 38);
             this.btnTransU.Name = "btnTransU";
             this.btnTransU.Size = new System.Drawing.Size(75, 23);
             this.btnTransU.TabIndex = 11;
@@ -380,7 +357,7 @@
             // 
             // btnTransL
             // 
-            this.btnTransL.Location = new System.Drawing.Point(5, 66);
+            this.btnTransL.Location = new System.Drawing.Point(5, 49);
             this.btnTransL.Name = "btnTransL";
             this.btnTransL.Size = new System.Drawing.Size(75, 23);
             this.btnTransL.TabIndex = 10;
@@ -545,16 +522,16 @@
             this.gbTranslate.Controls.Add(this.btnTransU);
             this.gbTranslate.Controls.Add(this.btnTransD);
             this.gbTranslate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbTranslate.Location = new System.Drawing.Point(887, 174);
+            this.gbTranslate.Location = new System.Drawing.Point(887, 223);
             this.gbTranslate.Name = "gbTranslate";
-            this.gbTranslate.Size = new System.Drawing.Size(246, 122);
+            this.gbTranslate.Size = new System.Drawing.Size(246, 106);
             this.gbTranslate.TabIndex = 19;
             this.gbTranslate.TabStop = false;
             this.gbTranslate.Text = "Translate";
             // 
             // zTranslation
             // 
-            this.zTranslation.Location = new System.Drawing.Point(187, 19);
+            this.zTranslation.Location = new System.Drawing.Point(185, 15);
             this.zTranslation.Name = "zTranslation";
             this.zTranslation.Size = new System.Drawing.Size(51, 20);
             this.zTranslation.TabIndex = 32;
@@ -562,7 +539,7 @@
             // 
             // yTranslation
             // 
-            this.yTranslation.Location = new System.Drawing.Point(109, 20);
+            this.yTranslation.Location = new System.Drawing.Point(107, 16);
             this.yTranslation.Name = "yTranslation";
             this.yTranslation.Size = new System.Drawing.Size(51, 20);
             this.yTranslation.TabIndex = 31;
@@ -570,7 +547,7 @@
             // 
             // xTranslation
             // 
-            this.xTranslation.Location = new System.Drawing.Point(31, 19);
+            this.xTranslation.Location = new System.Drawing.Point(29, 15);
             this.xTranslation.Name = "xTranslation";
             this.xTranslation.Size = new System.Drawing.Size(51, 20);
             this.xTranslation.TabIndex = 30;
@@ -580,7 +557,7 @@
             // 
             this.lblzTranslate.AutoSize = true;
             this.lblzTranslate.Enabled = false;
-            this.lblzTranslate.Location = new System.Drawing.Point(168, 26);
+            this.lblzTranslate.Location = new System.Drawing.Point(166, 22);
             this.lblzTranslate.Name = "lblzTranslate";
             this.lblzTranslate.Size = new System.Drawing.Size(15, 13);
             this.lblzTranslate.TabIndex = 29;
@@ -590,7 +567,7 @@
             // 
             this.lblyTranslate.AutoSize = true;
             this.lblyTranslate.Enabled = false;
-            this.lblyTranslate.Location = new System.Drawing.Point(91, 27);
+            this.lblyTranslate.Location = new System.Drawing.Point(89, 23);
             this.lblyTranslate.Name = "lblyTranslate";
             this.lblyTranslate.Size = new System.Drawing.Size(15, 13);
             this.lblyTranslate.TabIndex = 27;
@@ -600,7 +577,7 @@
             // 
             this.lblxTranslate.AutoSize = true;
             this.lblxTranslate.Enabled = false;
-            this.lblxTranslate.Location = new System.Drawing.Point(9, 26);
+            this.lblxTranslate.Location = new System.Drawing.Point(7, 22);
             this.lblxTranslate.Name = "lblxTranslate";
             this.lblxTranslate.Size = new System.Drawing.Size(15, 13);
             this.lblxTranslate.TabIndex = 25;
@@ -608,7 +585,7 @@
             // 
             // TransB
             // 
-            this.TransB.Location = new System.Drawing.Point(5, 95);
+            this.TransB.Location = new System.Drawing.Point(5, 78);
             this.TransB.Name = "TransB";
             this.TransB.Size = new System.Drawing.Size(75, 23);
             this.TransB.TabIndex = 24;
@@ -618,7 +595,7 @@
             // 
             // TransF
             // 
-            this.TransF.Location = new System.Drawing.Point(167, 95);
+            this.TransF.Location = new System.Drawing.Point(167, 78);
             this.TransF.Name = "TransF";
             this.TransF.Size = new System.Drawing.Size(75, 23);
             this.TransF.TabIndex = 23;
@@ -635,16 +612,16 @@
             this.gbRotate.Controls.Add(this.xRotation);
             this.gbRotate.Controls.Add(this.lblxRotate);
             this.gbRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbRotate.Location = new System.Drawing.Point(887, 302);
+            this.gbRotate.Location = new System.Drawing.Point(887, 335);
             this.gbRotate.Name = "gbRotate";
-            this.gbRotate.Size = new System.Drawing.Size(246, 122);
+            this.gbRotate.Size = new System.Drawing.Size(246, 106);
             this.gbRotate.TabIndex = 20;
             this.gbRotate.TabStop = false;
             this.gbRotate.Text = "Rotate";
             // 
             // xRotation
             // 
-            this.xRotation.Location = new System.Drawing.Point(29, 20);
+            this.xRotation.Location = new System.Drawing.Point(29, 15);
             this.xRotation.Name = "xRotation";
             this.xRotation.Size = new System.Drawing.Size(51, 20);
             this.xRotation.TabIndex = 33;
@@ -654,7 +631,7 @@
             // 
             this.lblxRotate.AutoSize = true;
             this.lblxRotate.Enabled = false;
-            this.lblxRotate.Location = new System.Drawing.Point(7, 27);
+            this.lblxRotate.Location = new System.Drawing.Point(7, 22);
             this.lblxRotate.Name = "lblxRotate";
             this.lblxRotate.Size = new System.Drawing.Size(15, 13);
             this.lblxRotate.TabIndex = 26;
@@ -669,16 +646,16 @@
             this.gbScale.Controls.Add(this.xScaling);
             this.gbScale.Controls.Add(this.lblxScale);
             this.gbScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbScale.Location = new System.Drawing.Point(887, 430);
+            this.gbScale.Location = new System.Drawing.Point(887, 447);
             this.gbScale.Name = "gbScale";
-            this.gbScale.Size = new System.Drawing.Size(246, 122);
+            this.gbScale.Size = new System.Drawing.Size(246, 106);
             this.gbScale.TabIndex = 20;
             this.gbScale.TabStop = false;
             this.gbScale.Text = "Scale";
             // 
             // xScaling
             // 
-            this.xScaling.Location = new System.Drawing.Point(28, 21);
+            this.xScaling.Location = new System.Drawing.Point(30, 17);
             this.xScaling.Name = "xScaling";
             this.xScaling.Size = new System.Drawing.Size(51, 20);
             this.xScaling.TabIndex = 34;
@@ -688,7 +665,7 @@
             // 
             this.lblxScale.AutoSize = true;
             this.lblxScale.Enabled = false;
-            this.lblxScale.Location = new System.Drawing.Point(7, 28);
+            this.lblxScale.Location = new System.Drawing.Point(9, 24);
             this.lblxScale.Name = "lblxScale";
             this.lblxScale.Size = new System.Drawing.Size(15, 13);
             this.lblxScale.TabIndex = 34;
@@ -701,14 +678,14 @@
             // 
             // yRotation
             // 
-            this.yRotation.Location = new System.Drawing.Point(107, 19);
+            this.yRotation.Location = new System.Drawing.Point(107, 14);
             this.yRotation.Name = "yRotation";
             this.yRotation.Size = new System.Drawing.Size(51, 20);
             this.yRotation.TabIndex = 34;
             // 
             // zRotation
             // 
-            this.zRotation.Location = new System.Drawing.Point(187, 19);
+            this.zRotation.Location = new System.Drawing.Point(187, 14);
             this.zRotation.Name = "zRotation";
             this.zRotation.Size = new System.Drawing.Size(51, 20);
             this.zRotation.TabIndex = 35;
@@ -717,7 +694,7 @@
             // 
             this.lblzRotate.AutoSize = true;
             this.lblzRotate.Enabled = false;
-            this.lblzRotate.Location = new System.Drawing.Point(172, 26);
+            this.lblzRotate.Location = new System.Drawing.Point(172, 21);
             this.lblzRotate.Name = "lblzRotate";
             this.lblzRotate.Size = new System.Drawing.Size(15, 13);
             this.lblzRotate.TabIndex = 34;
@@ -727,7 +704,7 @@
             // 
             this.lblyRotate.AutoSize = true;
             this.lblyRotate.Enabled = false;
-            this.lblyRotate.Location = new System.Drawing.Point(89, 27);
+            this.lblyRotate.Location = new System.Drawing.Point(89, 22);
             this.lblyRotate.Name = "lblyRotate";
             this.lblyRotate.Size = new System.Drawing.Size(15, 13);
             this.lblyRotate.TabIndex = 33;
@@ -735,7 +712,7 @@
             // 
             // yScaling
             // 
-            this.yScaling.Location = new System.Drawing.Point(105, 21);
+            this.yScaling.Location = new System.Drawing.Point(107, 17);
             this.yScaling.Name = "yScaling";
             this.yScaling.Size = new System.Drawing.Size(51, 20);
             this.yScaling.TabIndex = 35;
@@ -744,7 +721,7 @@
             // 
             this.lblyScale.AutoSize = true;
             this.lblyScale.Enabled = false;
-            this.lblyScale.Location = new System.Drawing.Point(84, 28);
+            this.lblyScale.Location = new System.Drawing.Point(86, 24);
             this.lblyScale.Name = "lblyScale";
             this.lblyScale.Size = new System.Drawing.Size(15, 13);
             this.lblyScale.TabIndex = 36;
@@ -752,7 +729,7 @@
             // 
             // zScaling
             // 
-            this.zScaling.Location = new System.Drawing.Point(185, 19);
+            this.zScaling.Location = new System.Drawing.Point(187, 15);
             this.zScaling.Name = "zScaling";
             this.zScaling.Size = new System.Drawing.Size(51, 20);
             this.zScaling.TabIndex = 37;
@@ -761,17 +738,28 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Enabled = false;
-            this.label10.Location = new System.Drawing.Point(164, 26);
+            this.label10.Location = new System.Drawing.Point(166, 22);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(15, 13);
             this.label10.TabIndex = 38;
             this.label10.Text = "Z";
+            // 
+            // gbColor
+            // 
+            this.gbColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbColor.Location = new System.Drawing.Point(887, 147);
+            this.gbColor.Name = "gbColor";
+            this.gbColor.Size = new System.Drawing.Size(246, 70);
+            this.gbColor.TabIndex = 39;
+            this.gbColor.TabStop = false;
+            this.gbColor.Text = "Color";
             // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
             this.ClientSize = new System.Drawing.Size(1137, 562);
+            this.Controls.Add(this.gbColor);
             this.Controls.Add(this.gbScale);
             this.Controls.Add(this.gbRotate);
             this.Controls.Add(this.gbTranslate);
@@ -811,7 +799,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtNotificationArea;
         private System.Windows.Forms.ToolStripMenuItem shapesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem triangleToolStripMenuItem;
@@ -820,7 +807,6 @@
         private System.Windows.Forms.GroupBox gbMemUsage;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel plNotArea;
-        private System.Windows.Forms.Label lblNotArea;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gbShapes;
         private System.Windows.Forms.ComboBox cboShapeList;
@@ -874,6 +860,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox yScaling;
         private System.Windows.Forms.Label lblyScale;
+        private System.Windows.Forms.GroupBox gbColor;
     }
 }
 
