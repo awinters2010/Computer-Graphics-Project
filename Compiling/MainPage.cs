@@ -316,45 +316,75 @@ namespace Graphics
         #endregion
 
         #region "Cameral Related Methods"
+        private void btnResetCamera_Click(object sender, EventArgs e)
+        {
+            camera.ResetEye();
+            UpdateCameraLocation();
+            UpdateCameraRotation();
+        }
         private void btnCamL_Click(object sender, EventArgs e)
         {
             camera.MoveEyeX(-1);
+            UpdateCameraLocation();
         }
         private void btnCamR_Click(object sender, EventArgs e)
         {
             camera.MoveEyeX(1);
+            UpdateCameraLocation();
         }
         private void CamB_Click(object sender, EventArgs e)
         {
             camera.MoveEyeZ(1);
+            UpdateCameraLocation();
         }
         private void CamF_Click(object sender, EventArgs e)
         {
             camera.MoveEyeZ(-1);
+            UpdateCameraLocation();
         }
         private void btnCamU_Click(object sender, EventArgs e)
         {
             camera.MoveEyeY(1);
+            UpdateCameraLocation();
         }
         private void btnCamD_Click(object sender, EventArgs e)
         {
             camera.MoveEyeY(-1);
+            UpdateCameraLocation();
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
             camera.CameraRotation = new Vector3(0, 1, 0);
+            UpdateCameraRotation();
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
             camera.CameraRotation = new Vector3(0, 0, 1);
+            UpdateCameraRotation();
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
             camera.CameraRotation = new Vector3(0, -1, 0);
+            UpdateCameraRotation();
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
             camera.CameraRotation = new Vector3(0, 0, -1);
+            UpdateCameraRotation();
+        }
+        private void UpdateCameraLocation()
+        {
+            lblCamPosX.Text = camera.Eye.X.ToString();
+            lblCamPosX.Text = camera.Eye.Y.ToString();
+            lblCamPosX.Text = camera.Eye.Z.ToString();
+        }
+        private void UpdateCameraRotation()
+        {
+            Vector3 camLoc = new Vector3();
+            camLoc = camera.CameraRotation;
+            lblCamRotX.Text = camLoc.X.ToString();
+            lblCamRotY.Text = camLoc.Y.ToString();
+            lblCamRotZ.Text = camLoc.Z.ToString();
         }
         #endregion
 
@@ -484,6 +514,20 @@ namespace Graphics
         {
             Application.Exit();
         }
+
+        private void MainPage_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainPage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                //translate rotate scale by values in textboxes
+            }
+        }
+
 
     }
 }

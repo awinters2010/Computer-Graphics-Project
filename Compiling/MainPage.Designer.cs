@@ -51,15 +51,26 @@
             this.lblSCnt1 = new System.Windows.Forms.Label();
             this.cboShapeList = new System.Windows.Forms.ComboBox();
             this.lblDes1 = new System.Windows.Forms.Label();
-            this.btnTransR = new System.Windows.Forms.Button();
-            this.btnTransD = new System.Windows.Forms.Button();
-            this.btnTransU = new System.Windows.Forms.Button();
-            this.btnTransL = new System.Windows.Forms.Button();
             this.btnCamR = new System.Windows.Forms.Button();
             this.btnCamD = new System.Windows.Forms.Button();
             this.btnCamU = new System.Windows.Forms.Button();
             this.btnCamL = new System.Windows.Forms.Button();
             this.gbCamera = new System.Windows.Forms.GroupBox();
+            this.btnResetCamera = new System.Windows.Forms.Button();
+            this.lblCamRotZ = new System.Windows.Forms.Label();
+            this.lblCamRotY = new System.Windows.Forms.Label();
+            this.lblCamRotX = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lblCamPosZ = new System.Windows.Forms.Label();
+            this.lblCamPosY = new System.Windows.Forms.Label();
+            this.lblCamPosX = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnRCamL = new System.Windows.Forms.Button();
             this.btnRCamR = new System.Windows.Forms.Button();
             this.btnRCamU = new System.Windows.Forms.Button();
@@ -75,8 +86,6 @@
             this.lblzTranslate = new System.Windows.Forms.Label();
             this.lblyTranslate = new System.Windows.Forms.Label();
             this.lblxTranslate = new System.Windows.Forms.Label();
-            this.TransB = new System.Windows.Forms.Button();
-            this.TransF = new System.Windows.Forms.Button();
             this.gbRotate = new System.Windows.Forms.GroupBox();
             this.lblzRotate = new System.Windows.Forms.Label();
             this.zRotation = new System.Windows.Forms.TextBox();
@@ -325,49 +334,9 @@
             this.lblDes1.TabIndex = 0;
             this.lblDes1.Text = "Object List";
             // 
-            // btnTransR
-            // 
-            this.btnTransR.Location = new System.Drawing.Point(167, 49);
-            this.btnTransR.Name = "btnTransR";
-            this.btnTransR.Size = new System.Drawing.Size(75, 23);
-            this.btnTransR.TabIndex = 13;
-            this.btnTransR.Text = "Right";
-            this.btnTransR.UseVisualStyleBackColor = true;
-            this.btnTransR.Click += new System.EventHandler(this.btnTransR_Click);
-            // 
-            // btnTransD
-            // 
-            this.btnTransD.Location = new System.Drawing.Point(86, 67);
-            this.btnTransD.Name = "btnTransD";
-            this.btnTransD.Size = new System.Drawing.Size(75, 23);
-            this.btnTransD.TabIndex = 12;
-            this.btnTransD.Text = "Down";
-            this.btnTransD.UseVisualStyleBackColor = true;
-            this.btnTransD.Click += new System.EventHandler(this.btnTransD_Click);
-            // 
-            // btnTransU
-            // 
-            this.btnTransU.Location = new System.Drawing.Point(86, 38);
-            this.btnTransU.Name = "btnTransU";
-            this.btnTransU.Size = new System.Drawing.Size(75, 23);
-            this.btnTransU.TabIndex = 11;
-            this.btnTransU.Text = "Up";
-            this.btnTransU.UseVisualStyleBackColor = true;
-            this.btnTransU.Click += new System.EventHandler(this.btnTransU_Click);
-            // 
-            // btnTransL
-            // 
-            this.btnTransL.Location = new System.Drawing.Point(5, 49);
-            this.btnTransL.Name = "btnTransL";
-            this.btnTransL.Size = new System.Drawing.Size(75, 23);
-            this.btnTransL.TabIndex = 10;
-            this.btnTransL.Text = "Left";
-            this.btnTransL.UseVisualStyleBackColor = true;
-            this.btnTransL.Click += new System.EventHandler(this.btnTransL_Click);
-            // 
             // btnCamR
             // 
-            this.btnCamR.Location = new System.Drawing.Point(168, 46);
+            this.btnCamR.Location = new System.Drawing.Point(168, 69);
             this.btnCamR.Name = "btnCamR";
             this.btnCamR.Size = new System.Drawing.Size(75, 23);
             this.btnCamR.TabIndex = 17;
@@ -377,7 +346,7 @@
             // 
             // btnCamD
             // 
-            this.btnCamD.Location = new System.Drawing.Point(87, 64);
+            this.btnCamD.Location = new System.Drawing.Point(87, 87);
             this.btnCamD.Name = "btnCamD";
             this.btnCamD.Size = new System.Drawing.Size(75, 23);
             this.btnCamD.TabIndex = 16;
@@ -387,7 +356,7 @@
             // 
             // btnCamU
             // 
-            this.btnCamU.Location = new System.Drawing.Point(87, 35);
+            this.btnCamU.Location = new System.Drawing.Point(87, 58);
             this.btnCamU.Name = "btnCamU";
             this.btnCamU.Size = new System.Drawing.Size(75, 23);
             this.btnCamU.TabIndex = 15;
@@ -397,7 +366,7 @@
             // 
             // btnCamL
             // 
-            this.btnCamL.Location = new System.Drawing.Point(6, 46);
+            this.btnCamL.Location = new System.Drawing.Point(6, 69);
             this.btnCamL.Name = "btnCamL";
             this.btnCamL.Size = new System.Drawing.Size(75, 23);
             this.btnCamL.TabIndex = 14;
@@ -407,6 +376,21 @@
             // 
             // gbCamera
             // 
+            this.gbCamera.Controls.Add(this.btnResetCamera);
+            this.gbCamera.Controls.Add(this.lblCamRotZ);
+            this.gbCamera.Controls.Add(this.lblCamRotY);
+            this.gbCamera.Controls.Add(this.lblCamRotX);
+            this.gbCamera.Controls.Add(this.label7);
+            this.gbCamera.Controls.Add(this.label8);
+            this.gbCamera.Controls.Add(this.label9);
+            this.gbCamera.Controls.Add(this.lblCamPosZ);
+            this.gbCamera.Controls.Add(this.lblCamPosY);
+            this.gbCamera.Controls.Add(this.lblCamPosX);
+            this.gbCamera.Controls.Add(this.label6);
+            this.gbCamera.Controls.Add(this.label5);
+            this.gbCamera.Controls.Add(this.label4);
+            this.gbCamera.Controls.Add(this.label3);
+            this.gbCamera.Controls.Add(this.label2);
             this.gbCamera.Controls.Add(this.btnRCamL);
             this.gbCamera.Controls.Add(this.btnRCamR);
             this.gbCamera.Controls.Add(this.btnRCamU);
@@ -422,14 +406,152 @@
             this.gbCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbCamera.Location = new System.Drawing.Point(6, 28);
             this.gbCamera.Name = "gbCamera";
-            this.gbCamera.Size = new System.Drawing.Size(249, 202);
+            this.gbCamera.Size = new System.Drawing.Size(249, 267);
             this.gbCamera.TabIndex = 18;
             this.gbCamera.TabStop = false;
             this.gbCamera.Text = "Camera Functions";
             // 
+            // btnResetCamera
+            // 
+            this.btnResetCamera.Location = new System.Drawing.Point(67, 22);
+            this.btnResetCamera.Name = "btnResetCamera";
+            this.btnResetCamera.Size = new System.Drawing.Size(118, 23);
+            this.btnResetCamera.TabIndex = 41;
+            this.btnResetCamera.Text = "Reset Camera";
+            this.btnResetCamera.UseVisualStyleBackColor = true;
+            this.btnResetCamera.Click += new System.EventHandler(this.btnResetCamera_Click);
+            // 
+            // lblCamRotZ
+            // 
+            this.lblCamRotZ.AutoSize = true;
+            this.lblCamRotZ.Location = new System.Drawing.Point(227, 241);
+            this.lblCamRotZ.Name = "lblCamRotZ";
+            this.lblCamRotZ.Size = new System.Drawing.Size(11, 13);
+            this.lblCamRotZ.TabIndex = 40;
+            this.lblCamRotZ.Text = "-";
+            // 
+            // lblCamRotY
+            // 
+            this.lblCamRotY.AutoSize = true;
+            this.lblCamRotY.Location = new System.Drawing.Point(177, 241);
+            this.lblCamRotY.Name = "lblCamRotY";
+            this.lblCamRotY.Size = new System.Drawing.Size(11, 13);
+            this.lblCamRotY.TabIndex = 39;
+            this.lblCamRotY.Text = "-";
+            // 
+            // lblCamRotX
+            // 
+            this.lblCamRotX.AutoSize = true;
+            this.lblCamRotX.Location = new System.Drawing.Point(133, 241);
+            this.lblCamRotX.Name = "lblCamRotX";
+            this.lblCamRotX.Size = new System.Drawing.Size(11, 13);
+            this.lblCamRotX.TabIndex = 38;
+            this.lblCamRotX.Text = "-";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(204, 240);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(15, 13);
+            this.label7.TabIndex = 37;
+            this.label7.Text = "Z";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(156, 240);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(15, 13);
+            this.label8.TabIndex = 36;
+            this.label8.Text = "Y";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(111, 240);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(15, 13);
+            this.label9.TabIndex = 35;
+            this.label9.Text = "X";
+            // 
+            // lblCamPosZ
+            // 
+            this.lblCamPosZ.AutoSize = true;
+            this.lblCamPosZ.Location = new System.Drawing.Point(224, 133);
+            this.lblCamPosZ.Name = "lblCamPosZ";
+            this.lblCamPosZ.Size = new System.Drawing.Size(11, 13);
+            this.lblCamPosZ.TabIndex = 34;
+            this.lblCamPosZ.Text = "-";
+            // 
+            // lblCamPosY
+            // 
+            this.lblCamPosY.AutoSize = true;
+            this.lblCamPosY.Location = new System.Drawing.Point(174, 133);
+            this.lblCamPosY.Name = "lblCamPosY";
+            this.lblCamPosY.Size = new System.Drawing.Size(11, 13);
+            this.lblCamPosY.TabIndex = 33;
+            this.lblCamPosY.Text = "-";
+            // 
+            // lblCamPosX
+            // 
+            this.lblCamPosX.AutoSize = true;
+            this.lblCamPosX.Location = new System.Drawing.Point(130, 133);
+            this.lblCamPosX.Name = "lblCamPosX";
+            this.lblCamPosX.Size = new System.Drawing.Size(11, 13);
+            this.lblCamPosX.TabIndex = 32;
+            this.lblCamPosX.Text = "-";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(204, 133);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(15, 13);
+            this.label6.TabIndex = 31;
+            this.label6.Text = "Z";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(156, 133);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(15, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Y";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(111, 133);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(15, 13);
+            this.label4.TabIndex = 29;
+            this.label4.Text = "X";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(6, 241);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(105, 13);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "Camera Rotation:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 133);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(102, 13);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "Camera Position:";
+            // 
             // btnRCamL
             // 
-            this.btnRCamL.Location = new System.Drawing.Point(6, 139);
+            this.btnRCamL.Location = new System.Drawing.Point(6, 189);
             this.btnRCamL.Name = "btnRCamL";
             this.btnRCamL.Size = new System.Drawing.Size(75, 23);
             this.btnRCamL.TabIndex = 23;
@@ -439,7 +561,7 @@
             // 
             // btnRCamR
             // 
-            this.btnRCamR.Location = new System.Drawing.Point(168, 139);
+            this.btnRCamR.Location = new System.Drawing.Point(168, 189);
             this.btnRCamR.Name = "btnRCamR";
             this.btnRCamR.Size = new System.Drawing.Size(75, 23);
             this.btnRCamR.TabIndex = 26;
@@ -449,7 +571,7 @@
             // 
             // btnRCamU
             // 
-            this.btnRCamU.Location = new System.Drawing.Point(87, 128);
+            this.btnRCamU.Location = new System.Drawing.Point(87, 178);
             this.btnRCamU.Name = "btnRCamU";
             this.btnRCamU.Size = new System.Drawing.Size(75, 23);
             this.btnRCamU.TabIndex = 24;
@@ -459,7 +581,7 @@
             // 
             // btnRCamD
             // 
-            this.btnRCamD.Location = new System.Drawing.Point(87, 157);
+            this.btnRCamD.Location = new System.Drawing.Point(87, 207);
             this.btnRCamD.Name = "btnRCamD";
             this.btnRCamD.Size = new System.Drawing.Size(75, 23);
             this.btnRCamD.TabIndex = 25;
@@ -469,7 +591,7 @@
             // 
             // CamB
             // 
-            this.CamB.Location = new System.Drawing.Point(6, 75);
+            this.CamB.Location = new System.Drawing.Point(6, 98);
             this.CamB.Name = "CamB";
             this.CamB.Size = new System.Drawing.Size(75, 23);
             this.CamB.TabIndex = 22;
@@ -479,7 +601,7 @@
             // 
             // CamF
             // 
-            this.CamF.Location = new System.Drawing.Point(168, 75);
+            this.CamF.Location = new System.Drawing.Point(168, 98);
             this.CamF.Name = "CamF";
             this.CamF.Size = new System.Drawing.Size(75, 23);
             this.CamF.TabIndex = 21;
@@ -491,7 +613,7 @@
             // 
             this.lblCam2.AutoSize = true;
             this.lblCam2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCam2.Location = new System.Drawing.Point(8, 118);
+            this.lblCam2.Location = new System.Drawing.Point(8, 168);
             this.lblCam2.Name = "lblCam2";
             this.lblCam2.Size = new System.Drawing.Size(45, 13);
             this.lblCam2.TabIndex = 20;
@@ -501,7 +623,7 @@
             // 
             this.lblCam1.AutoSize = true;
             this.lblCam1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCam1.Location = new System.Drawing.Point(3, 30);
+            this.lblCam1.Location = new System.Drawing.Point(3, 53);
             this.lblCam1.Name = "lblCam1";
             this.lblCam1.Size = new System.Drawing.Size(38, 13);
             this.lblCam1.TabIndex = 19;
@@ -515,16 +637,10 @@
             this.gbTranslate.Controls.Add(this.lblzTranslate);
             this.gbTranslate.Controls.Add(this.lblyTranslate);
             this.gbTranslate.Controls.Add(this.lblxTranslate);
-            this.gbTranslate.Controls.Add(this.TransB);
-            this.gbTranslate.Controls.Add(this.btnTransR);
-            this.gbTranslate.Controls.Add(this.TransF);
-            this.gbTranslate.Controls.Add(this.btnTransL);
-            this.gbTranslate.Controls.Add(this.btnTransU);
-            this.gbTranslate.Controls.Add(this.btnTransD);
             this.gbTranslate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbTranslate.Location = new System.Drawing.Point(887, 223);
             this.gbTranslate.Name = "gbTranslate";
-            this.gbTranslate.Size = new System.Drawing.Size(246, 106);
+            this.gbTranslate.Size = new System.Drawing.Size(246, 46);
             this.gbTranslate.TabIndex = 19;
             this.gbTranslate.TabStop = false;
             this.gbTranslate.Text = "Translate";
@@ -583,26 +699,6 @@
             this.lblxTranslate.TabIndex = 25;
             this.lblxTranslate.Text = "X";
             // 
-            // TransB
-            // 
-            this.TransB.Location = new System.Drawing.Point(5, 78);
-            this.TransB.Name = "TransB";
-            this.TransB.Size = new System.Drawing.Size(75, 23);
-            this.TransB.TabIndex = 24;
-            this.TransB.Text = "Back";
-            this.TransB.UseVisualStyleBackColor = true;
-            this.TransB.Click += new System.EventHandler(this.TransB_Click);
-            // 
-            // TransF
-            // 
-            this.TransF.Location = new System.Drawing.Point(167, 78);
-            this.TransF.Name = "TransF";
-            this.TransF.Size = new System.Drawing.Size(75, 23);
-            this.TransF.TabIndex = 23;
-            this.TransF.Text = "Forward";
-            this.TransF.UseVisualStyleBackColor = true;
-            this.TransF.Click += new System.EventHandler(this.TransF_Click);
-            // 
             // gbRotate
             // 
             this.gbRotate.Controls.Add(this.lblzRotate);
@@ -612,9 +708,9 @@
             this.gbRotate.Controls.Add(this.xRotation);
             this.gbRotate.Controls.Add(this.lblxRotate);
             this.gbRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbRotate.Location = new System.Drawing.Point(887, 335);
+            this.gbRotate.Location = new System.Drawing.Point(887, 275);
             this.gbRotate.Name = "gbRotate";
-            this.gbRotate.Size = new System.Drawing.Size(246, 106);
+            this.gbRotate.Size = new System.Drawing.Size(246, 46);
             this.gbRotate.TabIndex = 20;
             this.gbRotate.TabStop = false;
             this.gbRotate.Text = "Rotate";
@@ -680,9 +776,9 @@
             this.gbScale.Controls.Add(this.xScaling);
             this.gbScale.Controls.Add(this.lblxScale);
             this.gbScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbScale.Location = new System.Drawing.Point(887, 447);
+            this.gbScale.Location = new System.Drawing.Point(887, 327);
             this.gbScale.Name = "gbScale";
-            this.gbScale.Size = new System.Drawing.Size(246, 106);
+            this.gbScale.Size = new System.Drawing.Size(246, 44);
             this.gbScale.TabIndex = 20;
             this.gbScale.TabStop = false;
             this.gbScale.Text = "Scale";
@@ -773,6 +869,8 @@
             this.Name = "MainPage";
             this.Text = "Computer Graphics - Term Project";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.MainPage_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainPage_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.gbMemUsage.ResumeLayout(false);
@@ -816,10 +914,6 @@
         private System.Windows.Forms.Label lblSS2;
         private System.Windows.Forms.Label lblSS1;
         private System.Windows.Forms.Button btnDeleteShape;
-        private System.Windows.Forms.Button btnTransR;
-        private System.Windows.Forms.Button btnTransD;
-        private System.Windows.Forms.Button btnTransU;
-        private System.Windows.Forms.Button btnTransL;
         private System.Windows.Forms.Button btnCamR;
         private System.Windows.Forms.Button btnCamD;
         private System.Windows.Forms.Button btnCamU;
@@ -832,8 +926,6 @@
         private System.Windows.Forms.GroupBox gbTranslate;
         private System.Windows.Forms.GroupBox gbRotate;
         private System.Windows.Forms.GroupBox gbScale;
-        private System.Windows.Forms.Button TransB;
-        private System.Windows.Forms.Button TransF;
         private System.Windows.Forms.ToolStripMenuItem miLoadMesh;
         private System.Windows.Forms.OpenFileDialog ofdMesh;
         private System.Windows.Forms.Button btnRCamL;
@@ -861,6 +953,21 @@
         private System.Windows.Forms.TextBox yScaling;
         private System.Windows.Forms.Label lblyScale;
         private System.Windows.Forms.GroupBox gbColor;
+        private System.Windows.Forms.Label lblCamRotZ;
+        private System.Windows.Forms.Label lblCamRotY;
+        private System.Windows.Forms.Label lblCamRotX;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblCamPosZ;
+        private System.Windows.Forms.Label lblCamPosY;
+        private System.Windows.Forms.Label lblCamPosX;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnResetCamera;
     }
 }
 
