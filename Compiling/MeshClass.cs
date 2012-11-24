@@ -56,6 +56,7 @@ namespace Graphics
             ObjectRotate = Vector3.Zero;
             World = Matrix.Identity;
             Name = fileName;
+            Type = "loadedMesh";
         }
 
         /// <summary>
@@ -101,6 +102,7 @@ namespace Graphics
             ObjectRotate = Vector3.Zero;
             World = Matrix.Translation(ObjectPosition);
             Name = type;
+            Type = "ShapeObject";
         }
 
         #region releasing resources
