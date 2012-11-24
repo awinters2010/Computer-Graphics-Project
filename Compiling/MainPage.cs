@@ -93,7 +93,8 @@ namespace Graphics
             lock (renderer.Shapes)
             {
                 renderer.Shapes.Add(new Cube());
-                
+                //renderer.Meshes.Add(new Mesh());
+
                 //there may be a better place to put this
                 AddToShapeList("Cube");
             }
@@ -208,6 +209,7 @@ namespace Graphics
                   if (DialogResult == DialogResult.Yes)
                   {
                       //code to remove shape
+                      txtNotificationArea.Text += "Shape deleted!\r\n";
                   }
                   else
                   {
@@ -217,6 +219,7 @@ namespace Graphics
             else
             {
                 MessageBox.Show("Delete failed: No Shape is selected!");
+                txtNotificationArea.Text += "Delete failed: No Shape is selected!\r\n";
             }
         }
 
@@ -466,6 +469,7 @@ namespace Graphics
                 catch (Exception ex)
                 {
                     //handel exception
+                    txtNotificationArea.Text += "Clear Scene failed: " + ex.Message + " \r\n";
                 }
                 finally
                 {
@@ -477,5 +481,11 @@ namespace Graphics
                 //do nothing
             }
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }

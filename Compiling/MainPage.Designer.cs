@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadMesh = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +45,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblNotArea = new System.Windows.Forms.Label();
             this.gbShapes = new System.Windows.Forms.GroupBox();
+            this.btnClearScene = new System.Windows.Forms.Button();
             this.btnDeleteShape = new System.Windows.Forms.Button();
             this.lblSS2 = new System.Windows.Forms.Label();
             this.lblSS1 = new System.Windows.Forms.Label();
@@ -72,19 +74,26 @@
             this.zTranslation = new System.Windows.Forms.TextBox();
             this.yTranslation = new System.Windows.Forms.TextBox();
             this.xTranslation = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblzTranslate = new System.Windows.Forms.Label();
+            this.lblyTranslate = new System.Windows.Forms.Label();
+            this.lblxTranslate = new System.Windows.Forms.Label();
             this.TransB = new System.Windows.Forms.Button();
             this.TransF = new System.Windows.Forms.Button();
             this.gbRotate = new System.Windows.Forms.GroupBox();
             this.xRotation = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblxRotate = new System.Windows.Forms.Label();
             this.gbScale = new System.Windows.Forms.GroupBox();
             this.xScaling = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblxScale = new System.Windows.Forms.Label();
             this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
-            this.btnClearScene = new System.Windows.Forms.Button();
+            this.yRotation = new System.Windows.Forms.TextBox();
+            this.zRotation = new System.Windows.Forms.TextBox();
+            this.lblzRotate = new System.Windows.Forms.Label();
+            this.lblyRotate = new System.Windows.Forms.Label();
+            this.yScaling = new System.Windows.Forms.TextBox();
+            this.lblyScale = new System.Windows.Forms.Label();
+            this.zScaling = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -116,7 +125,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miLoadMesh});
+            this.miLoadMesh,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -124,9 +134,16 @@
             // miLoadMesh
             // 
             this.miLoadMesh.Name = "miLoadMesh";
-            this.miLoadMesh.Size = new System.Drawing.Size(132, 22);
+            this.miLoadMesh.Size = new System.Drawing.Size(152, 22);
             this.miLoadMesh.Text = "Load Mesh";
             this.miLoadMesh.Click += new System.EventHandler(this.miLoadMesh_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // shapesToolStripMenuItem
             // 
@@ -153,7 +170,6 @@
             // 
             // txtNotificationArea
             // 
-            this.txtNotificationArea.Enabled = false;
             this.txtNotificationArea.Location = new System.Drawing.Point(258, 17);
             this.txtNotificationArea.Multiline = true;
             this.txtNotificationArea.Name = "txtNotificationArea";
@@ -255,6 +271,16 @@
             this.gbShapes.TabIndex = 11;
             this.gbShapes.TabStop = false;
             this.gbShapes.Text = "Shapes";
+            // 
+            // btnClearScene
+            // 
+            this.btnClearScene.Location = new System.Drawing.Point(116, 101);
+            this.btnClearScene.Name = "btnClearScene";
+            this.btnClearScene.Size = new System.Drawing.Size(108, 23);
+            this.btnClearScene.TabIndex = 9;
+            this.btnClearScene.Text = "Clear Scene";
+            this.btnClearScene.UseVisualStyleBackColor = true;
+            this.btnClearScene.Click += new System.EventHandler(this.btnClearScene_Click);
             // 
             // btnDeleteShape
             // 
@@ -509,9 +535,9 @@
             this.gbTranslate.Controls.Add(this.zTranslation);
             this.gbTranslate.Controls.Add(this.yTranslation);
             this.gbTranslate.Controls.Add(this.xTranslation);
-            this.gbTranslate.Controls.Add(this.label6);
-            this.gbTranslate.Controls.Add(this.label4);
-            this.gbTranslate.Controls.Add(this.label2);
+            this.gbTranslate.Controls.Add(this.lblzTranslate);
+            this.gbTranslate.Controls.Add(this.lblyTranslate);
+            this.gbTranslate.Controls.Add(this.lblxTranslate);
             this.gbTranslate.Controls.Add(this.TransB);
             this.gbTranslate.Controls.Add(this.btnTransR);
             this.gbTranslate.Controls.Add(this.TransF);
@@ -528,7 +554,7 @@
             // 
             // zTranslation
             // 
-            this.zTranslation.Location = new System.Drawing.Point(185, 13);
+            this.zTranslation.Location = new System.Drawing.Point(187, 19);
             this.zTranslation.Name = "zTranslation";
             this.zTranslation.Size = new System.Drawing.Size(51, 20);
             this.zTranslation.TabIndex = 32;
@@ -536,7 +562,7 @@
             // 
             // yTranslation
             // 
-            this.yTranslation.Location = new System.Drawing.Point(100, 14);
+            this.yTranslation.Location = new System.Drawing.Point(109, 20);
             this.yTranslation.Name = "yTranslation";
             this.yTranslation.Size = new System.Drawing.Size(51, 20);
             this.yTranslation.TabIndex = 31;
@@ -544,41 +570,41 @@
             // 
             // xTranslation
             // 
-            this.xTranslation.Location = new System.Drawing.Point(29, 13);
+            this.xTranslation.Location = new System.Drawing.Point(31, 19);
             this.xTranslation.Name = "xTranslation";
             this.xTranslation.Size = new System.Drawing.Size(51, 20);
             this.xTranslation.TabIndex = 30;
             this.xTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xTranslation_KeyDown);
             // 
-            // label6
+            // lblzTranslate
             // 
-            this.label6.AutoSize = true;
-            this.label6.Enabled = false;
-            this.label6.Location = new System.Drawing.Point(164, 20);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(15, 13);
-            this.label6.TabIndex = 29;
-            this.label6.Text = "Z";
+            this.lblzTranslate.AutoSize = true;
+            this.lblzTranslate.Enabled = false;
+            this.lblzTranslate.Location = new System.Drawing.Point(168, 26);
+            this.lblzTranslate.Name = "lblzTranslate";
+            this.lblzTranslate.Size = new System.Drawing.Size(15, 13);
+            this.lblzTranslate.TabIndex = 29;
+            this.lblzTranslate.Text = "Z";
             // 
-            // label4
+            // lblyTranslate
             // 
-            this.label4.AutoSize = true;
-            this.label4.Enabled = false;
-            this.label4.Location = new System.Drawing.Point(83, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(15, 13);
-            this.label4.TabIndex = 27;
-            this.label4.Text = "Y";
+            this.lblyTranslate.AutoSize = true;
+            this.lblyTranslate.Enabled = false;
+            this.lblyTranslate.Location = new System.Drawing.Point(91, 27);
+            this.lblyTranslate.Name = "lblyTranslate";
+            this.lblyTranslate.Size = new System.Drawing.Size(15, 13);
+            this.lblyTranslate.TabIndex = 27;
+            this.lblyTranslate.Text = "Y";
             // 
-            // label2
+            // lblxTranslate
             // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(7, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(15, 13);
-            this.label2.TabIndex = 25;
-            this.label2.Text = "X";
+            this.lblxTranslate.AutoSize = true;
+            this.lblxTranslate.Enabled = false;
+            this.lblxTranslate.Location = new System.Drawing.Point(9, 26);
+            this.lblxTranslate.Name = "lblxTranslate";
+            this.lblxTranslate.Size = new System.Drawing.Size(15, 13);
+            this.lblxTranslate.TabIndex = 25;
+            this.lblxTranslate.Text = "X";
             // 
             // TransB
             // 
@@ -602,8 +628,12 @@
             // 
             // gbRotate
             // 
+            this.gbRotate.Controls.Add(this.lblzRotate);
+            this.gbRotate.Controls.Add(this.zRotation);
+            this.gbRotate.Controls.Add(this.lblyRotate);
+            this.gbRotate.Controls.Add(this.yRotation);
             this.gbRotate.Controls.Add(this.xRotation);
-            this.gbRotate.Controls.Add(this.label3);
+            this.gbRotate.Controls.Add(this.lblxRotate);
             this.gbRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbRotate.Location = new System.Drawing.Point(887, 302);
             this.gbRotate.Name = "gbRotate";
@@ -620,20 +650,24 @@
             this.xRotation.TabIndex = 33;
             this.xRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xRotation_KeyDown);
             // 
-            // label3
+            // lblxRotate
             // 
-            this.label3.AutoSize = true;
-            this.label3.Enabled = false;
-            this.label3.Location = new System.Drawing.Point(7, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(15, 13);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "X";
+            this.lblxRotate.AutoSize = true;
+            this.lblxRotate.Enabled = false;
+            this.lblxRotate.Location = new System.Drawing.Point(7, 27);
+            this.lblxRotate.Name = "lblxRotate";
+            this.lblxRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblxRotate.TabIndex = 26;
+            this.lblxRotate.Text = "X";
             // 
             // gbScale
             // 
+            this.gbScale.Controls.Add(this.zScaling);
+            this.gbScale.Controls.Add(this.label10);
+            this.gbScale.Controls.Add(this.yScaling);
+            this.gbScale.Controls.Add(this.lblyScale);
             this.gbScale.Controls.Add(this.xScaling);
-            this.gbScale.Controls.Add(this.label5);
+            this.gbScale.Controls.Add(this.lblxScale);
             this.gbScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbScale.Location = new System.Drawing.Point(887, 430);
             this.gbScale.Name = "gbScale";
@@ -650,30 +684,88 @@
             this.xScaling.TabIndex = 34;
             this.xScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xScaling_KeyDown);
             // 
-            // label5
+            // lblxScale
             // 
-            this.label5.AutoSize = true;
-            this.label5.Enabled = false;
-            this.label5.Location = new System.Drawing.Point(7, 28);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(15, 13);
-            this.label5.TabIndex = 34;
-            this.label5.Text = "X";
+            this.lblxScale.AutoSize = true;
+            this.lblxScale.Enabled = false;
+            this.lblxScale.Location = new System.Drawing.Point(7, 28);
+            this.lblxScale.Name = "lblxScale";
+            this.lblxScale.Size = new System.Drawing.Size(15, 13);
+            this.lblxScale.TabIndex = 34;
+            this.lblxScale.Text = "X";
             // 
             // ofdMesh
             // 
             this.ofdMesh.Filter = "|*.x;";
             this.ofdMesh.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdMesh_FileOk);
             // 
-            // btnClearScene
+            // yRotation
             // 
-            this.btnClearScene.Location = new System.Drawing.Point(116, 101);
-            this.btnClearScene.Name = "btnClearScene";
-            this.btnClearScene.Size = new System.Drawing.Size(108, 23);
-            this.btnClearScene.TabIndex = 9;
-            this.btnClearScene.Text = "Clear Scene";
-            this.btnClearScene.UseVisualStyleBackColor = true;
-            this.btnClearScene.Click += new System.EventHandler(this.btnClearScene_Click);
+            this.yRotation.Location = new System.Drawing.Point(107, 19);
+            this.yRotation.Name = "yRotation";
+            this.yRotation.Size = new System.Drawing.Size(51, 20);
+            this.yRotation.TabIndex = 34;
+            // 
+            // zRotation
+            // 
+            this.zRotation.Location = new System.Drawing.Point(187, 19);
+            this.zRotation.Name = "zRotation";
+            this.zRotation.Size = new System.Drawing.Size(51, 20);
+            this.zRotation.TabIndex = 35;
+            // 
+            // lblzRotate
+            // 
+            this.lblzRotate.AutoSize = true;
+            this.lblzRotate.Enabled = false;
+            this.lblzRotate.Location = new System.Drawing.Point(172, 26);
+            this.lblzRotate.Name = "lblzRotate";
+            this.lblzRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblzRotate.TabIndex = 34;
+            this.lblzRotate.Text = "Z";
+            // 
+            // lblyRotate
+            // 
+            this.lblyRotate.AutoSize = true;
+            this.lblyRotate.Enabled = false;
+            this.lblyRotate.Location = new System.Drawing.Point(89, 27);
+            this.lblyRotate.Name = "lblyRotate";
+            this.lblyRotate.Size = new System.Drawing.Size(15, 13);
+            this.lblyRotate.TabIndex = 33;
+            this.lblyRotate.Text = "Y";
+            // 
+            // yScaling
+            // 
+            this.yScaling.Location = new System.Drawing.Point(105, 21);
+            this.yScaling.Name = "yScaling";
+            this.yScaling.Size = new System.Drawing.Size(51, 20);
+            this.yScaling.TabIndex = 35;
+            // 
+            // lblyScale
+            // 
+            this.lblyScale.AutoSize = true;
+            this.lblyScale.Enabled = false;
+            this.lblyScale.Location = new System.Drawing.Point(84, 28);
+            this.lblyScale.Name = "lblyScale";
+            this.lblyScale.Size = new System.Drawing.Size(15, 13);
+            this.lblyScale.TabIndex = 36;
+            this.lblyScale.Text = "Y";
+            // 
+            // zScaling
+            // 
+            this.zScaling.Location = new System.Drawing.Point(185, 19);
+            this.zScaling.Name = "zScaling";
+            this.zScaling.Size = new System.Drawing.Size(51, 20);
+            this.zScaling.TabIndex = 37;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Enabled = false;
+            this.label10.Location = new System.Drawing.Point(164, 26);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(15, 13);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Z";
             // 
             // MainPage
             // 
@@ -762,17 +854,26 @@
         private System.Windows.Forms.Button btnRCamR;
         private System.Windows.Forms.Button btnRCamU;
         private System.Windows.Forms.Button btnRCamD;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblzTranslate;
+        private System.Windows.Forms.Label lblyTranslate;
+        private System.Windows.Forms.Label lblxTranslate;
         private System.Windows.Forms.TextBox zTranslation;
         private System.Windows.Forms.TextBox yTranslation;
         private System.Windows.Forms.TextBox xTranslation;
         private System.Windows.Forms.TextBox xRotation;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblxRotate;
         private System.Windows.Forms.TextBox xScaling;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblxScale;
         private System.Windows.Forms.Button btnClearScene;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Label lblzRotate;
+        private System.Windows.Forms.TextBox zRotation;
+        private System.Windows.Forms.Label lblyRotate;
+        private System.Windows.Forms.TextBox yRotation;
+        private System.Windows.Forms.TextBox zScaling;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox yScaling;
+        private System.Windows.Forms.Label lblyScale;
     }
 }
 
