@@ -16,8 +16,17 @@ namespace Graphics
         public Vector3 ObjectScale { get; set; }
 
         private Material[] material;
-        private Mesh mesh;
-
+        private Mesh objectMesh;
+        public Mesh ObjectMesh { 
+            get {
+                return objectMesh;
+            } 
+            private set 
+            {
+                objectMesh = value;
+            }
+        }
+        
         /// <summary>
         /// Create a mesh from a .x File
         /// </summary>
@@ -25,20 +34,20 @@ namespace Graphics
         /// <param name="fileName">The name of the file</param>
         public MeshClass(string filePath, string fileName)
         {
-            mesh = Mesh.FromFile(DeviceManager.LocalDevice, filePath, MeshFlags.SystemMemory);
-            ExtendedMaterial[] m = mesh.GetMaterials();
-            material = new Material[m.Length];
-            CurrentTexture = new Texture[m.Length];
+            objectMesh = Mesh.FromFile(DeviceManager.LocalDevice, filePath, MeshFlags.SystemMemory);
+            ExtendedMaterial[] externMaterial = objectMesh.GetMaterials();
+            material = new Material[externMaterial.Length];
+            CurrentTexture = new Texture[externMaterial.Length];
 
-            for (int i = 0; i < m.Length; i++)
+            for (int i = 0; i < externMaterial.Length; i++)
             {
-                material[i] = m[i].MaterialD3D;
+                material[i] = externMaterial[i].MaterialD3D;
                 material[i].Ambient = material[i].Diffuse;
 
                 string s = filePath;
                 int index = s.IndexOf(fileName);
                 string tex = s.Remove(index);
-                s = tex.Insert(index, m[i].TextureFileName);
+                s = tex.Insert(index, externMaterial[i].TextureFileName);
 
                 CurrentTexture[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
             }
@@ -57,7 +66,7 @@ namespace Graphics
         {
             if (type == "cube")
             {
-                mesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
+                objectMesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
             }
             else if (type == "triangle")
             {
@@ -79,13 +88,13 @@ namespace Graphics
                     2, 0, 4,
                 };
 
-                mesh = new Mesh(DeviceManager.LocalDevice, 100, 100, MeshFlags.WriteOnly, VertexUntransformed.VertexDecl.Elements);
+                objectMesh = new Mesh(DeviceManager.LocalDevice, 100, 100, MeshFlags.WriteOnly, VertexUntransformed.VertexDecl.Elements);
 
-                mesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexUntransformed>(ShapeVertices);
-                mesh.UnlockVertexBuffer();
+                objectMesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexUntransformed>(ShapeVertices);
+                objectMesh.UnlockVertexBuffer();
 
-                mesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
-                mesh.UnlockIndexBuffer();
+                objectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
+                objectMesh.UnlockIndexBuffer();
             }
 
             ObjectPosition = Vector3.Zero;
@@ -111,7 +120,7 @@ namespace Graphics
                 }
             }
 
-            mesh.Dispose();
+            objectMesh.Dispose();
         }
 
         #endregion
@@ -137,7 +146,7 @@ namespace Graphics
                 }
             }
 
-            mesh.DrawSubset(0);
+            objectMesh.DrawSubset(0);
         }
 
         /// <summary>

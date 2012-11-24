@@ -172,11 +172,10 @@ namespace Graphics
         /// <param name="shape">the primitive that you wish to see if the mouse is currently hovering over</param>
         /// <param name="distance">the distance from the mouse to the shape</param>
         /// <returns>true is mouse is over that primitive; false otherwise</returns>
-        public bool RayCalculation(Vector2 mousePosition, IShape shape, out float distance)
+        public bool RayCalculation(Vector2 mousePosition, MeshClass mesh)
         {
             var mouseNear = new Vector3(mousePosition, 0.0f);
             var mouseFar = new Vector3(mousePosition, 1.0f);
-            var box = new BoundingBox();
 
             var mat = this.View * this.Projection * DeviceManager.LocalDevice.GetTransform(TransformState.World);
 
@@ -186,21 +185,9 @@ namespace Graphics
                 DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
 
             var direction = mouseFar - mouseNear;
-
             var selectionRay = new Ray(mouseNear, direction);
 
-            foreach (var vertex in shape.ShapeVertices)
-            {
-                box.Minimum.X = Math.Min(vertex.Position.X, box.Minimum.X);
-                box.Minimum.Y = Math.Min(vertex.Position.Y, box.Minimum.Y);
-                box.Minimum.Z = Math.Min(vertex.Position.Z, box.Minimum.Z);
-
-                box.Maximum.X = Math.Max(vertex.Position.X, box.Maximum.X);
-                box.Maximum.Y = Math.Max(vertex.Position.Y, box.Maximum.Y);
-                box.Maximum.Z = Math.Max(vertex.Position.Z, box.Maximum.Z);
-            }
-
-            return Ray.Intersects(selectionRay, box, out distance);
+            return mesh.ObjectMesh.Intersects(selectionRay);
         }
     }
 }
