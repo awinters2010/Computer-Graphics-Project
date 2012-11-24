@@ -130,6 +130,7 @@ namespace Graphics
             {
                 camera.MoveEyeZ(1f);
             }
+            Console.WriteLine(Environment.StackTrace);
         }
 
         /// <summary>
@@ -311,26 +312,11 @@ namespace Graphics
                 MessageBox.Show("Translation failed: No Shape is selected!");
             }
         }
-        private void MainPage_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-            {
-                //
-            }
-
-        }
         #endregion
 
         #region "Cameral Related Methods"
-        private void btnCamReset_Click(object sender, EventArgs e)
-        {
-            camera.ResetCamera();
-            SetCameraPosition();
-            SetCameraRotation();
-        }
         private void btnCamL_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             camera.MoveEyeX(-1);
         }
         private void btnCamR_Click(object sender, EventArgs e)
@@ -368,85 +354,6 @@ namespace Graphics
         private void btnRCamD_Click(object sender, EventArgs e)
         {
             camera.EyeRotation = new Vector3(0, 0, -1);
-=======
-            camera.MoveCameraX(-1);
-            SetCameraPosition();
-        }
-        private void btnCamR_Click(object sender, EventArgs e)
-        {
-            camera.MoveCameraX(1);
-            SetCameraPosition();
-        }
-        private void CamB_Click(object sender, EventArgs e)
-        {
-            camera.MoveCameraZ(1);
-            SetCameraPosition();
-        }
-        private void CamF_Click(object sender, EventArgs e)
-        {
-            camera.MoveCameraZ(-1);
-            SetCameraPosition();
-        }
-        private void btnCamU_Click(object sender, EventArgs e)
-        {
-            camera.MoveCameraY(1);
-            SetCameraPosition();
-        }
-        private void btnCamD_Click(object sender, EventArgs e)
-        {
-            camera.MoveCameraY(-1);
-            SetCameraPosition();
-        }
-        private void btnRCamL_Click(object sender, EventArgs e)
-        {
-            camera.RotateCamera(new Vector3(0,1,0));
-            SetCameraRotation();
-        }
-        private void btnRCamU_Click(object sender, EventArgs e)
-        {
-            camera.RotateCamera(new Vector3(0,0,1));
-            SetCameraRotation();
-        }
-        private void btnRCamR_Click(object sender, EventArgs e)
-        {
-            camera.RotateCamera(new Vector3(0,-1,0));
-            SetCameraRotation();
-        }
-        private void btnRCamD_Click(object sender, EventArgs e)
-        {
-            camera.RotateCamera(new Vector3(0,0,-1));
-            SetCameraRotation();
-        }
-        private void btnRCamB_Click(object sender, EventArgs e)
-        {
-            camera.RotateCamera(new Vector3(1, 0, 0));
-            SetCameraRotation();
-        }
-        private void btnRCamF_Click(object sender, EventArgs e)
-        {
-            camera.RotateCamera(new Vector3(-1, 0, 0));
-            SetCameraRotation();
-        }
-        /// <summary>
-        /// Enters the camera's current position into GUI labels
-        /// </summary>
-        private void SetCameraPosition()
-        {
-            Vector3 cameraLocation = camera.CameraPosition();
-            lblCamXPos.Text = cameraLocation.X.ToString();
-            lblCamYPos.Text = cameraLocation.Y.ToString();
-            lblCamZPos.Text = cameraLocation.Z.ToString();
-        }
-        /// <summary>
-        /// Enters the camera's current position into GUI labels
-        /// </summary>
-        private void SetCameraRotation()
-        {
-            Vector3 cameraRotate = camera.Rotate;
-            lblCamXRot.Text = cameraRotate.X.ToString();
-            lblCamYRot.Text = cameraRotate.Y.ToString();
-            lblCamZRot.Text = cameraRotate.Z.ToString();
->>>>>>> 1cb40295f25c9a89e70c317e644f22024a5610bb
         }
         #endregion
 

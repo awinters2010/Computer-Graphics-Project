@@ -1,7 +1,6 @@
 ﻿using System;
 using SlimDX.Direct3D9;
 using SlimDX;
-using System.Drawing;
 
 namespace Graphics
 {
@@ -13,14 +12,11 @@ namespace Graphics
         public Vector3 Position { get; set; }
         public Matrix World { get; set; }
         public Vector3 Roate { get; set; }
+        VertexBuffer vBuffer;
+        IndexBuffer iBuffer;
         public string Type { get; private set; }
         public string Name { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file"></param>
-        /// <param name="fileName"></param>
         public MeshClass(string file, string fileName)
         {
             mesh = Mesh.FromFile(DeviceManager.LocalDevice, file, MeshFlags.SystemMemory);
@@ -43,53 +39,18 @@ namespace Graphics
 
             Position = Vector3.Zero;
             World = Matrix.Identity;
-            Name = fileName;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
         public MeshClass(string type)
         {
             if (type == "cube")
             {
-                mesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
+                //mesh = new Mesh(DeviceManager.LocalDevice, 100, 100, options, vDec);
             }
             else if (type == "triangle")
             {
-                var ShapeVertices = new VertexUntransformed[] {
-                    new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-2f, 0f, 1f) },
-                    new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(2f, 0f, 1f) },
-                    new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-2f, 0f, -1f) },
-                    new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(2f, 0f, -1f) },
-
-                    new VertexUntransformed() { Color = Color.Orange.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
-                };
-
-                var ShapeIndices = new short[] {
-                    0, 2, 1,    // base
-                    1, 2, 3,
-                    0, 1, 4,    // sides
-                    1, 3, 4,
-                    3, 2, 4,
-                    2, 0, 4,
-                };
-
-                mesh = new Mesh(DeviceManager.LocalDevice, 100, 100, MeshFlags.WriteOnly, VertexUntransformed.VertexDecl.Elements);
-
-                mesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexUntransformed>(ShapeVertices);
-                mesh.UnlockVertexBuffer();
-
-                mesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
-                mesh.UnlockIndexBuffer();
-
                 //mesh = new Mesh(DeviceManager.LocalDevice, faceCount, vertexCount, options, vDec);
             }
-
-            Position = Vector3.Zero;
-            World = Matrix.Translation(Position);
-            Name = type;
         }
 
         ~MeshClass()
@@ -99,12 +60,9 @@ namespace Graphics
 
         public void Dispose()
         {
-            if (CurrentTexture != null)
+            for (int i = 0; i < CurrentTexture.Length; i++)
             {
-                for (int i = 0; i < CurrentTexture.Length; i++)
-                {
-                    CurrentTexture[i].Dispose();
-                }
+                CurrentTexture[i].Dispose();
             }
 
             mesh.Dispose();
@@ -115,25 +73,17 @@ namespace Graphics
             World = Matrix.Translation(Position);
             DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
 
-            if (material != null)
+            foreach (var item in material)
             {
-                foreach (var item in material)
-                {
-                    DeviceManager.LocalDevice.Material = item;
-                }
+                DeviceManager.LocalDevice.Material = item;
             }
 
-            if (CurrentTexture != null)
+            foreach (var item in CurrentTexture)
             {
-                foreach (var item in CurrentTexture)
-                {
-                    DeviceManager.LocalDevice.SetTexture(0, item);
-                }
+                DeviceManager.LocalDevice.SetTexture(0, item);
             }
 
             mesh.DrawSubset(0);
         }
-
-
     }
 }
