@@ -317,26 +317,32 @@ namespace Graphics
         private void btnCamL_Click(object sender, EventArgs e)
         {
             camera.MoveCameraX(-1);
+            SetCameraPosition();
         }
         private void btnCamR_Click(object sender, EventArgs e)
         {
             camera.MoveCameraX(1);
+            SetCameraPosition();
         }
         private void CamB_Click(object sender, EventArgs e)
         {
             camera.MoveCameraZ(1);
+            SetCameraPosition();
         }
         private void CamF_Click(object sender, EventArgs e)
         {
             camera.MoveCameraZ(-1);
+            SetCameraPosition();
         }
         private void btnCamU_Click(object sender, EventArgs e)
         {
             camera.MoveCameraY(1);
+            SetCameraPosition();
         }
         private void btnCamD_Click(object sender, EventArgs e)
         {
             camera.MoveCameraY(-1);
+            SetCameraPosition();
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
@@ -353,6 +359,25 @@ namespace Graphics
         private void btnRCamD_Click(object sender, EventArgs e)
         {
             camera.RotateCamera(new Vector3(0,0,-1));
+        }
+        /// <summary>
+        /// Enters the camera's current position into GUI labels
+        /// </summary>
+        private void SetCameraPosition()
+        {
+            Vector3 cameraLocation = camera.CameraPosition();
+            lblCamXPos.Text = cameraLocation.X.ToString();
+            lblCamYPos.Text = cameraLocation.Y.ToString();
+            lblCamZPos.Text = cameraLocation.Z.ToString();
+        }
+        /// <summary>
+        /// Enters the camera's current position into GUI labels
+        /// </summary>
+        private void SetCameraRotation()
+        {
+            //lblCamXRot.Text = 
+            //lblCamYRot.Text =
+            //lblCamZRot.Text =
         }
         #endregion
 
@@ -481,6 +506,11 @@ namespace Graphics
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void gbCamera_Enter(object sender, EventArgs e)
+        {
+
         }
 
     }
