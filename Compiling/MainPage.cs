@@ -130,7 +130,6 @@ namespace Graphics
             {
                 camera.MoveCameraZ(1f);
             }
-            Console.WriteLine(Environment.StackTrace);
         }
 
         /// <summary>
