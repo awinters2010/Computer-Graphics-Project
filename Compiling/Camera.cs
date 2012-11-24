@@ -6,7 +6,8 @@ namespace Graphics
 {
     public class Camera
     {
-        private Vector3 Eye;
+        private Vector3 eye;
+        public Vector3 Eye { get; private set;}
         // what we are looking at (location)
         private Vector3 LookAt;
         // which way is up
@@ -119,7 +120,7 @@ namespace Graphics
         /// <param name="units">number of units you want to move</param>
         public void MoveCameraX(float units)
         {
-            Eye.X += units;
+            eye.X += units;
             View = Matrix.Translation(Eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
@@ -130,8 +131,8 @@ namespace Graphics
         /// <param name="units">number of units you want to move</param>
         public void MoveCameraY(float units)
         {
-            Eye.Y += units;
-            Matrix.Translation(ref Eye, out View);
+            eye.Y += units;
+            Matrix.Translation(ref eye, out View);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
@@ -141,7 +142,7 @@ namespace Graphics
         /// <param name="units">number of units you want to move</param>
         public void MoveCameraZ(float units)
         {
-            Eye.Z += units;
+            eye.Z += units;
             View = Matrix.Translation(Eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
@@ -198,16 +199,5 @@ namespace Graphics
 
             return Ray.Intersects(selectionRay, box, out distance);
         }
-
-        /// <summary>
-        /// The position of the camera
-        /// </summary>
-        /// <returns>returns a vector3 which has the x, y, and z of the camera</returns>
-        public Vector3 CameraPosition()
-        {
-            return Eye;
-        }
-        
-        
     }
 }
