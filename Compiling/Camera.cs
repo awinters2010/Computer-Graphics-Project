@@ -185,32 +185,15 @@ namespace Graphics
 
             var selectionRay = new Ray(mouseNear, direction);
 
-            for (int i = 0; i < shape.ShapeVertices.Length; i++)
+            foreach (var vertex in shape.ShapeVertices)
             {
-                if (shape.ShapeVertices[i].Position.X < box.Minimum.X)
-                {
-                    box.Minimum.X = shape.ShapeVertices[i].Position.X;
-                }
-                if (shape.ShapeVertices[i].Position.Y < box.Minimum.Y)
-                {
-                    box.Minimum.Y = shape.ShapeVertices[i].Position.Y;
-                }
-                if (shape.ShapeVertices[i].Position.Z < box.Minimum.Z)
-                {
-                    box.Minimum.Z = shape.ShapeVertices[i].Position.Z;
-                }
-                if (shape.ShapeVertices[i].Position.X > box.Maximum.X)
-                {
-                    box.Maximum.X = shape.ShapeVertices[i].Position.X;
-                }
-                if (shape.ShapeVertices[i].Position.Y > box.Maximum.Y)
-                {
-                    box.Maximum.Y = shape.ShapeVertices[i].Position.Y;
-                }
-                if (shape.ShapeVertices[i].Position.Z > box.Maximum.Z)
-                {
-                    box.Maximum.Z = shape.ShapeVertices[i].Position.Z;
-                }
+                box.Minimum.X = Math.Min(vertex.Position.X, box.Minimum.X);
+                box.Minimum.Y = Math.Min(vertex.Position.Y, box.Minimum.Y);
+                box.Minimum.Z = Math.Min(vertex.Position.Z, box.Minimum.Z);
+
+                box.Maximum.X = Math.Max(vertex.Position.X, box.Maximum.X);
+                box.Maximum.Y = Math.Max(vertex.Position.Y, box.Maximum.Y);
+                box.Maximum.Z = Math.Max(vertex.Position.Z, box.Maximum.Z);
             }
 
             return Ray.Intersects(selectionRay, box, out distance);

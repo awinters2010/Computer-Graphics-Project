@@ -78,20 +78,17 @@ namespace Graphics
 
                 lock (Shapes)
                 {
-                    if (Shapes.Count != 0)
+                    for (int i = 0; i < Shapes.Count; i++)
                     {
-                        for (int i = 0; i < Shapes.Count; i++)
+                        if (Shapes[i].Type == "cube")
                         {
-                            if (Shapes[i].Type == "cube")
-                            {
-                                Shapes[i].Render();
-                                DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
-                            }
-                            else if (Shapes[i].Type == "triangle")
-                            {
-                                Shapes[i].Render();
-                                DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
-                            }
+                            Shapes[i].Render();
+                            DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
+                        }
+                        else if (Shapes[i].Type == "triangle")
+                        {
+                            Shapes[i].Render();
+                            DeviceManager.LocalDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verticesCount, 0, indiciesCount / 3);
                         }
                     }
                 }
