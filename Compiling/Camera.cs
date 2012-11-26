@@ -128,40 +128,16 @@ namespace Graphics
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
-        public void MoveEye(float x, float y, float z)
-        {
-
-        }
-
         /// <summary>
-        /// move the camera along the x axis in x amount of units
+        /// move the camera along the axis by the specified amount
         /// </summary>
         /// <param name="units">number of units you want to move</param>
-        public void MoveEyeX(float units)
+        public void MoveEye(float x = 0, float y = 0, float z = 0)
         {
-            eye.X += units;
-            View = Matrix.Translation(eye);
-            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
-        }
+            eye.X += x;
+            eye.Y += y;
+            eye.Z += z;
 
-        /// <summary>
-        /// move the camera along the y axis in x amount of units
-        /// </summary>
-        /// <param name="units">number of units you want to move</param>
-        public void MoveEyeY(float units)
-        {
-            eye.Y += units;
-            Matrix.Translation(ref eye, out View);
-            DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
-        }
-
-        /// <summary>
-        /// move the camera along the z axis in x amount of units
-        /// </summary>
-        /// <param name="units">number of units you want to move</param>
-        public void MoveEyeZ(float units)
-        {
-            eye.Z += units;
             View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }

@@ -7,11 +7,11 @@ namespace Graphics
 {
     public enum MeshType
     {
-        cube,
-        triangle,
-        cylinder,
-        cone,
-        teapot,
+        Cube,
+        Triangle,
+        Cylinder,
+        Cone,
+        Teapot,
     }
 
     public class MeshClass : IDisposable
@@ -77,18 +77,17 @@ namespace Graphics
         /// <param name="type">the name of the object you wish to create</param>
         public MeshClass(MeshType type)
         {
-            if (type == MeshType.cube)
+            if (type == MeshType.Cube)
             {
                 objectMesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
             }
-            else if (type == MeshType.triangle)
+            else if (type == MeshType.Triangle)
             {
                 var ShapeVertices = new VertexUntransformed[] {
                     new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
                     new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
                     new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, -1f) },
                     new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, -1f) },
-
                     new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
                 };
 
@@ -143,9 +142,9 @@ namespace Graphics
                 {
                     if (CurrentTexture != null)
                     {
-                        for (int i = 0; i < CurrentTexture.Length; i++)
+                        foreach (var ct in CurrentTexture)
                         {
-                            CurrentTexture[i].Dispose();
+                            ct.Dispose();
                         }
                     }
 

@@ -73,7 +73,7 @@ namespace Graphics
         {
             lock (renderer.Meshes)
             {
-                renderer.Meshes.Add(new MeshClass(MeshType.cube));
+                renderer.Meshes.Add(new MeshClass(MeshType.Cube));
                 //renderer.Meshes.Add(new Mesh());
 
                 //there may be a better place to put this
@@ -86,7 +86,7 @@ namespace Graphics
         {
             lock (renderer.Meshes)
             {
-                renderer.Meshes.Add(new MeshClass(MeshType.triangle));
+                renderer.Meshes.Add(new MeshClass(MeshType.Triangle));
 
                 //there may be a better place to put this
                 AddToShapeList("Triangle");
@@ -109,7 +109,7 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
             {
-                camera.MoveEyeZ(1f);
+                camera.MoveEye(z: 1f);
             }
         }
 
@@ -197,32 +197,32 @@ namespace Graphics
         }
         private void btnCamL_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeX(-1);
+            camera.MoveEye(x: -1);
             UpdateCameraLocation();
         }
         private void btnCamR_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeX(1);
+            camera.MoveEye(x: 1);
             UpdateCameraLocation();
         }
         private void CamB_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeZ(1);
+            camera.MoveEye(z: 1);
             UpdateCameraLocation();
         }
         private void CamF_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeZ(-1);
+            camera.MoveEye(z: -1);
             UpdateCameraLocation();
         }
         private void btnCamU_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeY(1);
+            camera.MoveEye(y: 1);
             UpdateCameraLocation();
         }
         private void btnCamD_Click(object sender, EventArgs e)
         {
-            camera.MoveEyeY(-1);
+            camera.MoveEye(y: -1);
             UpdateCameraLocation();
         }
         private void btnRCamL_Click(object sender, EventArgs e)
