@@ -64,7 +64,7 @@ namespace Graphics
             LookAt = Vector3.Zero;
             Up = Vector3.UnitY;
 
-            View = Matrix.LookAtLH(eye, LookAt, Up);
+            View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
 
             FOV = (float)Math.PI / 4.0f;
@@ -91,7 +91,7 @@ namespace Graphics
             this.eye = eye;
             this.LookAt = lookat;
             this.Up = up;
-            View = Matrix.LookAtLH(this.eye, LookAt, this.Up);
+            View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
             //System.Diagnostics.Debug.WriteLine(view.ToString());
         }
@@ -124,7 +124,7 @@ namespace Graphics
         {
             this.eye = eye;
             this.LookAt = lookAt;
-            View = Matrix.LookAtLH(this.eye, this.LookAt, Up);
+            View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
@@ -173,14 +173,13 @@ namespace Graphics
         {
             cameraRotation = Vector3.Zero;
 
-
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
             eye = new Vector3(0, 0, 3.5f);
             LookAt = Vector3.Zero;
             Up = Vector3.UnitY;
 
-            View = Matrix.LookAtLH(eye, LookAt, Up);
+            View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
