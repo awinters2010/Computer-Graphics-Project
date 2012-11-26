@@ -44,6 +44,7 @@ namespace Graphics
 
             DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
             DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
 
 
             //set GUI control attributes
