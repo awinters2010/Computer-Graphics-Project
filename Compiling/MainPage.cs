@@ -11,6 +11,8 @@ namespace Graphics
 {
     public partial class MainPage : Form
     {
+        #region Variables
+
         //the thread that the graphics will be running in so the UI doesn't lock up.
         private Thread renderThread;
 
@@ -28,6 +30,8 @@ namespace Graphics
         Point p;
         bool objectSelected = false;
 
+        #endregion
+
         public MainPage()
         {
             //don't touch this method. microsoft created
@@ -38,9 +42,9 @@ namespace Graphics
 
             camera = new Camera();
 
-            camera.SetView(new Vector3(0, 0, 3.5f), Vector3.Zero, Vector3.UnitY);
-
             DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
+
 
             //set GUI control attributes
             SetGui();
@@ -55,35 +59,11 @@ namespace Graphics
             Init();
         }
 
-        public void Init()
+        private void Init()
         {
             renderThread = new Thread(new ThreadStart(renderer.RenderScene));
             renderThread.Start();
         }
-
-        #region Program Shutdown
-
-        //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
-        public void ShutDown()
-        {
-            renderer.RequestShutdown();
-
-            VertexUntransformed.VertexDecl.Dispose();
-
-            while (!DeviceManager.LocalDevice.Disposed)
-            {
-                DeviceManager.LocalDevice.EvictManagedResources();
-                DeviceManager.LocalDevice.Direct3D.Dispose();
-                DeviceManager.LocalDevice.Dispose();
-            }
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ShutDown();
-        }
-
-        #endregion
 
         #region Shape Menu Drawing
 
@@ -92,7 +72,7 @@ namespace Graphics
         {
             lock (renderer.Meshes)
             {
-                renderer.Meshes.Add(new MeshClass("cube"));
+                renderer.Meshes.Add(new MeshClass(MeshType.cube));
                 //renderer.Meshes.Add(new Mesh());
 
                 //there may be a better place to put this
@@ -105,7 +85,8 @@ namespace Graphics
         {
             lock (renderer.Meshes)
             {
-                renderer.Meshes.Add(new MeshClass("triangle"));
+                renderer.Meshes.Add(new MeshClass(MeshType.triangle));
+
                 //there may be a better place to put this
                 AddToShapeList("Triangle");
             }
@@ -130,8 +111,6 @@ namespace Graphics
             {
                 camera.MoveEyeZ(1f);
             }
-
-            Console.WriteLine(Environment.StackTrace);
         }
 
         /// <summary>
@@ -162,6 +141,7 @@ namespace Graphics
         }
 
         #region "Shape DropDownList Related Methods"
+
         /// <summary>
         /// Adds a new shape to the shape list combo box
         /// </summary>
@@ -172,6 +152,8 @@ namespace Graphics
 
             //create new object, set ID = shape count, set description to shape type
             ShapeListItem sliToAdd = new ShapeListItem(renderer.Meshes.Count, ShapeDesc);
+
+            Console.WriteLine(sliToAdd.ToString());
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
@@ -195,127 +177,18 @@ namespace Graphics
                 yTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Y.ToString();
                 zTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Z.ToString();
                 xRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
+                yRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
+                zRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
                 xScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
+                yScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
+                zScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
             }
         }
+
         #endregion
 
-        private void btnDeleteShape_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-                  DialogResult = MessageBox.Show("Are you SURE you want to Delete this object!? \n Please select one option Yes/No",
-                                                "Conditional", MessageBoxButtons.YesNo,  MessageBoxIcon.Information);
+        #region Camera Related Methods
 
-                  if (DialogResult == DialogResult.Yes)
-                  {
-                      //code to remove shape
-                  }
-                  else
-                  {
-                      //do nothing
-                  }
-            }
-            else
-            {
-                MessageBox.Show("Delete failed: No Object is selected!");
-            }
-        }
-
-        #region "Translation Related Methods"
-        private void btnTransL_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-            //get index (id) of selected shape
-            ShapeListItem sliSelected = new ShapeListItem(1, "");
-            sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
-
-            renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X - 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
-            }
-            else
-            {
-                MessageBox.Show("Translation failed: No Shape is selected!");
-            }
-        }
-        private void btnTransU_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-                //get index (id) of selected shape
-                ShapeListItem sliSelected = new ShapeListItem(1, "");
-                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
-
-                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y + 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
-            }
-            else
-            {
-                MessageBox.Show("Translation failed: No Shape is selected!");
-            }
-        }
-        private void btnTransR_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-                //get index (id) of selected shape
-                ShapeListItem sliSelected = new ShapeListItem(1, "");
-                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
-
-                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X + 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
-            }
-            else
-            {
-                MessageBox.Show("Translation failed: No Shape is selected!");
-            }
-        }
-        private void btnTransD_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-                //get index (id) of selected shape
-                ShapeListItem sliSelected = new ShapeListItem(1, "");
-                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
-
-                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y - 1, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z);
-            }
-            else
-            {
-                MessageBox.Show("Translation failed: No Shape is selected!");
-            }
-        }
-        private void TransB_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-                //get index (id) of selected shape
-                ShapeListItem sliSelected = new ShapeListItem(1, "");
-                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
-
-                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z + 1);
-            }
-            else
-            {
-                MessageBox.Show("Translation failed: No Shape is selected!");
-            }
-        }
-        private void TransF_Click(object sender, EventArgs e)
-        {
-            if (lblSS2.Text != "<none>")
-            {
-                //get index (id) of selected shape
-                ShapeListItem sliSelected = new ShapeListItem(1, "");
-                sliSelected = (ShapeListItem)cboShapeList.SelectedItem;
-
-                renderer.Meshes[sliSelected.ID - 1].Translate(renderer.Meshes[sliSelected.ID - 1].ObjectPosition.X, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Y, renderer.Meshes[sliSelected.ID - 1].ObjectPosition.Z - 1);
-            }
-            else
-            {
-                MessageBox.Show("Translation failed: No Shape is selected!");
-            }
-        }
-        #endregion
-
-        #region "Cameral Related Methods"
         private void btnResetCamera_Click(object sender, EventArgs e)
         {
             camera.ResetEye();
@@ -359,7 +232,7 @@ namespace Graphics
         }
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, 0, 1);
+            camera.CameraRotation = new Vector3(1f, 0, 0);
             UpdateCameraRotation();
         }
         private void btnRCamR_Click(object sender, EventArgs e)
@@ -369,26 +242,26 @@ namespace Graphics
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, 0, -1);
+            camera.CameraRotation = new Vector3(-1f, 0, 0);
             UpdateCameraRotation();
         }
         private void UpdateCameraLocation()
         {
             lblCamPosX.Text = camera.Eye.X.ToString();
-            lblCamPosX.Text = camera.Eye.Y.ToString();
-            lblCamPosX.Text = camera.Eye.Z.ToString();
+            lblCamPosY.Text = camera.Eye.Y.ToString();
+            lblCamPosZ.Text = camera.Eye.Z.ToString();
         }
         private void UpdateCameraRotation()
         {
-            Vector3 camLoc = new Vector3();
-            camLoc = camera.CameraRotation;
-            lblCamRotX.Text = camLoc.X.ToString();
-            lblCamRotY.Text = camLoc.Y.ToString();
-            lblCamRotZ.Text = camLoc.Z.ToString();
+            lblCamRotX.Text = camera.CameraRotation.X.ToString();
+            lblCamRotY.Text = camera.CameraRotation.Y.ToString();
+            lblCamRotZ.Text = camera.CameraRotation.Z.ToString();
         }
+
         #endregion
 
-        #region "Mesh Loading Functions"
+        #region Mesh Loading Functions
+
         private void miLoadMesh_Click(object sender, EventArgs e)
         {
             ofdMesh.ShowDialog();
@@ -399,35 +272,36 @@ namespace Graphics
             //Try to read file
             try
             {
-                string file = ofdMesh.FileName;
-                string fileName = ofdMesh.SafeFileName;
-                Console.WriteLine(ofdMesh.SafeFileName);
-                if (File.Exists(file))
+                if (File.Exists(ofdMesh.FileName))
                 {
                     //Make sure it's a .x file
-                    if (file.ToUpper().Contains(".X"))
+                    if (ofdMesh.FileName.ToUpper().Contains(".X") || ofdMesh.FileName.ToLower().Contains(".x"))
                     {
                         //Code to load Mesh
-                        Console.WriteLine(file.ToString());
-                        renderer.Meshes.Add(new MeshClass(file, fileName));
+                        renderer.Meshes.Add(new MeshClass(ofdMesh.FileName, ofdMesh.SafeFileName));
+
+                        AddToShapeList(ofdMesh.SafeFileName);
                     }
                     else
                     {
-                        MessageBox.Show("The file " + file + " is not a valid .x Mesh file!");
+                        MessageBox.Show("The file " + ofdMesh.FileName + " is not a valid .x Mesh file!");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("The file " + file + " does not exist!");
+                    MessageBox.Show("The file " + ofdMesh.FileName + " does not exist!");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error has occured trying to load Mesh file!");
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
+
         #endregion
+
+        #region Shape Movement
 
         private void xTranslation_KeyDown(object sender, KeyEventArgs e)
         {
@@ -468,7 +342,29 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), 0, 0);
+                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), float.Parse(yRotation.Text), float.Parse(zRotation.Text));
+                }
+            }
+        }
+
+        private void yRotation_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), float.Parse(yRotation.Text), float.Parse(zRotation.Text));
+                }
+            }
+        }
+
+        private void zRotation_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), float.Parse(yRotation.Text), float.Parse(zRotation.Text));
                 }
             }
         }
@@ -479,10 +375,36 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), 1, 1));
+                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), float.Parse(yScaling.Text), float.Parse(zScaling.Text)));
                 }
             }
         }
+
+        private void yScaling_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), float.Parse(yScaling.Text), float.Parse(zScaling.Text)));
+                }
+            }
+        }
+
+        private void zScaling_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), float.Parse(yScaling.Text), float.Parse(zScaling.Text)));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Deletion
 
         private void btnClearScene_Click(object sender, EventArgs e)
         {
@@ -510,24 +432,67 @@ namespace Graphics
             }
         }
 
+        private void btnDeleteShape_Click(object sender, EventArgs e)
+        {
+            if (lblSS2.Text != "<none>")
+            {
+                DialogResult = MessageBox.Show("Are you SURE you want to Delete this object!? \n Please select one option Yes/No",
+                                              "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                if (DialogResult == DialogResult.Yes)
+                {
+                    //code to remove shape
+                    if (cboShapeList.SelectedIndex != -1)
+                    {
+                        lock (renderer.Meshes)
+                        {
+                            renderer.Meshes[cboShapeList.SelectedIndex].Dispose();
+                            renderer.Meshes.RemoveAt(cboShapeList.SelectedIndex);
+                            cboShapeList.Items.RemoveAt(cboShapeList.SelectedIndex);
+                            UpdateShapeCount();
+                        }
+                    }
+                }
+                else
+                {
+                    //do nothing
+                }
+            }
+            else
+            {
+                MessageBox.Show("Delete failed: No Object is selected!");
+            }
+        }
+
+        #endregion
+
+        #region Program Shutdown
+
+        //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
+        private void ShutDown()
+        {
+            renderer.RequestShutdown();
+
+            VertexUntransformed.VertexDecl.Dispose();
+
+            while (!DeviceManager.LocalDevice.Disposed)
+            {
+                DeviceManager.LocalDevice.EvictManagedResources();
+                DeviceManager.LocalDevice.Direct3D.Dispose();
+                DeviceManager.LocalDevice.Dispose();
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ShutDown();
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void MainPage_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MainPage_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.Enter)
-            {
-                //translate rotate scale by values in textboxes
-            }
-        }
-
-
+        #endregion 
     }
 }

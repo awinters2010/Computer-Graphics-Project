@@ -731,6 +731,7 @@
             this.zRotation.Name = "zRotation";
             this.zRotation.Size = new System.Drawing.Size(51, 20);
             this.zRotation.TabIndex = 35;
+            this.zRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zRotation_KeyDown);
             // 
             // lblyRotate
             // 
@@ -748,6 +749,7 @@
             this.yRotation.Name = "yRotation";
             this.yRotation.Size = new System.Drawing.Size(51, 20);
             this.yRotation.TabIndex = 34;
+            this.yRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yRotation_KeyDown);
             // 
             // xRotation
             // 
@@ -789,6 +791,7 @@
             this.zScaling.Name = "zScaling";
             this.zScaling.Size = new System.Drawing.Size(51, 20);
             this.zScaling.TabIndex = 37;
+            this.zScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zScaling_KeyDown);
             // 
             // label10
             // 
@@ -806,6 +809,7 @@
             this.yScaling.Name = "yScaling";
             this.yScaling.Size = new System.Drawing.Size(51, 20);
             this.yScaling.TabIndex = 35;
+            this.yScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yScaling_KeyDown);
             // 
             // lblyScale
             // 
@@ -869,8 +873,6 @@
             this.Name = "MainPage";
             this.Text = "Computer Graphics - Term Project";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.MainPage_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainPage_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.gbMemUsage.ResumeLayout(false);
