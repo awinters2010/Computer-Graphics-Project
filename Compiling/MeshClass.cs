@@ -20,7 +20,7 @@ namespace Graphics
         public Vector3 ObjectPosition { get; set; }
         public Matrix World { get; set; }
         public Vector3 ObjectRotate { get; set; }
-        public string Type { get; private set; }
+        public bool IsShapeObject { get; private set; }
         public string Name { get; set; }
         public Vector3 ObjectScale { get; set; }
 
@@ -68,7 +68,7 @@ namespace Graphics
             ObjectScale = new Vector3(1, 1, 1);
             World = Matrix.Identity;
             Name = fileName;
-            Type = "loadedMesh";
+            IsShapeObject = false;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Graphics
             ObjectScale = new Vector3(1, 1, 1);
             World = Matrix.Translation(ObjectPosition);
             Name = type.ToString();
-            Type = "ShapeObject";
+            IsShapeObject = true;
         }
 
         #region releasing resources
