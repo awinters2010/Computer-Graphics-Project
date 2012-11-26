@@ -52,8 +52,8 @@ namespace Graphics
             set
             {
                 cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
-                Matrix result = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
-                DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
+                View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
+                DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
             }
         }
 
