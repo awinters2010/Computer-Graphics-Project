@@ -5,6 +5,15 @@ using System.Drawing;
 
 namespace Graphics
 {
+    public enum MeshType
+    {
+        cube,
+        triangle,
+        cylinder,
+        cone,
+        teapot,
+    }
+
     public class MeshClass : IDisposable
     {
         public Texture[] CurrentTexture { get; set; }
@@ -26,6 +35,8 @@ namespace Graphics
                 objectMesh = value;
             }
         }
+
+        private bool _dispose = false;
         
         /// <summary>
         /// Create a mesh from a .x File
@@ -46,14 +57,15 @@ namespace Graphics
 
                 string s = filePath;
                 int index = s.IndexOf(fileName);
-                string tex = s.Remove(index);
-                s = tex.Insert(index, externMaterial[i].TextureFileName);
+                s = s.Remove(index);
+                s = s.Insert(index, externMaterial[i].TextureFileName);
 
                 CurrentTexture[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
             }
 
             ObjectPosition = Vector3.Zero;
             ObjectRotate = Vector3.Zero;
+            ObjectScale = new Vector3(1, 1, 1);
             World = Matrix.Identity;
             Name = fileName;
             Type = "loadedMesh";
@@ -63,21 +75,21 @@ namespace Graphics
         /// For creating shape objects
         /// </summary>
         /// <param name="type">the name of the object you wish to create</param>
-        public MeshClass(string type)
+        public MeshClass(MeshType type)
         {
-            if (type == "cube")
+            if (type == MeshType.cube)
             {
                 objectMesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
             }
-            else if (type == "triangle")
+            else if (type == MeshType.triangle)
             {
                 var ShapeVertices = new VertexUntransformed[] {
-                    new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(-2f, 0f, 1f) },
-                    new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(2f, 0f, 1f) },
-                    new VertexUntransformed() { Color = Color.Blue.ToArgb(), Position = new Vector3(-2f, 0f, -1f) },
-                    new VertexUntransformed() { Color = Color.Red.ToArgb(), Position = new Vector3(2f, 0f, -1f) },
+                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
+                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
+                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, -1f) },
+                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, -1f) },
 
-                    new VertexUntransformed() { Color = Color.Orange.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
+                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
                 };
 
                 var ShapeIndices = new short[] {
@@ -100,8 +112,9 @@ namespace Graphics
 
             ObjectPosition = Vector3.Zero;
             ObjectRotate = Vector3.Zero;
+            ObjectScale = new Vector3(1, 1, 1);
             World = Matrix.Translation(ObjectPosition);
-            Name = type;
+            Name = type.ToString();
             Type = "ShapeObject";
         }
 
@@ -109,27 +122,49 @@ namespace Graphics
 
         ~MeshClass()
         {
-            Dispose();
+            if (!_dispose)
+            {
+                Dispose();
+            }
         }
 
         public void Dispose()
         {
-            if (CurrentTexture != null)
-            {
-                for (int i = 0; i < CurrentTexture.Length; i++)
-                {
-                    CurrentTexture[i].Dispose();
-                }
-            }
+            Dispose(true);
 
-            objectMesh.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!_dispose)
+            {
+                if (disposing)
+                {
+                    if (CurrentTexture != null)
+                    {
+                        for (int i = 0; i < CurrentTexture.Length; i++)
+                        {
+                            CurrentTexture[i].Dispose();
+                        }
+                    }
+
+                    objectMesh.Dispose();
+
+                    Console.WriteLine("objects disposed");
+                }
+
+                CurrentTexture = null;
+                objectMesh = null;
+                _dispose = true;
+            }
         }
 
         #endregion
 
         public void RenderMesh()
         {
-            World = Matrix.Translation(ObjectPosition);
+            World = Matrix.RotationYawPitchRoll(ObjectRotate.Y, ObjectRotate.X, ObjectRotate.Z) * Matrix.Scaling(ObjectScale) * Matrix.Translation(ObjectPosition);
             DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
 
             if (material != null)
@@ -148,7 +183,10 @@ namespace Graphics
                 }
             }
 
-            objectMesh.DrawSubset(0);
+            if (objectMesh != null)
+            {
+                objectMesh.DrawSubset(0);
+            }
         }
 
         /// <summary>
