@@ -417,14 +417,21 @@ namespace Graphics
                 try
                 {
                     //Code to clear scene
+                    lock (renderer.Meshes)
+                    {
+                        renderer.Meshes.ForEach(mesh => mesh.Dispose());
+                        renderer.Meshes.Clear();
+                        cboShapeList.Items.Clear();
+                        UpdateShapeCount();
+                    }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //handle exception
+                    MessageBox.Show("Clear Scene failed: An error has occured!");
                 }
                 finally
                 {
-                    MessageBox.Show("Clear Scene failed: An error has occured!");
                 }
             }
             else
