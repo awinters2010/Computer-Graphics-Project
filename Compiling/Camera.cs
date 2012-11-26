@@ -7,7 +7,18 @@ namespace Graphics
     public class Camera
     {
         private Vector3 eye;
-        public Vector3 Eye { get; private set;}
+
+        public Vector3 Eye
+        {
+            get
+            {
+                return eye;
+            }
+            private set
+            {
+                eye = value;
+            }
+        }
         // what we are looking at (location)
         private Vector3 LookAt;
         // which way is up
@@ -37,7 +48,7 @@ namespace Graphics
             set
             {
                 cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
-                Matrix result = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.Z, cameraRotation.X);
+                Matrix result = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
                 DeviceManager.LocalDevice.SetTransform(TransformState.View, result * View);
             }
         }
@@ -117,6 +128,11 @@ namespace Graphics
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
+        public void MoveEye(float x, float y, float z)
+        {
+
+        }
+
         /// <summary>
         /// move the camera along the x axis in x amount of units
         /// </summary>
@@ -151,10 +167,13 @@ namespace Graphics
         }
 
         /// <summary>
-        /// Resets the Camera to look at the origin with a distance of 5 units from it
+        /// Resets the Camera to look at the origin with a distance of 3.5 units from it
         /// </summary>
         public void ResetEye()
         {
+            cameraRotation = Vector3.Zero;
+
+
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
             eye = new Vector3(0, 0, 3.5f);
