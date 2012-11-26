@@ -102,8 +102,7 @@ namespace Graphics
 
             if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
             {
-                fm = fm == FillMode.Solid ?
-                    FillMode.Wireframe : FillMode.Solid;
+                fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
             }
 
             DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, fm);
@@ -430,13 +429,6 @@ namespace Graphics
                     //handle exception
                     MessageBox.Show("Clear Scene failed: An error has occured!");
                 }
-                finally
-                {
-                }
-            }
-            else
-            {
-                //do nothing
             }
         }
 
@@ -460,10 +452,6 @@ namespace Graphics
                             UpdateShapeCount();
                         }
                     }
-                }
-                else
-                {
-                    //do nothing
                 }
             }
             else
