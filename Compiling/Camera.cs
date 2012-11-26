@@ -38,6 +38,10 @@ namespace Graphics
         private Matrix Projection;
 
         private Vector3 cameraRotation;
+
+        /// <summary>
+        /// Rotate the camera around the x, y, and z axis
+        /// </summary>
         public Vector3 CameraRotation 
         {
             get
@@ -138,7 +142,7 @@ namespace Graphics
             eye.Y += y;
             eye.Z += z;
 
-            View = Matrix.Translation(eye);
+            View = Matrix.Translation(eye) * Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
