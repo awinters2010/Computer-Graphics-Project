@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="DeviceManager.cs" />
+    <Compile Include="Lights.cs" />
     <Compile Include="MainPage.cs">
       <SubType>Form</SubType>
     </Compile>

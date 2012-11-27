@@ -42,7 +42,7 @@ namespace Graphics
         /// <summary>
         /// Rotate the camera around the x, y, and z axis
         /// </summary>
-        public Vector3 CameraRotation 
+        public Vector3 CameraRotation
         {
             get
             {

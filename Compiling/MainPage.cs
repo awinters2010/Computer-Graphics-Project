@@ -42,7 +42,7 @@ namespace Graphics
 
             camera = new Camera();
 
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, true);
             DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);

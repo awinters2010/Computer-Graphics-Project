@@ -12,11 +12,14 @@ namespace Graphics
         public int verticesCount { get; set; }
         public int indiciesCount { get; set; }
         public List<MeshClass> Meshes { get; set; }
+        public List<Lights> light { get; set; }
 
         public Renderer()
         {
             shutdown = false;
             Meshes = new List<MeshClass>();
+            light = new List<Lights>();
+            light.Add(new Lights(LightType.Point));
         }
 
         public void RequestShutdown()
@@ -36,6 +39,14 @@ namespace Graphics
                     foreach (var item in Meshes)
                     {
                         item.RenderMesh();
+                    }
+                }
+
+                lock (light)
+                {
+                    foreach (var item in light)
+                    {
+                        item.Render();
                     }
                 }
 
