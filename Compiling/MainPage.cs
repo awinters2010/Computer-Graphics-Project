@@ -416,20 +416,25 @@ namespace Graphics
             {
                 try
                 {
-                    //Code to clear scene
-                    lock (renderer.Meshes)
-                    {
-                        renderer.Meshes.ForEach(mesh => mesh.Dispose());
-                        renderer.Meshes.Clear();
-                        cboShapeList.Items.Clear();
-                        UpdateShapeCount();
-                    }
+                    ClearScene();
                 }
                 catch (Exception)
                 {
                     //handle exception
                     MessageBox.Show("Clear Scene failed: An error has occured!");
                 }
+            }
+        }
+
+        private void ClearScene()
+        {
+            //Code to clear scene
+            lock (renderer.Meshes)
+            {
+                renderer.Meshes.ForEach(mesh => mesh.Dispose());
+                renderer.Meshes.Clear();
+                cboShapeList.Items.Clear();
+                UpdateShapeCount();
             }
         }
 
@@ -482,6 +487,7 @@ namespace Graphics
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            ClearScene();
             ShutDown();
         }
 

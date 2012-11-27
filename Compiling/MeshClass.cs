@@ -35,8 +35,6 @@ namespace Graphics
                 objectMesh = value;
             }
         }
-
-        private bool _dispose = false;
         
         /// <summary>
         /// Create a mesh from a .x File
@@ -119,44 +117,29 @@ namespace Graphics
 
         #region releasing resources
 
-        ~MeshClass()
-        {
-            if (!_dispose)
-            {
-                Dispose();
-            }
-        }
-
         public void Dispose()
         {
             Dispose(true);
-
-            GC.SuppressFinalize(this);
         }
 
         public virtual void Dispose(bool disposing)
         {
-            if (!_dispose)
+            if (disposing)
             {
-                if (disposing)
+                if (CurrentTexture != null)
                 {
-                    if (CurrentTexture != null)
+                    foreach (var ct in CurrentTexture)
                     {
-                        foreach (var ct in CurrentTexture)
-                        {
-                            ct.Dispose();
-                        }
+                        ct.Dispose();
                     }
-
-                    objectMesh.Dispose();
-
-                    Console.WriteLine("objects disposed");
                 }
 
-                CurrentTexture = null;
-                objectMesh = null;
-                _dispose = true;
+                objectMesh.Dispose();
+                Console.WriteLine("objects disposed");
             }
+
+            CurrentTexture = null;
+            objectMesh = null;
         }
 
         #endregion
