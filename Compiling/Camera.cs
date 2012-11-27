@@ -20,22 +20,22 @@ namespace Graphics
             }
         }
         // what we are looking at (location)
-        private Vector3 LookAt;
+        private Vector3 lookAt;
         // which way is up
-        private Vector3 Up;
+        private Vector3 upDirection;
         // the actual view from eye, lookat, and up
         public Matrix View;
 
         // field of view how wide can we see
-        private float FOV;
+        private float fov;
         // how the screen is displayed such as wide screen
-        private float AspectRatio;
+        private float aspectRatio;
         // how close to us ( camera ) are things drawn
-        private float Near;
+        private float nearClipping;
         // how far away from us are things drawn
-        private float Far;
+        private float farClipping;
         // project ( what is actually being seen ) from fov, aspect, near, and far
-        private Matrix Projection;
+        private Matrix projection;
 
         private Vector3 cameraRotation;
 
@@ -65,21 +65,19 @@ namespace Graphics
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
             eye = new Vector3(0, 0, 3.5f);
-            LookAt = Vector3.Zero;
-            Up = Vector3.UnitY;
+            lookAt = Vector3.Zero;
+            upDirection = Vector3.UnitY;
 
             View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
 
-            FOV = (float)Math.PI / 4.0f;
-            AspectRatio = (float)DeviceManager.LocalDevice.Viewport.Width / DeviceManager.LocalDevice.Viewport.Height;
-            Near = 1.0f;
-            Far = 100.0f;
+            fov = (float)Math.PI / 4.0f;
+            aspectRatio = (float)DeviceManager.LocalDevice.Viewport.Width / DeviceManager.LocalDevice.Viewport.Height;
+            nearClipping = 1.0f;
+            farClipping = 100.0f;
 
-            Projection = Matrix.PerspectiveFovLH(FOV, AspectRatio,
-                Near, Far);
-            DeviceManager.LocalDevice.SetTransform(TransformState.Projection,
-                Projection);
+            projection = Matrix.PerspectiveFovLH(fov, aspectRatio, nearClipping, farClipping);
+            DeviceManager.LocalDevice.SetTransform(TransformState.Projection, projection);
 
             cameraRotation = Vector3.Zero;
         }
@@ -93,11 +91,10 @@ namespace Graphics
         public void SetView(Vector3 eye, Vector3 lookat, Vector3 up)
         {
             this.eye = eye;
-            this.LookAt = lookat;
-            this.Up = up;
+            this.lookAt = lookat;
+            this.upDirection = up;
             View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
-            //System.Diagnostics.Debug.WriteLine(view.ToString());
         }
 
         /// <summary>
@@ -109,14 +106,14 @@ namespace Graphics
         /// <param name="far"> how far away do we draw objects</param>
         public void SetProjection(float fov, float aspectRatio, float close, float far)
         {
-            this.FOV = fov;
-            this.AspectRatio = aspectRatio;
-            Near = close;
-            this.Far = far;
-            Projection = Matrix.PerspectiveFovLH(this.FOV, this.AspectRatio,
-                Near, this.Far);
+            this.fov = fov;
+            this.aspectRatio = aspectRatio;
+            nearClipping = close;
+            this.farClipping = far;
+            projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio,
+                nearClipping, this.farClipping);
             DeviceManager.LocalDevice.SetTransform(TransformState.Projection,
-                Projection);
+                projection);
         }
 
         /// <summary>
@@ -127,7 +124,7 @@ namespace Graphics
         public void ChangeView(Vector3 eye, Vector3 lookAt)
         {
             this.eye = eye;
-            this.LookAt = lookAt;
+            this.lookAt = lookAt;
             View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
@@ -142,7 +139,7 @@ namespace Graphics
             eye.Y += y;
             eye.Z += z;
 
-            View = Matrix.Translation(eye) * Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z);
+            View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
         }
 
@@ -156,8 +153,8 @@ namespace Graphics
             DeviceManager.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
 
             eye = new Vector3(0, 0, 3.5f);
-            LookAt = Vector3.Zero;
-            Up = Vector3.UnitY;
+            lookAt = Vector3.Zero;
+            upDirection = Vector3.UnitY;
 
             View = Matrix.Translation(eye);
             DeviceManager.LocalDevice.SetTransform(TransformState.View, View);
@@ -175,7 +172,7 @@ namespace Graphics
             var mouseNear = new Vector3(mousePosition, 0.0f);
             var mouseFar = new Vector3(mousePosition, 1.0f);
 
-            var mat = this.View * this.Projection * DeviceManager.LocalDevice.GetTransform(TransformState.World);
+            var mat = this.View * this.projection * DeviceManager.LocalDevice.GetTransform(TransformState.World);
 
             Vector3.Unproject(ref mouseNear, DeviceManager.LocalDevice.Viewport.X, DeviceManager.LocalDevice.Viewport.Y,
                 DeviceManager.LocalDevice.Viewport.Width, DeviceManager.LocalDevice.Viewport.Height, 0f, 1f, ref mat, out mouseNear);
