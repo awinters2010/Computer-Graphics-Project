@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +57,8 @@
             this.btnCamU = new System.Windows.Forms.Button();
             this.btnCamL = new System.Windows.Forms.Button();
             this.gbCamera = new System.Windows.Forms.GroupBox();
+            this.btnRCamB = new System.Windows.Forms.Button();
+            this.btnRCamF = new System.Windows.Forms.Button();
             this.btnResetCamera = new System.Windows.Forms.Button();
             this.lblCamRotZ = new System.Windows.Forms.Label();
             this.lblCamRotY = new System.Windows.Forms.Label();
@@ -102,6 +105,12 @@
             this.lblxScale = new System.Windows.Forms.Label();
             this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
             this.gbColor = new System.Windows.Forms.GroupBox();
+            this.gbPhysics = new System.Windows.Forms.GroupBox();
+            this.cbGravity = new System.Windows.Forms.CheckBox();
+            this.gbLighting = new System.Windows.Forms.GroupBox();
+            this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
+            this.loadTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -110,6 +119,8 @@
             this.gbTranslate.SuspendLayout();
             this.gbRotate.SuspendLayout();
             this.gbScale.SuspendLayout();
+            this.gbPhysics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.epMain)).BeginInit();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -134,6 +145,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miLoadMesh,
+            this.loadTextureToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -142,14 +154,14 @@
             // miLoadMesh
             // 
             this.miLoadMesh.Name = "miLoadMesh";
-            this.miLoadMesh.Size = new System.Drawing.Size(132, 22);
+            this.miLoadMesh.Size = new System.Drawing.Size(152, 22);
             this.miLoadMesh.Text = "Load Mesh";
             this.miLoadMesh.Click += new System.EventHandler(this.miLoadMesh_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -165,14 +177,14 @@
             // cubeToolStripMenuItem
             // 
             this.cubeToolStripMenuItem.Name = "cubeToolStripMenuItem";
-            this.cubeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.cubeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cubeToolStripMenuItem.Text = "Cube";
             this.cubeToolStripMenuItem.Click += new System.EventHandler(this.CubeToolStripMenuItem_Click);
             // 
             // triangleToolStripMenuItem
             // 
             this.triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
-            this.triangleToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.triangleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.triangleToolStripMenuItem.Text = "Triangle";
             this.triangleToolStripMenuItem.Click += new System.EventHandler(this.TriangleToolStripMenuItem_Click);
             // 
@@ -216,7 +228,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(20);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(20);
-            this.panel1.Size = new System.Drawing.Size(624, 534);
+            this.panel1.Size = new System.Drawing.Size(624, 524);
             this.panel1.TabIndex = 6;
             // 
             // plNotArea
@@ -227,7 +239,7 @@
             this.plNotArea.Controls.Add(this.progressBar1);
             this.plNotArea.Location = new System.Drawing.Point(0, 467);
             this.plNotArea.Name = "plNotArea";
-            this.plNotArea.Size = new System.Drawing.Size(255, 95);
+            this.plNotArea.Size = new System.Drawing.Size(255, 85);
             this.plNotArea.TabIndex = 10;
             // 
             // label1
@@ -376,6 +388,8 @@
             // 
             // gbCamera
             // 
+            this.gbCamera.Controls.Add(this.btnRCamB);
+            this.gbCamera.Controls.Add(this.btnRCamF);
             this.gbCamera.Controls.Add(this.btnResetCamera);
             this.gbCamera.Controls.Add(this.lblCamRotZ);
             this.gbCamera.Controls.Add(this.lblCamRotY);
@@ -410,6 +424,26 @@
             this.gbCamera.TabIndex = 18;
             this.gbCamera.TabStop = false;
             this.gbCamera.Text = "Camera Functions";
+            // 
+            // btnRCamB
+            // 
+            this.btnRCamB.Location = new System.Drawing.Point(6, 212);
+            this.btnRCamB.Name = "btnRCamB";
+            this.btnRCamB.Size = new System.Drawing.Size(75, 23);
+            this.btnRCamB.TabIndex = 43;
+            this.btnRCamB.Text = "Z - Neg";
+            this.btnRCamB.UseVisualStyleBackColor = true;
+            this.btnRCamB.Click += new System.EventHandler(this.btnRCamB_Click);
+            // 
+            // btnRCamF
+            // 
+            this.btnRCamF.Location = new System.Drawing.Point(168, 212);
+            this.btnRCamF.Name = "btnRCamF";
+            this.btnRCamF.Size = new System.Drawing.Size(75, 23);
+            this.btnRCamF.TabIndex = 42;
+            this.btnRCamF.Text = "Z - Pos";
+            this.btnRCamF.UseVisualStyleBackColor = true;
+            this.btnRCamF.Click += new System.EventHandler(this.btnRCamF_Click);
             // 
             // btnResetCamera
             // 
@@ -551,7 +585,7 @@
             // 
             // btnRCamL
             // 
-            this.btnRCamL.Location = new System.Drawing.Point(6, 189);
+            this.btnRCamL.Location = new System.Drawing.Point(6, 184);
             this.btnRCamL.Name = "btnRCamL";
             this.btnRCamL.Size = new System.Drawing.Size(75, 23);
             this.btnRCamL.TabIndex = 23;
@@ -561,7 +595,7 @@
             // 
             // btnRCamR
             // 
-            this.btnRCamR.Location = new System.Drawing.Point(168, 189);
+            this.btnRCamR.Location = new System.Drawing.Point(168, 184);
             this.btnRCamR.Name = "btnRCamR";
             this.btnRCamR.Size = new System.Drawing.Size(75, 23);
             this.btnRCamR.TabIndex = 26;
@@ -571,7 +605,7 @@
             // 
             // btnRCamU
             // 
-            this.btnRCamU.Location = new System.Drawing.Point(87, 178);
+            this.btnRCamU.Location = new System.Drawing.Point(87, 173);
             this.btnRCamU.Name = "btnRCamU";
             this.btnRCamU.Size = new System.Drawing.Size(75, 23);
             this.btnRCamU.TabIndex = 24;
@@ -581,7 +615,7 @@
             // 
             // btnRCamD
             // 
-            this.btnRCamD.Location = new System.Drawing.Point(87, 207);
+            this.btnRCamD.Location = new System.Drawing.Point(87, 202);
             this.btnRCamD.Name = "btnRCamD";
             this.btnRCamD.Size = new System.Drawing.Size(75, 23);
             this.btnRCamD.TabIndex = 25;
@@ -613,7 +647,7 @@
             // 
             this.lblCam2.AutoSize = true;
             this.lblCam2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCam2.Location = new System.Drawing.Point(8, 168);
+            this.lblCam2.Location = new System.Drawing.Point(8, 163);
             this.lblCam2.Name = "lblCam2";
             this.lblCam2.Size = new System.Drawing.Size(45, 13);
             this.lblCam2.TabIndex = 20;
@@ -647,27 +681,42 @@
             // 
             // zTranslation
             // 
+            this.zTranslation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zTranslation.Location = new System.Drawing.Point(185, 15);
+            this.zTranslation.MaxLength = 4;
             this.zTranslation.Name = "zTranslation";
-            this.zTranslation.Size = new System.Drawing.Size(51, 20);
+            this.zTranslation.Size = new System.Drawing.Size(37, 20);
             this.zTranslation.TabIndex = 32;
+            this.zTranslation.Text = "0";
             this.zTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zTranslation_KeyDown);
+            this.zTranslation.Validating += new System.ComponentModel.CancelEventHandler(this.zTranslation_Validating);
+            this.zTranslation.Validated += new System.EventHandler(this.zTranslation_Validated);
             // 
             // yTranslation
             // 
+            this.yTranslation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.yTranslation.Location = new System.Drawing.Point(107, 16);
+            this.yTranslation.MaxLength = 4;
             this.yTranslation.Name = "yTranslation";
-            this.yTranslation.Size = new System.Drawing.Size(51, 20);
+            this.yTranslation.Size = new System.Drawing.Size(37, 20);
             this.yTranslation.TabIndex = 31;
+            this.yTranslation.Text = "0";
             this.yTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yTranslation_KeyDown);
+            this.yTranslation.Validating += new System.ComponentModel.CancelEventHandler(this.yTranslation_Validating);
+            this.yTranslation.Validated += new System.EventHandler(this.yTranslation_Validated);
             // 
             // xTranslation
             // 
+            this.xTranslation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xTranslation.Location = new System.Drawing.Point(29, 15);
+            this.xTranslation.MaxLength = 4;
             this.xTranslation.Name = "xTranslation";
-            this.xTranslation.Size = new System.Drawing.Size(51, 20);
+            this.xTranslation.Size = new System.Drawing.Size(37, 20);
             this.xTranslation.TabIndex = 30;
+            this.xTranslation.Text = "0";
             this.xTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xTranslation_KeyDown);
+            this.xTranslation.Validating += new System.ComponentModel.CancelEventHandler(this.xTranslation_Validating);
+            this.xTranslation.Validated += new System.EventHandler(this.xTranslation_Validated);
             // 
             // lblzTranslate
             // 
@@ -727,11 +776,16 @@
             // 
             // zRotation
             // 
+            this.zRotation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zRotation.Location = new System.Drawing.Point(187, 14);
+            this.zRotation.MaxLength = 4;
             this.zRotation.Name = "zRotation";
-            this.zRotation.Size = new System.Drawing.Size(51, 20);
+            this.zRotation.Size = new System.Drawing.Size(37, 20);
             this.zRotation.TabIndex = 35;
+            this.zRotation.Text = "0";
             this.zRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zRotation_KeyDown);
+            this.zRotation.Validating += new System.ComponentModel.CancelEventHandler(this.zRotation_Validating);
+            this.zRotation.Validated += new System.EventHandler(this.zRotation_Validated);
             // 
             // lblyRotate
             // 
@@ -745,19 +799,29 @@
             // 
             // yRotation
             // 
+            this.yRotation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.yRotation.Location = new System.Drawing.Point(107, 14);
+            this.yRotation.MaxLength = 4;
             this.yRotation.Name = "yRotation";
-            this.yRotation.Size = new System.Drawing.Size(51, 20);
+            this.yRotation.Size = new System.Drawing.Size(37, 20);
             this.yRotation.TabIndex = 34;
+            this.yRotation.Text = "0";
             this.yRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yRotation_KeyDown);
+            this.yRotation.Validating += new System.ComponentModel.CancelEventHandler(this.yRotation_Validating);
+            this.yRotation.Validated += new System.EventHandler(this.yRotation_Validated);
             // 
             // xRotation
             // 
+            this.xRotation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xRotation.Location = new System.Drawing.Point(29, 15);
+            this.xRotation.MaxLength = 4;
             this.xRotation.Name = "xRotation";
-            this.xRotation.Size = new System.Drawing.Size(51, 20);
+            this.xRotation.Size = new System.Drawing.Size(37, 20);
             this.xRotation.TabIndex = 33;
+            this.xRotation.Text = "0";
             this.xRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xRotation_KeyDown);
+            this.xRotation.Validating += new System.ComponentModel.CancelEventHandler(this.xRotation_Validating);
+            this.xRotation.Validated += new System.EventHandler(this.xRotation_Validated);
             // 
             // lblxRotate
             // 
@@ -787,11 +851,16 @@
             // 
             // zScaling
             // 
+            this.zScaling.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zScaling.Location = new System.Drawing.Point(187, 15);
+            this.zScaling.MaxLength = 4;
             this.zScaling.Name = "zScaling";
-            this.zScaling.Size = new System.Drawing.Size(51, 20);
+            this.zScaling.Size = new System.Drawing.Size(37, 20);
             this.zScaling.TabIndex = 37;
+            this.zScaling.Text = "0";
             this.zScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zScaling_KeyDown);
+            this.zScaling.Validating += new System.ComponentModel.CancelEventHandler(this.zScaling_Validating);
+            this.zScaling.Validated += new System.EventHandler(this.zScaling_Validated);
             // 
             // label10
             // 
@@ -805,11 +874,16 @@
             // 
             // yScaling
             // 
+            this.yScaling.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.yScaling.Location = new System.Drawing.Point(107, 17);
+            this.yScaling.MaxLength = 4;
             this.yScaling.Name = "yScaling";
-            this.yScaling.Size = new System.Drawing.Size(51, 20);
+            this.yScaling.Size = new System.Drawing.Size(37, 20);
             this.yScaling.TabIndex = 35;
+            this.yScaling.Text = "0";
             this.yScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yScaling_KeyDown);
+            this.yScaling.Validating += new System.ComponentModel.CancelEventHandler(this.yScaling_Validating);
+            this.yScaling.Validated += new System.EventHandler(this.yScaling_Validated);
             // 
             // lblyScale
             // 
@@ -823,11 +897,16 @@
             // 
             // xScaling
             // 
+            this.xScaling.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xScaling.Location = new System.Drawing.Point(30, 17);
+            this.xScaling.MaxLength = 4;
             this.xScaling.Name = "xScaling";
-            this.xScaling.Size = new System.Drawing.Size(51, 20);
+            this.xScaling.Size = new System.Drawing.Size(37, 20);
             this.xScaling.TabIndex = 34;
+            this.xScaling.Text = "0";
             this.xScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xScaling_KeyDown);
+            this.xScaling.Validating += new System.ComponentModel.CancelEventHandler(this.xScaling_Validating);
+            this.xScaling.Validated += new System.EventHandler(this.xScaling_Validated);
             // 
             // lblxScale
             // 
@@ -854,11 +933,61 @@
             this.gbColor.TabStop = false;
             this.gbColor.Text = "Color";
             // 
+            // gbPhysics
+            // 
+            this.gbPhysics.Controls.Add(this.cbGravity);
+            this.gbPhysics.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbPhysics.Location = new System.Drawing.Point(6, 301);
+            this.gbPhysics.Name = "gbPhysics";
+            this.gbPhysics.Size = new System.Drawing.Size(246, 61);
+            this.gbPhysics.TabIndex = 40;
+            this.gbPhysics.TabStop = false;
+            this.gbPhysics.Text = "Environment";
+            // 
+            // cbGravity
+            // 
+            this.cbGravity.AutoSize = true;
+            this.cbGravity.Location = new System.Drawing.Point(9, 26);
+            this.cbGravity.Name = "cbGravity";
+            this.cbGravity.Size = new System.Drawing.Size(109, 17);
+            this.cbGravity.TabIndex = 0;
+            this.cbGravity.Text = "Gravity On/Off";
+            this.cbGravity.UseVisualStyleBackColor = true;
+            this.cbGravity.CheckedChanged += new System.EventHandler(this.cbGravity_CheckedChanged);
+            // 
+            // gbLighting
+            // 
+            this.gbLighting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbLighting.Location = new System.Drawing.Point(887, 377);
+            this.gbLighting.Name = "gbLighting";
+            this.gbLighting.Size = new System.Drawing.Size(246, 175);
+            this.gbLighting.TabIndex = 41;
+            this.gbLighting.TabStop = false;
+            this.gbLighting.Text = "Lights";
+            // 
+            // epMain
+            // 
+            this.epMain.ContainerControl = this;
+            // 
+            // loadTextureToolStripMenuItem
+            // 
+            this.loadTextureToolStripMenuItem.Name = "loadTextureToolStripMenuItem";
+            this.loadTextureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadTextureToolStripMenuItem.Text = "Load Texture";
+            this.loadTextureToolStripMenuItem.Click += new System.EventHandler(this.loadTextureToolStripMenuItem_Click);
+            // 
+            // ofdTexture
+            // 
+            this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
+            this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
+            // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
             this.ClientSize = new System.Drawing.Size(1137, 562);
+            this.Controls.Add(this.gbLighting);
+            this.Controls.Add(this.gbPhysics);
             this.Controls.Add(this.gbColor);
             this.Controls.Add(this.gbScale);
             this.Controls.Add(this.gbRotate);
@@ -889,6 +1018,9 @@
             this.gbRotate.PerformLayout();
             this.gbScale.ResumeLayout(false);
             this.gbScale.PerformLayout();
+            this.gbPhysics.ResumeLayout(false);
+            this.gbPhysics.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.epMain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -970,6 +1102,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnResetCamera;
+        private System.Windows.Forms.GroupBox gbPhysics;
+        private System.Windows.Forms.CheckBox cbGravity;
+        private System.Windows.Forms.GroupBox gbLighting;
+        private System.Windows.Forms.Button btnRCamB;
+        private System.Windows.Forms.Button btnRCamF;
+        private System.Windows.Forms.ErrorProvider epMain;
+        private System.Windows.Forms.ToolStripMenuItem loadTextureToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog ofdTexture;
     }
 }
 

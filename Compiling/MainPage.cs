@@ -54,6 +54,7 @@ namespace Graphics
             panel1.Focus();
 
             this.KeyPress += new KeyPressEventHandler(KeyBoard);
+            this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
 
             Configuration.EnableObjectTracking = true;
 
@@ -98,19 +99,27 @@ namespace Graphics
 
         private void KeyBoard(object sender, KeyPressEventArgs e)
         {
-            FillMode fm = DeviceManager.LocalDevice.GetRenderState
-                <FillMode>(RenderState.FillMode);
-
-            if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
+            if (this.ValidateChildren(ValidationConstraints.Enabled))
             {
-                fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
+                //all input is validated
+                FillMode fm = DeviceManager.LocalDevice.GetRenderState
+                    <FillMode>(RenderState.FillMode);
+
+                if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
+                {
+                    fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
+                }
+
+                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, fm);
+
+                if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
+                {
+                    camera.MoveEye(z: 1f);
+                }
             }
-
-            DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, fm);
-
-            if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
+            else
             {
-                camera.MoveEye(z: 1f);
+                //prompt user
             }
         }
 
@@ -132,9 +141,12 @@ namespace Graphics
             gbScale.BackColor = GUISubWindowColor;
             gbObjects.BackColor = GUISubWindowColor;
             gbTranslate.BackColor = GUISubWindowColor;
+            gbColor.BackColor = GUISubWindowColor;
+            gbLighting.BackColor = GUISubWindowColor;
+            gbPhysics.BackColor = GUISubWindowColor;
 
             //set control sizes
-            plNotArea.Width = this.Width;
+            //plNotArea.Width = this.Width;
 
             //set shape drop down list value and display members
             cboShapeList.ValueMember = "ID";
@@ -169,6 +181,13 @@ namespace Graphics
             lblSCnt2.Text = renderer.Meshes.Count.ToString();
         }
 
+        /// <summary>
+        /// Updates shape index (call after remove)
+        /// </summary>
+        public void RenumberShapeList()
+        {
+            //need to do
+        }
         private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboShapeList.SelectedIndex != -1)
@@ -228,7 +247,7 @@ namespace Graphics
         }
         private void btnRCamL_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, 1, 0);
+            camera.CameraRotation = new Vector3(0, 1f, 0);
             UpdateCameraRotation();
         }
         private void btnRCamU_Click(object sender, EventArgs e)
@@ -238,12 +257,22 @@ namespace Graphics
         }
         private void btnRCamR_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, -1, 0);
+            camera.CameraRotation = new Vector3(0, -1f, 0);
             UpdateCameraRotation();
         }
         private void btnRCamD_Click(object sender, EventArgs e)
         {
             camera.CameraRotation = new Vector3(-1f, 0, 0);
+            UpdateCameraRotation();
+        }
+        private void btnRCamB_Click(object sender, EventArgs e)
+        {
+            camera.CameraRotation = new Vector3(0, 0, -1f);
+            UpdateCameraRotation();
+        }
+        private void btnRCamF_Click(object sender, EventArgs e)
+        {
+            camera.CameraRotation = new Vector3(0, 0, 1f);
             UpdateCameraRotation();
         }
         private void UpdateCameraLocation()
@@ -258,7 +287,10 @@ namespace Graphics
             lblCamRotY.Text = camera.CameraRotation.Y.ToString();
             lblCamRotZ.Text = camera.CameraRotation.Z.ToString();
         }
-
+        private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            ///process mouse event
+        }
         #endregion
 
         #region Mesh Loading Functions
@@ -456,6 +488,7 @@ namespace Graphics
                             renderer.Meshes.RemoveAt(cboShapeList.SelectedIndex);
                             cboShapeList.Items.RemoveAt(cboShapeList.SelectedIndex);
                             UpdateShapeCount();
+                            RenumberShapeList();
                         }
                     }
                 }
@@ -497,5 +530,155 @@ namespace Graphics
         }
 
         #endregion 
+
+        #region "Physics"
+        private void cbGravity_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbGravity.Checked)
+            {
+                //code to apply gravity
+            }
+            else
+            {
+                //code to "unapply" gravity
+            }
+        }
+        #endregion
+
+        #region "Texture Loading Functions"
+        private void loadTextureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ofdTexture.ShowDialog();
+        }
+        private void ofdTexture_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Try to read file
+            try
+            {
+                if (File.Exists(ofdTexture.FileName))
+                {
+                    //Make sure it's a .x file
+                    if (ofdTexture.FileName.ToUpper().Contains(".BMP") || ofdTexture.FileName.ToUpper().Contains(".DDS") || ofdTexture.FileName.ToUpper().Contains(".JPG"))
+                    {
+                        //Code to load Mesh
+                    }
+                    else
+                    {
+                        MessageBox.Show("The file " + ofdTexture.FileName + " is not a valid .bmp, .dds, or .jpg Texture file!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The file " + ofdTexture.FileName + " does not exist!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error has occured trying to load Texture file!");
+                Console.WriteLine(ex.Message);
+            }
+        }
+        #endregion
+
+        #region "Validation"
+        private void xTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.xTranslation);
+        }
+        private void yTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.yTranslation);
+        }
+        private void zTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.zTranslation);
+        }
+        private void xRotation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.xRotation);
+        }
+        private void yRotation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.yRotation);
+        }
+        private void zRotation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.zRotation);
+        }
+        private void xScaling_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.xScaling);
+        }
+        private void yScaling_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.yScaling);
+        }
+        private void zScaling_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.zScaling);
+        }
+        private void xTranslation_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.xTranslation, string.Empty);
+        }
+        private void yTranslation_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.yTranslation, string.Empty);
+        }
+        private void zTranslation_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.zTranslation, string.Empty);
+        }
+        private void xRotation_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.xRotation, string.Empty);
+        }
+        private void yRotation_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.yRotation, string.Empty);
+        }
+        private void zRotation_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.zRotation, string.Empty);
+        }
+        private void xScaling_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.xScaling, string.Empty);
+        }
+        private void yScaling_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.yScaling, string.Empty);
+        }
+        private void zScaling_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.zScaling, string.Empty);
+        }
+        private bool validateTextBoxIsInt(TextBox TextBoxToVal)
+        {
+            bool cancel = false;
+            int number = -1;
+            if (int.TryParse(TextBoxToVal.Text, out number))
+            {
+                //it's a number, this control passes validation.
+                    cancel = false;
+            }
+            else
+            {
+                //This control has failed validation: text box is not a number
+                cancel = true;
+                this.epMain.SetError(TextBoxToVal, "You must provide a valid integer!");
+            }
+            return cancel;
+        }
+        #endregion
     }
 }
