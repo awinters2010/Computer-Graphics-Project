@@ -33,6 +33,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadMesh = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,12 +106,22 @@
             this.lblxScale = new System.Windows.Forms.Label();
             this.ofdMesh = new System.Windows.Forms.OpenFileDialog();
             this.gbColor = new System.Windows.Forms.GroupBox();
+            this.btnSelectColor = new System.Windows.Forms.Button();
             this.gbPhysics = new System.Windows.Forms.GroupBox();
             this.cbGravity = new System.Windows.Forms.CheckBox();
             this.gbLighting = new System.Windows.Forms.GroupBox();
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
-            this.loadTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblObjectColor = new System.Windows.Forms.Label();
+            this.lblLights1 = new System.Windows.Forms.Label();
+            this.lblLights2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addPointLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addDirectionalLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -119,7 +130,9 @@
             this.gbTranslate.SuspendLayout();
             this.gbRotate.SuspendLayout();
             this.gbScale.SuspendLayout();
+            this.gbColor.SuspendLayout();
             this.gbPhysics.SuspendLayout();
+            this.gbLighting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.epMain)).BeginInit();
             this.SuspendLayout();
             // 
@@ -134,7 +147,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.shapesToolStripMenuItem});
+            this.shapesToolStripMenuItem,
+            this.lightsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1137, 24);
@@ -157,6 +171,13 @@
             this.miLoadMesh.Size = new System.Drawing.Size(152, 22);
             this.miLoadMesh.Text = "Load Mesh";
             this.miLoadMesh.Click += new System.EventHandler(this.miLoadMesh_Click);
+            // 
+            // loadTextureToolStripMenuItem
+            // 
+            this.loadTextureToolStripMenuItem.Name = "loadTextureToolStripMenuItem";
+            this.loadTextureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadTextureToolStripMenuItem.Text = "Load Texture";
+            this.loadTextureToolStripMenuItem.Click += new System.EventHandler(this.loadTextureToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -230,6 +251,9 @@
             this.panel1.Padding = new System.Windows.Forms.Padding(20);
             this.panel1.Size = new System.Drawing.Size(624, 524);
             this.panel1.TabIndex = 6;
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseEnter += new System.EventHandler(this.panel1_MouseEnter);
+            this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
             // 
             // plNotArea
             // 
@@ -262,7 +286,7 @@
             this.gbObjects.Controls.Add(this.lblSCnt1);
             this.gbObjects.Controls.Add(this.cboShapeList);
             this.gbObjects.Controls.Add(this.lblDes1);
-            this.gbObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbObjects.Location = new System.Drawing.Point(887, 26);
             this.gbObjects.Name = "gbObjects";
             this.gbObjects.Size = new System.Drawing.Size(246, 115);
@@ -272,6 +296,7 @@
             // 
             // btnClearScene
             // 
+            this.btnClearScene.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClearScene.Location = new System.Drawing.Point(128, 87);
             this.btnClearScene.Name = "btnClearScene";
             this.btnClearScene.Size = new System.Drawing.Size(108, 23);
@@ -282,6 +307,7 @@
             // 
             // btnDeleteShape
             // 
+            this.btnDeleteShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteShape.Location = new System.Drawing.Point(12, 87);
             this.btnDeleteShape.Name = "btnDeleteShape";
             this.btnDeleteShape.Size = new System.Drawing.Size(98, 23);
@@ -303,6 +329,7 @@
             // lblSS1
             // 
             this.lblSS1.AutoSize = true;
+            this.lblSS1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSS1.Location = new System.Drawing.Point(6, 71);
             this.lblSS1.Name = "lblSS1";
             this.lblSS1.Size = new System.Drawing.Size(102, 13);
@@ -320,6 +347,7 @@
             // lblSCnt1
             // 
             this.lblSCnt1.AutoSize = true;
+            this.lblSCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSCnt1.Location = new System.Drawing.Point(128, 24);
             this.lblSCnt1.Name = "lblSCnt1";
             this.lblSCnt1.Size = new System.Drawing.Size(44, 13);
@@ -339,7 +367,7 @@
             // lblDes1
             // 
             this.lblDes1.AutoSize = true;
-            this.lblDes1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDes1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDes1.Location = new System.Drawing.Point(6, 24);
             this.lblDes1.Name = "lblDes1";
             this.lblDes1.Size = new System.Drawing.Size(68, 13);
@@ -348,6 +376,7 @@
             // 
             // btnCamR
             // 
+            this.btnCamR.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCamR.Location = new System.Drawing.Point(168, 69);
             this.btnCamR.Name = "btnCamR";
             this.btnCamR.Size = new System.Drawing.Size(75, 23);
@@ -358,6 +387,7 @@
             // 
             // btnCamD
             // 
+            this.btnCamD.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCamD.Location = new System.Drawing.Point(87, 87);
             this.btnCamD.Name = "btnCamD";
             this.btnCamD.Size = new System.Drawing.Size(75, 23);
@@ -368,6 +398,7 @@
             // 
             // btnCamU
             // 
+            this.btnCamU.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCamU.Location = new System.Drawing.Point(87, 58);
             this.btnCamU.Name = "btnCamU";
             this.btnCamU.Size = new System.Drawing.Size(75, 23);
@@ -378,6 +409,7 @@
             // 
             // btnCamL
             // 
+            this.btnCamL.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCamL.Location = new System.Drawing.Point(6, 69);
             this.btnCamL.Name = "btnCamL";
             this.btnCamL.Size = new System.Drawing.Size(75, 23);
@@ -417,7 +449,7 @@
             this.gbCamera.Controls.Add(this.btnCamR);
             this.gbCamera.Controls.Add(this.btnCamU);
             this.gbCamera.Controls.Add(this.btnCamD);
-            this.gbCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbCamera.Location = new System.Drawing.Point(6, 28);
             this.gbCamera.Name = "gbCamera";
             this.gbCamera.Size = new System.Drawing.Size(249, 267);
@@ -427,6 +459,7 @@
             // 
             // btnRCamB
             // 
+            this.btnRCamB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRCamB.Location = new System.Drawing.Point(6, 212);
             this.btnRCamB.Name = "btnRCamB";
             this.btnRCamB.Size = new System.Drawing.Size(75, 23);
@@ -437,6 +470,7 @@
             // 
             // btnRCamF
             // 
+            this.btnRCamF.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRCamF.Location = new System.Drawing.Point(168, 212);
             this.btnRCamF.Name = "btnRCamF";
             this.btnRCamF.Size = new System.Drawing.Size(75, 23);
@@ -447,6 +481,7 @@
             // 
             // btnResetCamera
             // 
+            this.btnResetCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetCamera.Location = new System.Drawing.Point(67, 22);
             this.btnResetCamera.Name = "btnResetCamera";
             this.btnResetCamera.Size = new System.Drawing.Size(118, 23);
@@ -458,6 +493,7 @@
             // lblCamRotZ
             // 
             this.lblCamRotZ.AutoSize = true;
+            this.lblCamRotZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCamRotZ.Location = new System.Drawing.Point(227, 241);
             this.lblCamRotZ.Name = "lblCamRotZ";
             this.lblCamRotZ.Size = new System.Drawing.Size(11, 13);
@@ -467,6 +503,7 @@
             // lblCamRotY
             // 
             this.lblCamRotY.AutoSize = true;
+            this.lblCamRotY.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCamRotY.Location = new System.Drawing.Point(177, 241);
             this.lblCamRotY.Name = "lblCamRotY";
             this.lblCamRotY.Size = new System.Drawing.Size(11, 13);
@@ -476,6 +513,7 @@
             // lblCamRotX
             // 
             this.lblCamRotX.AutoSize = true;
+            this.lblCamRotX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCamRotX.Location = new System.Drawing.Point(133, 241);
             this.lblCamRotX.Name = "lblCamRotX";
             this.lblCamRotX.Size = new System.Drawing.Size(11, 13);
@@ -485,6 +523,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(204, 240);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(15, 13);
@@ -494,6 +533,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(156, 240);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 13);
@@ -503,6 +543,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(111, 240);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(15, 13);
@@ -512,6 +553,7 @@
             // lblCamPosZ
             // 
             this.lblCamPosZ.AutoSize = true;
+            this.lblCamPosZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCamPosZ.Location = new System.Drawing.Point(224, 133);
             this.lblCamPosZ.Name = "lblCamPosZ";
             this.lblCamPosZ.Size = new System.Drawing.Size(11, 13);
@@ -521,6 +563,7 @@
             // lblCamPosY
             // 
             this.lblCamPosY.AutoSize = true;
+            this.lblCamPosY.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCamPosY.Location = new System.Drawing.Point(174, 133);
             this.lblCamPosY.Name = "lblCamPosY";
             this.lblCamPosY.Size = new System.Drawing.Size(11, 13);
@@ -530,6 +573,7 @@
             // lblCamPosX
             // 
             this.lblCamPosX.AutoSize = true;
+            this.lblCamPosX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCamPosX.Location = new System.Drawing.Point(130, 133);
             this.lblCamPosX.Name = "lblCamPosX";
             this.lblCamPosX.Size = new System.Drawing.Size(11, 13);
@@ -539,6 +583,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(204, 133);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(15, 13);
@@ -548,6 +593,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(156, 133);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(15, 13);
@@ -557,6 +603,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(111, 133);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(15, 13);
@@ -585,6 +632,7 @@
             // 
             // btnRCamL
             // 
+            this.btnRCamL.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRCamL.Location = new System.Drawing.Point(6, 184);
             this.btnRCamL.Name = "btnRCamL";
             this.btnRCamL.Size = new System.Drawing.Size(75, 23);
@@ -595,6 +643,7 @@
             // 
             // btnRCamR
             // 
+            this.btnRCamR.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRCamR.Location = new System.Drawing.Point(168, 184);
             this.btnRCamR.Name = "btnRCamR";
             this.btnRCamR.Size = new System.Drawing.Size(75, 23);
@@ -605,6 +654,7 @@
             // 
             // btnRCamU
             // 
+            this.btnRCamU.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRCamU.Location = new System.Drawing.Point(87, 173);
             this.btnRCamU.Name = "btnRCamU";
             this.btnRCamU.Size = new System.Drawing.Size(75, 23);
@@ -615,6 +665,7 @@
             // 
             // btnRCamD
             // 
+            this.btnRCamD.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRCamD.Location = new System.Drawing.Point(87, 202);
             this.btnRCamD.Name = "btnRCamD";
             this.btnRCamD.Size = new System.Drawing.Size(75, 23);
@@ -625,6 +676,7 @@
             // 
             // CamB
             // 
+            this.CamB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CamB.Location = new System.Drawing.Point(6, 98);
             this.CamB.Name = "CamB";
             this.CamB.Size = new System.Drawing.Size(75, 23);
@@ -635,6 +687,7 @@
             // 
             // CamF
             // 
+            this.CamF.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CamF.Location = new System.Drawing.Point(168, 98);
             this.CamF.Name = "CamF";
             this.CamF.Size = new System.Drawing.Size(75, 23);
@@ -646,7 +699,7 @@
             // lblCam2
             // 
             this.lblCam2.AutoSize = true;
-            this.lblCam2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCam2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCam2.Location = new System.Drawing.Point(8, 163);
             this.lblCam2.Name = "lblCam2";
             this.lblCam2.Size = new System.Drawing.Size(45, 13);
@@ -656,7 +709,7 @@
             // lblCam1
             // 
             this.lblCam1.AutoSize = true;
-            this.lblCam1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCam1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCam1.Location = new System.Drawing.Point(3, 53);
             this.lblCam1.Name = "lblCam1";
             this.lblCam1.Size = new System.Drawing.Size(38, 13);
@@ -689,6 +742,7 @@
             this.zTranslation.TabIndex = 32;
             this.zTranslation.Text = "0";
             this.zTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zTranslation_KeyDown);
+            this.zTranslation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.zTranslation_MouseUp);
             this.zTranslation.Validating += new System.ComponentModel.CancelEventHandler(this.zTranslation_Validating);
             this.zTranslation.Validated += new System.EventHandler(this.zTranslation_Validated);
             // 
@@ -702,6 +756,7 @@
             this.yTranslation.TabIndex = 31;
             this.yTranslation.Text = "0";
             this.yTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yTranslation_KeyDown);
+            this.yTranslation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.yTranslation_MouseUp);
             this.yTranslation.Validating += new System.ComponentModel.CancelEventHandler(this.yTranslation_Validating);
             this.yTranslation.Validated += new System.EventHandler(this.yTranslation_Validated);
             // 
@@ -715,6 +770,7 @@
             this.xTranslation.TabIndex = 30;
             this.xTranslation.Text = "0";
             this.xTranslation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xTranslation_KeyDown);
+            this.xTranslation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.xTranslation_MouseUp);
             this.xTranslation.Validating += new System.ComponentModel.CancelEventHandler(this.xTranslation_Validating);
             this.xTranslation.Validated += new System.EventHandler(this.xTranslation_Validated);
             // 
@@ -722,6 +778,7 @@
             // 
             this.lblzTranslate.AutoSize = true;
             this.lblzTranslate.Enabled = false;
+            this.lblzTranslate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblzTranslate.Location = new System.Drawing.Point(166, 22);
             this.lblzTranslate.Name = "lblzTranslate";
             this.lblzTranslate.Size = new System.Drawing.Size(15, 13);
@@ -732,6 +789,7 @@
             // 
             this.lblyTranslate.AutoSize = true;
             this.lblyTranslate.Enabled = false;
+            this.lblyTranslate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblyTranslate.Location = new System.Drawing.Point(89, 23);
             this.lblyTranslate.Name = "lblyTranslate";
             this.lblyTranslate.Size = new System.Drawing.Size(15, 13);
@@ -742,6 +800,7 @@
             // 
             this.lblxTranslate.AutoSize = true;
             this.lblxTranslate.Enabled = false;
+            this.lblxTranslate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblxTranslate.Location = new System.Drawing.Point(7, 22);
             this.lblxTranslate.Name = "lblxTranslate";
             this.lblxTranslate.Size = new System.Drawing.Size(15, 13);
@@ -768,6 +827,7 @@
             // 
             this.lblzRotate.AutoSize = true;
             this.lblzRotate.Enabled = false;
+            this.lblzRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblzRotate.Location = new System.Drawing.Point(172, 21);
             this.lblzRotate.Name = "lblzRotate";
             this.lblzRotate.Size = new System.Drawing.Size(15, 13);
@@ -784,6 +844,7 @@
             this.zRotation.TabIndex = 35;
             this.zRotation.Text = "0";
             this.zRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zRotation_KeyDown);
+            this.zRotation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.zRotation_MouseUp);
             this.zRotation.Validating += new System.ComponentModel.CancelEventHandler(this.zRotation_Validating);
             this.zRotation.Validated += new System.EventHandler(this.zRotation_Validated);
             // 
@@ -791,6 +852,7 @@
             // 
             this.lblyRotate.AutoSize = true;
             this.lblyRotate.Enabled = false;
+            this.lblyRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblyRotate.Location = new System.Drawing.Point(89, 22);
             this.lblyRotate.Name = "lblyRotate";
             this.lblyRotate.Size = new System.Drawing.Size(15, 13);
@@ -807,6 +869,7 @@
             this.yRotation.TabIndex = 34;
             this.yRotation.Text = "0";
             this.yRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yRotation_KeyDown);
+            this.yRotation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.yRotation_MouseUp);
             this.yRotation.Validating += new System.ComponentModel.CancelEventHandler(this.yRotation_Validating);
             this.yRotation.Validated += new System.EventHandler(this.yRotation_Validated);
             // 
@@ -820,6 +883,7 @@
             this.xRotation.TabIndex = 33;
             this.xRotation.Text = "0";
             this.xRotation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xRotation_KeyDown);
+            this.xRotation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.xRotation_MouseUp);
             this.xRotation.Validating += new System.ComponentModel.CancelEventHandler(this.xRotation_Validating);
             this.xRotation.Validated += new System.EventHandler(this.xRotation_Validated);
             // 
@@ -827,6 +891,7 @@
             // 
             this.lblxRotate.AutoSize = true;
             this.lblxRotate.Enabled = false;
+            this.lblxRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblxRotate.Location = new System.Drawing.Point(7, 22);
             this.lblxRotate.Name = "lblxRotate";
             this.lblxRotate.Size = new System.Drawing.Size(15, 13);
@@ -859,6 +924,7 @@
             this.zScaling.TabIndex = 37;
             this.zScaling.Text = "0";
             this.zScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.zScaling_KeyDown);
+            this.zScaling.MouseUp += new System.Windows.Forms.MouseEventHandler(this.zScaling_MouseUp);
             this.zScaling.Validating += new System.ComponentModel.CancelEventHandler(this.zScaling_Validating);
             this.zScaling.Validated += new System.EventHandler(this.zScaling_Validated);
             // 
@@ -866,6 +932,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Enabled = false;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(166, 22);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(15, 13);
@@ -882,6 +949,7 @@
             this.yScaling.TabIndex = 35;
             this.yScaling.Text = "0";
             this.yScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.yScaling_KeyDown);
+            this.yScaling.MouseUp += new System.Windows.Forms.MouseEventHandler(this.yScaling_MouseUp);
             this.yScaling.Validating += new System.ComponentModel.CancelEventHandler(this.yScaling_Validating);
             this.yScaling.Validated += new System.EventHandler(this.yScaling_Validated);
             // 
@@ -889,6 +957,7 @@
             // 
             this.lblyScale.AutoSize = true;
             this.lblyScale.Enabled = false;
+            this.lblyScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblyScale.Location = new System.Drawing.Point(86, 24);
             this.lblyScale.Name = "lblyScale";
             this.lblyScale.Size = new System.Drawing.Size(15, 13);
@@ -905,6 +974,7 @@
             this.xScaling.TabIndex = 34;
             this.xScaling.Text = "0";
             this.xScaling.KeyDown += new System.Windows.Forms.KeyEventHandler(this.xScaling_KeyDown);
+            this.xScaling.MouseUp += new System.Windows.Forms.MouseEventHandler(this.xScaling_MouseUp);
             this.xScaling.Validating += new System.ComponentModel.CancelEventHandler(this.xScaling_Validating);
             this.xScaling.Validated += new System.EventHandler(this.xScaling_Validated);
             // 
@@ -912,6 +982,7 @@
             // 
             this.lblxScale.AutoSize = true;
             this.lblxScale.Enabled = false;
+            this.lblxScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblxScale.Location = new System.Drawing.Point(9, 24);
             this.lblxScale.Name = "lblxScale";
             this.lblxScale.Size = new System.Drawing.Size(15, 13);
@@ -925,6 +996,9 @@
             // 
             // gbColor
             // 
+            this.gbColor.Controls.Add(this.lblObjectColor);
+            this.gbColor.Controls.Add(this.label11);
+            this.gbColor.Controls.Add(this.btnSelectColor);
             this.gbColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbColor.Location = new System.Drawing.Point(887, 147);
             this.gbColor.Name = "gbColor";
@@ -932,6 +1006,17 @@
             this.gbColor.TabIndex = 39;
             this.gbColor.TabStop = false;
             this.gbColor.Text = "Color";
+            // 
+            // btnSelectColor
+            // 
+            this.btnSelectColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectColor.Location = new System.Drawing.Point(12, 41);
+            this.btnSelectColor.Name = "btnSelectColor";
+            this.btnSelectColor.Size = new System.Drawing.Size(153, 23);
+            this.btnSelectColor.TabIndex = 0;
+            this.btnSelectColor.Text = "Select Object Color";
+            this.btnSelectColor.UseVisualStyleBackColor = true;
+            this.btnSelectColor.Click += new System.EventHandler(this.btnSelectColor_Click);
             // 
             // gbPhysics
             // 
@@ -947,6 +1032,7 @@
             // cbGravity
             // 
             this.cbGravity.AutoSize = true;
+            this.cbGravity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbGravity.Location = new System.Drawing.Point(9, 26);
             this.cbGravity.Name = "cbGravity";
             this.cbGravity.Size = new System.Drawing.Size(109, 17);
@@ -957,6 +1043,10 @@
             // 
             // gbLighting
             // 
+            this.gbLighting.Controls.Add(this.comboBox2);
+            this.gbLighting.Controls.Add(this.comboBox1);
+            this.gbLighting.Controls.Add(this.lblLights2);
+            this.gbLighting.Controls.Add(this.lblLights1);
             this.gbLighting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbLighting.Location = new System.Drawing.Point(887, 377);
             this.gbLighting.Name = "gbLighting";
@@ -969,17 +1059,91 @@
             // 
             this.epMain.ContainerControl = this;
             // 
-            // loadTextureToolStripMenuItem
-            // 
-            this.loadTextureToolStripMenuItem.Name = "loadTextureToolStripMenuItem";
-            this.loadTextureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.loadTextureToolStripMenuItem.Text = "Load Texture";
-            this.loadTextureToolStripMenuItem.Click += new System.EventHandler(this.loadTextureToolStripMenuItem_Click);
-            // 
             // ofdTexture
             // 
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(9, 23);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(81, 13);
+            this.label11.TabIndex = 10;
+            this.label11.Text = "Object Color:";
+            // 
+            // lblObjectColor
+            // 
+            this.lblObjectColor.AutoSize = true;
+            this.lblObjectColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblObjectColor.Location = new System.Drawing.Point(113, 23);
+            this.lblObjectColor.Name = "lblObjectColor";
+            this.lblObjectColor.Size = new System.Drawing.Size(43, 13);
+            this.lblObjectColor.TabIndex = 11;
+            this.lblObjectColor.Text = "<none>";
+            // 
+            // lblLights1
+            // 
+            this.lblLights1.AutoSize = true;
+            this.lblLights1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLights1.Location = new System.Drawing.Point(6, 27);
+            this.lblLights1.Name = "lblLights1";
+            this.lblLights1.Size = new System.Drawing.Size(72, 13);
+            this.lblLights1.TabIndex = 10;
+            this.lblLights1.Text = "Point Light:";
+            // 
+            // lblLights2
+            // 
+            this.lblLights2.AutoSize = true;
+            this.lblLights2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLights2.Location = new System.Drawing.Point(8, 98);
+            this.lblLights2.Name = "lblLights2";
+            this.lblLights2.Size = new System.Drawing.Size(104, 13);
+            this.lblLights2.TabIndex = 11;
+            this.lblLights2.Text = "Directional Light:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(9, 43);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(233, 21);
+            this.comboBox1.TabIndex = 12;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(9, 114);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(233, 21);
+            this.comboBox2.TabIndex = 13;
+            // 
+            // lightsToolStripMenuItem
+            // 
+            this.lightsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addPointLightToolStripMenuItem,
+            this.addDirectionalLightToolStripMenuItem});
+            this.lightsToolStripMenuItem.Name = "lightsToolStripMenuItem";
+            this.lightsToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.lightsToolStripMenuItem.Text = "Lights";
+            // 
+            // addPointLightToolStripMenuItem
+            // 
+            this.addPointLightToolStripMenuItem.Name = "addPointLightToolStripMenuItem";
+            this.addPointLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.addPointLightToolStripMenuItem.Text = "Add Point Light";
+            this.addPointLightToolStripMenuItem.Click += new System.EventHandler(this.addPointLightToolStripMenuItem_Click);
+            // 
+            // addDirectionalLightToolStripMenuItem
+            // 
+            this.addDirectionalLightToolStripMenuItem.Name = "addDirectionalLightToolStripMenuItem";
+            this.addDirectionalLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.addDirectionalLightToolStripMenuItem.Text = "Add Directional Light";
+            this.addDirectionalLightToolStripMenuItem.Click += new System.EventHandler(this.addDirectionalLightToolStripMenuItem_Click);
             // 
             // MainPage
             // 
@@ -1018,8 +1182,12 @@
             this.gbRotate.PerformLayout();
             this.gbScale.ResumeLayout(false);
             this.gbScale.PerformLayout();
+            this.gbColor.ResumeLayout(false);
+            this.gbColor.PerformLayout();
             this.gbPhysics.ResumeLayout(false);
             this.gbPhysics.PerformLayout();
+            this.gbLighting.ResumeLayout(false);
+            this.gbLighting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.epMain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1110,6 +1278,17 @@
         private System.Windows.Forms.ErrorProvider epMain;
         private System.Windows.Forms.ToolStripMenuItem loadTextureToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdTexture;
+        private System.Windows.Forms.Button btnSelectColor;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblObjectColor;
+        private System.Windows.Forms.Label lblLights2;
+        private System.Windows.Forms.Label lblLights1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ToolStripMenuItem lightsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addPointLightToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addDirectionalLightToolStripMenuItem;
     }
 }
 

@@ -79,7 +79,7 @@ namespace Graphics
                 //renderer.Meshes.Add(new Mesh());
 
                 //there may be a better place to put this
-                AddToShapeList("Cube");
+                AddToShapeList("Cube", renderer.Meshes.Count);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Graphics
                 renderer.Meshes.Add(new MeshClass(MeshType.Triangle));
 
                 //there may be a better place to put this
-                AddToShapeList("Triangle");
+                AddToShapeList("Triangle", renderer.Meshes.Count);
             }
         }
 
@@ -158,13 +158,13 @@ namespace Graphics
         /// <summary>
         /// Adds a new shape to the shape list combo box
         /// </summary>
-        public void AddToShapeList(string ShapeDesc)
+        public void AddToShapeList(string ShapeDesc, int ID)
         {
             //update shape count
             UpdateShapeCount();
 
             //create new object, set ID = shape count, set description to shape type
-            ShapeListItem sliToAdd = new ShapeListItem(renderer.Meshes.Count, ShapeDesc);
+            ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
 
             Console.WriteLine(sliToAdd.ToString());
 
@@ -186,7 +186,13 @@ namespace Graphics
         /// </summary>
         public void RenumberShapeList()
         {
-            //need to do
+            cboShapeList.Items.Clear();
+            int objCounter = 1;
+            foreach (MeshClass myMesh in renderer.Meshes)
+            {
+                if (myMesh.IsShapeObject) AddToShapeList(myMesh.Name, objCounter); 
+                objCounter ++;
+            }
         }
         private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -202,6 +208,7 @@ namespace Graphics
                 xScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
                 yScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
                 zScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
+                SetCurrentColorLabel();
             }
         }
 
@@ -287,10 +294,6 @@ namespace Graphics
             lblCamRotY.Text = camera.CameraRotation.Y.ToString();
             lblCamRotZ.Text = camera.CameraRotation.Z.ToString();
         }
-        private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            ///process mouse event
-        }
         #endregion
 
         #region Mesh Loading Functions
@@ -313,7 +316,7 @@ namespace Graphics
                         //Code to load Mesh
                         renderer.Meshes.Add(new MeshClass(ofdMesh.FileName, ofdMesh.SafeFileName));
 
-                        AddToShapeList(ofdMesh.SafeFileName);
+                        AddToShapeList(ofdMesh.SafeFileName, renderer.Meshes.Count);
                     }
                     else
                     {
@@ -467,6 +470,7 @@ namespace Graphics
                 renderer.Meshes.Clear();
                 cboShapeList.Items.Clear();
                 UpdateShapeCount();
+                lblSS2.Text = "<none>";
             }
         }
 
@@ -489,6 +493,7 @@ namespace Graphics
                             cboShapeList.Items.RemoveAt(cboShapeList.SelectedIndex);
                             UpdateShapeCount();
                             RenumberShapeList();
+                            lblSS2.Text = "<none>";
                         }
                     }
                 }
@@ -557,10 +562,14 @@ namespace Graphics
             {
                 if (File.Exists(ofdTexture.FileName))
                 {
-                    //Make sure it's a .x file
+                    //Make sure it's a texture file type, this should be good enough
                     if (ofdTexture.FileName.ToUpper().Contains(".BMP") || ofdTexture.FileName.ToUpper().Contains(".DDS") || ofdTexture.FileName.ToUpper().Contains(".JPG"))
                     {
-                        //Code to load Mesh
+                        //Code to load Texture
+                        foreach (MeshClass myMesh in renderer.Meshes)
+                        {
+                            if (myMesh.IsShapeObject) myMesh.ApplyTextureMesh(ofdMesh.FileName, ofdMesh.SafeFileName);
+                        }
                     }
                     else
                     {
@@ -680,5 +689,130 @@ namespace Graphics
             return cancel;
         }
         #endregion
+
+        #region "Mouse Events"
+        private void panel1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            // Update the mouse path with the mouse information
+            Point mouseDownLocation = new Point(e.X, e.Y);
+
+            string eventString = null;
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    eventString = "L";
+                    break;
+                case MouseButtons.Right:
+                    break;
+                case MouseButtons.Middle:
+                    break;
+                case MouseButtons.None:
+                    break;
+            }
+
+            if (eventString != null)
+            {
+                //use mouseDownLocation for x and y coordinate
+                //example
+                MessageBox.Show("X - " + mouseDownLocation.X.ToString() + " Y - " + mouseDownLocation.Y.ToString());
+            }
+            else
+            {
+                //Left mouse button was not clicked
+            }
+            panel1.Focus();
+        }
+        private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            // Update the camera z based upon the mouse wheel scrolling.
+            camera.MoveEye(z: (e.Delta/120 * -1));
+            UpdateCameraLocation();
+
+        }
+        private void panel1_MouseEnter(Object sender, System.EventArgs e)
+        {
+            panel1.Focus();
+        }
+        private void xTranslation_MouseUp(object sender, MouseEventArgs e)
+        {
+            xTranslation.SelectAll();
+        }
+        private void yTranslation_MouseUp(object sender, MouseEventArgs e)
+        {
+            yTranslation.SelectAll();
+        }
+        private void zTranslation_MouseUp(object sender, MouseEventArgs e)
+        {
+            zTranslation.SelectAll();
+        }
+        private void xRotation_MouseUp(object sender, MouseEventArgs e)
+        {
+            xRotation.SelectAll();
+        }
+        private void yRotation_MouseUp(object sender, MouseEventArgs e)
+        {
+            yRotation.SelectAll();
+        }
+        private void zRotation_MouseUp(object sender, MouseEventArgs e)
+        {
+            zRotation.SelectAll();
+        }
+        private void xScaling_MouseUp(object sender, MouseEventArgs e)
+        {
+            xScaling.SelectAll();
+        }
+        private void yScaling_MouseUp(object sender, MouseEventArgs e)
+        {
+            yScaling.SelectAll();
+        }
+        private void zScaling_MouseUp(object sender, MouseEventArgs e)
+        {
+            zScaling.SelectAll();
+        }
+        #endregion
+
+        #region "Color"
+        private void btnSelectColor_Click(object sender, EventArgs e)
+        {
+            DialogResult result = colorDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                //set object color
+
+                //code to remove shape
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    lock (renderer.Meshes)
+                    {
+                        renderer.Meshes[cboShapeList.SelectedIndex].ColorMesh(colorDialog1.Color);
+                    }
+                    //update color label
+                    SetCurrentColorLabel();
+                }
+                else
+                {
+                    MessageBox.Show("Please select an object!");
+                }
+            }
+        }
+        private void SetCurrentColorLabel()
+        {
+            //lblObjectColor.Text = renderer.Meshes[cboShapeList.SelectedIndex].CurrentColor;
+        }
+        #endregion
+
+        #region "Lights"
+        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+
     }
 }
