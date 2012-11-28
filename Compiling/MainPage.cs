@@ -170,6 +170,7 @@ namespace Graphics
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
+
         }
 
         /// <summary>
@@ -209,6 +210,8 @@ namespace Graphics
                 yScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
                 zScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
                 SetCurrentColorLabel();
+                //deselect any lights
+                lblSelectedLight.Text = "<none>";
             }
         }
 
@@ -244,12 +247,12 @@ namespace Graphics
         }
         private void btnCamU_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(y: 1);
+            camera.MoveEye(y: -1);
             UpdateCameraLocation();
         }
         private void btnCamD_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(y: -1);
+            camera.MoveEye(y: 1);
             UpdateCameraLocation();
         }
         private void btnRCamL_Click(object sender, EventArgs e)
@@ -804,15 +807,57 @@ namespace Graphics
         #region "Lights"
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //Code to add new point light
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //code to add new directional light
+        }
+        private void AddLightToDropDown()
+        {
+            // code to add new light to light drop down list
+        }
+        private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //deselect current object
+            lblSS2.Text = "<none>";
+        }
+        private void txtLightDirectionX_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightDirectionX.SelectAll();
+        }
+        private void txtLightDirectionY_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightDirectionY.SelectAll();
+        }
+        private void txtLightDirectionZ_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightDirectionZ.SelectAll();
+        }
+        private void txtLightRange_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightRange.SelectAll();
+        }
+        private void txtLightLocX_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightLocX.SelectAll();
+        }
+        private void txtLightLocY_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightLocY.SelectAll();
+        }
+        private void txtLightLocZ_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightLocZ.SelectAll();
         }
         #endregion
 
-
+        #region "WireFrame"
+        private void cbWireFrame_CheckedChanged(object sender, EventArgs e)
+        {
+            //code for changing objects into wireframe
+        }
+        #endregion
     }
 }
