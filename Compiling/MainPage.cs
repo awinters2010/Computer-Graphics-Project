@@ -42,18 +42,18 @@ namespace Graphics
 
             camera = new Camera();
 
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, true);
             DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.PapayaWhip.ToArgb());
+            DeviceManager.LocalDevice.SetRenderState(RenderState.SpecularEnable, false);
 
 
             //set GUI control attributes
             SetGui();
 
             panel1.Focus();
-
-            this.KeyPress += new KeyPressEventHandler(KeyBoard);
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
 
             Configuration.EnableObjectTracking = true;
@@ -97,32 +97,6 @@ namespace Graphics
 
         #endregion
 
-        private void KeyBoard(object sender, KeyPressEventArgs e)
-        {
-            if (this.ValidateChildren(ValidationConstraints.Enabled))
-            {
-                //all input is validated
-                FillMode fm = DeviceManager.LocalDevice.GetRenderState
-                    <FillMode>(RenderState.FillMode);
-
-                if (e.KeyChar.ToString() == Keys.F.ToString().ToLower())
-                {
-                    fm = fm == FillMode.Solid ? FillMode.Wireframe : FillMode.Solid;
-                }
-
-                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, fm);
-
-                if (e.KeyChar.ToString() == Keys.Z.ToString().ToLower())
-                {
-                    camera.MoveEye(z: 1f);
-                }
-            }
-            else
-            {
-                //prompt user
-            }
-        }
-
         /// <summary>
         /// Sets GUI Menu items and controls including width and colors
         /// </summary>
@@ -144,9 +118,6 @@ namespace Graphics
             gbColor.BackColor = GUISubWindowColor;
             gbLighting.BackColor = GUISubWindowColor;
             gbPhysics.BackColor = GUISubWindowColor;
-
-            //set control sizes
-            //plNotArea.Width = this.Width;
 
             //set shape drop down list value and display members
             cboShapeList.ValueMember = "ID";
@@ -464,19 +435,6 @@ namespace Graphics
             }
         }
 
-        private void ClearScene()
-        {
-            //Code to clear scene
-            lock (renderer.Meshes)
-            {
-                renderer.Meshes.ForEach(mesh => mesh.Dispose());
-                renderer.Meshes.Clear();
-                cboShapeList.Items.Clear();
-                UpdateShapeCount();
-                lblSS2.Text = "<none>";
-            }
-        }
-
         private void btnDeleteShape_Click(object sender, EventArgs e)
         {
             if (lblSS2.Text != "<none>")
@@ -511,14 +469,38 @@ namespace Graphics
 
         #region Program Shutdown
 
+        private void ClearScene()
+        {
+            lock (renderer.light)
+            {
+                renderer.light.ForEach(light => light.Dispose());
+                renderer.light.Clear();
+            }
+
+            //Code to clear scene
+            lock (renderer.Meshes)
+            {
+                renderer.Meshes.ForEach(mesh => mesh.Dispose());
+                renderer.Meshes.Clear();
+                cboShapeList.Items.Clear();
+            }
+        }
+
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
         private void ShutDown()
         {
             renderer.RequestShutdown();
 
-            VertexUntransformed.VertexDecl.Dispose();
+            if (!CustomVertex.VertexPositionColor.VertexDecl.Disposed)
+            {
+                CustomVertex.VertexPositionColor.VertexDecl.Dispose();
+            }
+            if (!CustomVertex.VertexPositionNormalColor.VertexDecl.Disposed)
+            {
+                CustomVertex.VertexPositionNormalColor.VertexDecl.Dispose();
+            }
 
-            while (!DeviceManager.LocalDevice.Disposed)
+            while (!DeviceManager.LocalDevice.Disposed && !renderThread.IsAlive)
             {
                 DeviceManager.LocalDevice.EvictManagedResources();
                 DeviceManager.LocalDevice.Direct3D.Dispose();
@@ -787,7 +769,10 @@ namespace Graphics
                 {
                     lock (renderer.Meshes)
                     {
-                        renderer.Meshes[cboShapeList.SelectedIndex].ColorMesh(colorDialog1.Color);
+                        if (renderer.Meshes[cboShapeList.SelectedIndex].IsShapeObject)
+                        {
+                            renderer.Meshes[cboShapeList.SelectedIndex].ApplyColor(colorDialog1.Color);
+                        }
                     }
                     //update color label
                     SetCurrentColorLabel();
@@ -808,6 +793,7 @@ namespace Graphics
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Code to add new point light
+            renderer.light.Add(new Lights(LightType.Point));
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -857,6 +843,15 @@ namespace Graphics
         private void cbWireFrame_CheckedChanged(object sender, EventArgs e)
         {
             //code for changing objects into wireframe
+
+            if (cbWireFrame.Checked)
+            {
+                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
+            }
+            else
+            {
+                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
+            }
         }
         #endregion
     }
