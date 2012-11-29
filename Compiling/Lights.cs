@@ -8,22 +8,26 @@ using System.Drawing;
 
 namespace Graphics
 {
-    public class Lights
+    public class Lights : IDisposable
     {
-        Light light;
-        Material material;
-        private Vector3 position = new Vector3(-12f,0f,30f);
-        private Vector3 direction = new Vector3(0, 0, -1f);
-        public string Type { get; private set; }
+        private Light light;
+        private Material material;
+        private bool isLightEnabled;
+        private bool isGlobalLightOn;
+        private Mesh mesh;
+        private Matrix world;
 
-        public Lights(LightType type)
+        public string Type { get; private set; }
+        public Vector3 Position { get; set; }
+        public Vector3 Direction { get; set; }
+
+        public Lights(LightType type = LightType.Point)
         {
             if (type == LightType.Point)
             {
-                light.Type = LightType.Point;
+                light.Type = type;
                 light.Diffuse = new Color4(new Vector4(.5f, .5f, .5f, 1f));
-                light.Position = position;
-                light.Direction = direction;
+                light.Position = Vector3.Zero;
                 light.Range = 100.0f;    // a range of 100
                 light.Attenuation0 = 0.0f;    // no constant inverse attenuation
                 light.Attenuation1 = 0.125f;    // only .125 inverse attenuation
@@ -35,21 +39,68 @@ namespace Graphics
             }
             else if (type == LightType.Directional)
             {
-                
+                light.Type = type;
+                light.Direction = Vector3.Zero;
+                light.Ambient = Color.PapayaWhip;
+                light.Diffuse = Color.PapayaWhip;
+                light.Specular = Color.PapayaWhip;
             }
 
+            isLightEnabled = false;
+            isGlobalLightOn = true;
             Type = type.ToString();
-        }
-
-        public void Render()
-        {
-            DeviceManager.LocalDevice.SetLight(0, light);
-            DeviceManager.LocalDevice.EnableLight(0, true);
+            Position = Vector3.Zero;
+            Direction = Vector3.Zero;
+            world = Matrix.Identity;
+            mesh = Mesh.CreateSphere(DeviceManager.LocalDevice, .1f, 10, 10);
 
             material.Diffuse = new Color4(1, 1, 1, 1);
             material.Ambient = new Color4(1, 1, 1, 1);
 
             DeviceManager.LocalDevice.Material = material;
+        }
+
+        public void TurnLightLive(int index)
+        {
+            isLightEnabled = isLightEnabled == true ? false : true;
+            DeviceManager.LocalDevice.SetLight(index, light);
+            DeviceManager.LocalDevice.EnableLight(index, isLightEnabled);
+            isGlobalLightOn = false;
+        }
+
+        public void Render()
+        {
+            if (isGlobalLightOn)
+            {
+                world = Matrix.Translation(Position);
+                DeviceManager.LocalDevice.SetTransform(TransformState.World, world);
+
+                mesh.DrawSubset(0);
+            }
+        }
+
+        public void Dispose()
+        {
+            mesh.Dispose();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        public void GlobalLightTranslation(float x, float y, float z)
+        {
+            Position = new Vector3(x, y, z);
+        }
+
+        public void GlobalLightOffPosition(Vector3 position)
+        {
+            if (Type.Equals(LightType.Point.ToString()))
+            {
+                light.Position = position;
+            }
         }
     }
 }
