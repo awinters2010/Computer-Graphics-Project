@@ -19,7 +19,8 @@ namespace Graphics
             shutdown = false;
             Meshes = new List<MeshClass>();
             light = new List<Lights>();
-            light.Add(new Lights(LightType.Point));
+            light.Add(new Lights());
+            light[0].TurnLightLive(0);
         }
 
         public void RequestShutdown()
