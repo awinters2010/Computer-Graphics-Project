@@ -17,8 +17,7 @@ namespace Graphics
     public class MeshClass : IDisposable
     {
         public Texture[] CurrentTexture { get; set; }
-        public Vector3 ObjectPosition { get; set; }
-        public Matrix World { get; set; }
+        public Vector3 ObjectPosition { get; set; }        
         public Vector3 ObjectRotate { get; set; }
         public bool IsShapeObject { get; private set; }
         public string Name { get; set; }
@@ -26,13 +25,13 @@ namespace Graphics
 
         private Material[] material;
         private Mesh objectMesh;
-        public Mesh ObjectMesh { 
-            get {
-                return objectMesh;
-            } 
-            private set 
+        private Matrix world;
+
+        public Mesh ObjectMesh
+        {
+            get
             {
-                objectMesh = value;
+                return objectMesh;
             }
         }
         
@@ -64,7 +63,7 @@ namespace Graphics
             ObjectPosition = Vector3.Zero;
             ObjectRotate = Vector3.Zero;
             ObjectScale = new Vector3(1, 1, 1);
-            World = Matrix.Identity;
+            world = Matrix.Identity;
             Name = fileName;
             IsShapeObject = false;
         }
@@ -78,15 +77,23 @@ namespace Graphics
             if (type == MeshType.Cube)
             {
                 objectMesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
+
+                    Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Diffuse);
+                    objectMesh.Dispose();
+                    objectMesh = null;
+                    //other.ComputeNormals();
+                    objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
+                    other.Dispose();
+                    //result = objectMesh.ComputeNormals();
             }
             else if (type == MeshType.Triangle)
             {
-                var ShapeVertices = new VertexUntransformed[] {
-                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
-                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
-                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, -1f) },
-                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, -1f) },
-                    new VertexUntransformed() { Color = Color.White.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
+                var ShapeVertices = new CustomVertex.VertexPositionColor[] {
+                    new CustomVertex.VertexPositionColor() { Color = Color.Yellow.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
+                    new CustomVertex.VertexPositionColor() { Color = Color.Gray.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
+                    new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, -1f) },
+                    new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, -1f) },
+                    new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
                 };
 
                 var ShapeIndices = new short[] {
@@ -98,19 +105,34 @@ namespace Graphics
                     2, 0, 4,
                 };
 
-                objectMesh = new Mesh(DeviceManager.LocalDevice, 100, 100, MeshFlags.WriteOnly, VertexUntransformed.VertexDecl.Elements);
+                try
+                {
+                    objectMesh = new Mesh(DeviceManager.LocalDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexFormat.Position | VertexFormat.Diffuse);
 
-                objectMesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexUntransformed>(ShapeVertices);
-                objectMesh.UnlockVertexBuffer();
+                    objectMesh.LockVertexBuffer(LockFlags.None).WriteRange<CustomVertex.VertexPositionColor>(ShapeVertices);
+                    objectMesh.UnlockVertexBuffer();
 
-                objectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
-                objectMesh.UnlockIndexBuffer();
+                    objectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
+                    objectMesh.UnlockIndexBuffer();
+
+                    //objectMesh.ComputeNormals();
+                }
+                catch (Direct3D9Exception ex)
+                {
+                    Console.WriteLine("Message: " + ex.Message);
+                    Console.WriteLine("Error Code: " + ex.ResultCode.Code);
+                    Console.WriteLine("Name: " + ex.ResultCode.Name);
+                    Console.WriteLine("Description: " + ex.ResultCode.Description);
+                    Console.WriteLine("Source: " + ex.Source);
+                    Console.WriteLine("Stack Trace: " + ex.StackTrace);
+                    Console.WriteLine("Method that Threw Exception: " + ex.TargetSite);
+                }
             }
 
             ObjectPosition = Vector3.Zero;
             ObjectRotate = Vector3.Zero;
             ObjectScale = new Vector3(1, 1, 1);
-            World = Matrix.Translation(ObjectPosition);
+            world = Matrix.Translation(ObjectPosition);
             Name = type.ToString();
             IsShapeObject = true;
         }
@@ -135,7 +157,7 @@ namespace Graphics
                 }
 
                 objectMesh.Dispose();
-                Console.WriteLine("objects disposed");
+                Console.WriteLine("objects disposed " + Name);
             }
 
             CurrentTexture = null;
@@ -146,8 +168,8 @@ namespace Graphics
 
         public void RenderMesh()
         {
-            World = Matrix.RotationYawPitchRoll(ObjectRotate.Y, ObjectRotate.X, ObjectRotate.Z) * Matrix.Scaling(ObjectScale) * Matrix.Translation(ObjectPosition);
-            DeviceManager.LocalDevice.SetTransform(TransformState.World, World);
+            world = Matrix.RotationYawPitchRoll(ObjectRotate.Y, ObjectRotate.X, ObjectRotate.Z) * Matrix.Scaling(ObjectScale) * Matrix.Translation(ObjectPosition);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, world);
 
             if (material != null)
             {
@@ -172,78 +194,17 @@ namespace Graphics
         }
 
         /// <summary>
-        /// To apply Color to the object
+        /// Apply a color to a mesh
         /// </summary>
-        /// <param name="ambient">The ambient color (color of the whole object)</param>
-        public void ColorMesh(Color ambient)
+        /// <param name="color">The color you wish you apply</param>
+        public void ApplyColor(Color color)
         {
-            this.material[0].Ambient = ambient;
-            this.material[0].Diffuse = Color.White;
-            this.material[0].Specular = Color.White;
-            this.material[0].Emissive = Color.White;
-            this.material[0].Power = 1.0f;
-        }
-
-        /// <summary>
-        /// To apply Color to the object
-        /// </summary>
-        /// <param name="ambient">The ambient color (color of the whole object)</param>
-        /// <param name="diffuse"></param>
-        public void ColorMesh(Color ambient, Color diffuse)
-        {
-            this.material[0].Ambient = ambient;
-            this.material[0].Diffuse = diffuse;
-            this.material[0].Specular = Color.White;
-            this.material[0].Emissive = Color.White;
-            this.material[0].Power = 1.0f;
-        }
-
-        /// <summary>
-        /// To apply Color to the object
-        /// </summary>
-        /// <param name="ambient">The ambient color (color of the whole object)</param>
-        /// <param name="diffuse"></param>
-        /// <param name="specular"></param>
-        public void ColorMesh(Color ambient, Color diffuse, Color specular)
-        {
-            this.material[0].Ambient = ambient;
-            this.material[0].Diffuse = diffuse;
-            this.material[0].Specular = specular;
-            this.material[0].Emissive = Color.White;
-            this.material[0].Power = 1.0f;
-        }
-
-        /// <summary>
-        /// To apply Color to the object
-        /// </summary>
-        /// <param name="ambient">The ambient color (color of the whole object)</param>
-        /// <param name="diffuse"></param>
-        /// <param name="specular"></param>
-        /// <param name="emissive"></param>
-        public void ColorMesh(Color ambient, Color diffuse, Color specular, Color emissive)
-        {
-            this.material[0].Ambient = ambient;
-            this.material[0].Diffuse = diffuse;
-            this.material[0].Specular = specular;
-            this.material[0].Emissive = emissive;
-            this.material[0].Power = 1.0f;
-        }
-
-        /// <summary>
-        /// To apply Color to the object
-        /// </summary>
-        /// <param name="ambient">The ambient color (color of the whole object)</param>
-        /// <param name="diffuse"></param>
-        /// <param name="specular"></param>
-        /// <param name="emissive"></param>
-        /// <param name="power"></param>
-        public void ColorMesh(Color ambient, Color diffuse, Color specular, Color emissive, float power)
-        {
-            this.material[0].Ambient = ambient;
-            this.material[0].Diffuse = diffuse;
-            this.material[0].Specular = specular;
-            this.material[0].Emissive = emissive;
-            this.material[0].Power = power;
+            material = new Material[1];
+            material[0].Ambient = color;
+            material[0].Diffuse = color;
+            material[0].Specular = color;
+            material[0].Emissive = Color.Black;
+            material[0].Power = 2.0f;
         }
 
         /// <summary>
@@ -253,20 +214,44 @@ namespace Graphics
         /// <param name="fileName">The string name of the file</param>
         public void ApplyTextureMesh(string filePath, string fileName)
         {
-            this.CurrentTexture[0] = Texture.FromFile(DeviceManager.LocalDevice, filePath);
+            lock (objectMesh)
+            {
+                Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.UseHardwareOnly,
+                    VertexFormat.Position | VertexFormat.Normal | VertexFormat.Texture0);
+                lock (CurrentTexture)
+                {
+                }
+
+                other.Dispose();
+            }
         }
 
-
+        /// <summary>
+        /// Rotate the object
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public void Rotate(float x, float y, float z)
         {
             ObjectRotate = new Vector3(x, y, z);
         }
 
+        /// <summary>
+        /// Translate the object
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public void Translate(float x, float y, float z)
         {
             ObjectPosition = new Vector3(x, y, z);
         }
 
+        /// <summary>
+        /// Scale the object
+        /// </summary>
+        /// <param name="scale"></param>
         public void Scale(Vector3 scale)
         {
             ObjectScale = scale;
