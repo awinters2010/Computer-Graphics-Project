@@ -54,11 +54,13 @@ namespace Graphics
 
                 string s = filePath;
                 int index = s.IndexOf(fileName);
-                s = s.Remove(index);
+                s = s.Remove(s.IndexOf(fileName));
                 s = s.Insert(index, externMaterial[i].TextureFileName);
 
                 CurrentTexture[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
             }
+
+            objectMesh.Optimize(MeshOptimizeFlags.Compact);
 
             ObjectPosition = Vector3.Zero;
             ObjectRotate = Vector3.Zero;
@@ -66,6 +68,8 @@ namespace Graphics
             world = Matrix.Identity;
             Name = fileName;
             IsShapeObject = false;
+
+            Console.WriteLine(Name + " object created");
         }
 
         /// <summary>
@@ -78,13 +82,14 @@ namespace Graphics
             {
                 objectMesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
 
-                    Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Diffuse);
-                    objectMesh.Dispose();
-                    objectMesh = null;
-                    //other.ComputeNormals();
-                    objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
-                    other.Dispose();
-                    //result = objectMesh.ComputeNormals();
+                Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Diffuse | VertexFormat.Texture2);
+                objectMesh.Dispose();
+                objectMesh = null;
+                other.ComputeNormals();
+                objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
+                other.Dispose();
+
+                objectMesh.Optimize(MeshOptimizeFlags.Compact);
             }
             else if (type == MeshType.Triangle)
             {
@@ -115,7 +120,14 @@ namespace Graphics
                     objectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
                     objectMesh.UnlockIndexBuffer();
 
-                    //objectMesh.ComputeNormals();
+                    Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
+                    objectMesh.Dispose();
+                    objectMesh = null;
+                    other.ComputeNormals();
+                    objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
+                    other.Dispose();
+
+                    objectMesh.Optimize(MeshOptimizeFlags.Compact);
                 }
                 catch (Direct3D9Exception ex)
                 {
@@ -135,6 +147,8 @@ namespace Graphics
             world = Matrix.Translation(ObjectPosition);
             Name = type.ToString();
             IsShapeObject = true;
+
+            Console.WriteLine(Name + " object created");
         }
 
         #region releasing resources
@@ -157,7 +171,7 @@ namespace Graphics
                 }
 
                 objectMesh.Dispose();
-                Console.WriteLine("objects disposed " + Name);
+                Console.WriteLine("objects Removed " + Name);
             }
 
             CurrentTexture = null;

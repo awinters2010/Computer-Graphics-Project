@@ -82,6 +82,8 @@ namespace Graphics
         public void Dispose()
         {
             mesh.Dispose();
+
+            Console.WriteLine("object Removed " + Type);
         }
 
         /// <summary>
