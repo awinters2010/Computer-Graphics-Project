@@ -140,6 +140,8 @@
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -166,7 +168,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.shapesToolStripMenuItem,
-            this.lightsToolStripMenuItem});
+            this.lightsToolStripMenuItem,
+            this.terrainToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1137, 24);
@@ -1378,6 +1381,21 @@
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
             // 
+            // terrainToolStripMenuItem
+            // 
+            this.terrainToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.randomTerrainToolStripMenuItem});
+            this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.terrainToolStripMenuItem.Text = "Terrain";
+            // 
+            // randomTerrainToolStripMenuItem
+            // 
+            this.randomTerrainToolStripMenuItem.Name = "randomTerrainToolStripMenuItem";
+            this.randomTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.randomTerrainToolStripMenuItem.Text = "Random Terrain";
+            this.randomTerrainToolStripMenuItem.Click += new System.EventHandler(this.randomTerrainToolStripMenuItem_Click);
+            // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1540,6 +1558,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox cbWireFrame;
+        private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem randomTerrainToolStripMenuItem;
     }
 }
 
