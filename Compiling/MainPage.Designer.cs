@@ -113,9 +113,10 @@
             this.label11 = new System.Windows.Forms.Label();
             this.btnSelectColor = new System.Windows.Forms.Button();
             this.gbPhysics = new System.Windows.Forms.GroupBox();
+            this.cbWireFrame = new System.Windows.Forms.CheckBox();
             this.cbGravity = new System.Windows.Forms.CheckBox();
             this.gbLighting = new System.Windows.Forms.GroupBox();
-            this.label21 = new System.Windows.Forms.Label();
+            this.lblLightCount = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -139,7 +140,6 @@
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.cbWireFrame = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -1091,6 +1091,18 @@
             this.gbPhysics.TabStop = false;
             this.gbPhysics.Text = "Environment";
             // 
+            // cbWireFrame
+            // 
+            this.cbWireFrame.AutoSize = true;
+            this.cbWireFrame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbWireFrame.Location = new System.Drawing.Point(9, 50);
+            this.cbWireFrame.Name = "cbWireFrame";
+            this.cbWireFrame.Size = new System.Drawing.Size(126, 17);
+            this.cbWireFrame.TabIndex = 1;
+            this.cbWireFrame.Text = "Wireframe On/Off";
+            this.cbWireFrame.UseVisualStyleBackColor = true;
+            this.cbWireFrame.CheckedChanged += new System.EventHandler(this.cbWireFrame_CheckedChanged);
+            // 
             // cbGravity
             // 
             this.cbGravity.AutoSize = true;
@@ -1105,7 +1117,7 @@
             // 
             // gbLighting
             // 
-            this.gbLighting.Controls.Add(this.label21);
+            this.gbLighting.Controls.Add(this.lblLightCount);
             this.gbLighting.Controls.Add(this.label20);
             this.gbLighting.Controls.Add(this.label18);
             this.gbLighting.Controls.Add(this.label19);
@@ -1134,15 +1146,15 @@
             this.gbLighting.TabStop = false;
             this.gbLighting.Text = "Lights";
             // 
-            // label21
+            // lblLightCount
             // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(128, 23);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(44, 13);
-            this.label21.TabIndex = 10;
-            this.label21.Text = "Count:";
+            this.lblLightCount.AutoSize = true;
+            this.lblLightCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLightCount.Location = new System.Drawing.Point(128, 23);
+            this.lblLightCount.Name = "lblLightCount";
+            this.lblLightCount.Size = new System.Drawing.Size(44, 13);
+            this.lblLightCount.TabIndex = 10;
+            this.lblLightCount.Text = "Count:";
             // 
             // label20
             // 
@@ -1366,18 +1378,6 @@
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
             // 
-            // cbWireFrame
-            // 
-            this.cbWireFrame.AutoSize = true;
-            this.cbWireFrame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbWireFrame.Location = new System.Drawing.Point(9, 50);
-            this.cbWireFrame.Name = "cbWireFrame";
-            this.cbWireFrame.Size = new System.Drawing.Size(126, 17);
-            this.cbWireFrame.TabIndex = 1;
-            this.cbWireFrame.Text = "Wireframe On/Off";
-            this.cbWireFrame.UseVisualStyleBackColor = true;
-            this.cbWireFrame.CheckedChanged += new System.EventHandler(this.cbWireFrame_CheckedChanged);
-            // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1536,7 +1536,7 @@
         private System.Windows.Forms.TextBox txtLightLocX;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtLightRange;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblLightCount;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox cbWireFrame;

@@ -137,8 +137,6 @@ namespace Graphics
             //create new object, set ID = shape count, set description to shape type
             ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
 
-            Console.WriteLine(sliToAdd.ToString());
-
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
 
@@ -426,6 +424,7 @@ namespace Graphics
                 try
                 {
                     ClearScene();
+                    UpdateShapeCount();
                 }
                 catch (Exception)
                 {
@@ -794,15 +793,24 @@ namespace Graphics
         {
             //Code to add new point light
             renderer.light.Add(new Lights(LightType.Point));
+
+            AddLightToDropDown(renderer.light.Count, LightType.Point.ToString());
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //code to add new directional light
+            renderer.light.Add(new Lights(LightType.Directional));
+
+
         }
-        private void AddLightToDropDown()
+        private void AddLightToDropDown(int ID, string LightType)
         {
             // code to add new light to light drop down list
+            ShapeListItem sliToAdd = new ShapeListItem(ID, LightType);
+
+            //Add object
+            cbPointLights.Items.Add(sliToAdd);
         }
         private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
         {
