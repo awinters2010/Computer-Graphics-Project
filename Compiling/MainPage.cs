@@ -15,17 +15,13 @@ namespace Graphics
 
         //the thread that the graphics will be running in so the UI doesn't lock up.
         private Thread renderThread;
-
-        private Result errorResult;
-
         private Camera camera;
+        private Renderer renderer;
 
         //GUI colors
         private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
-
-        private Renderer renderer;
 
         Point p;
         bool objectSelected = false;
@@ -43,7 +39,7 @@ namespace Graphics
             camera = new Camera();
 
             DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, true);
-            DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.None);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
             DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.PapayaWhip.ToArgb());
@@ -499,6 +495,8 @@ namespace Graphics
                 CustomVertex.VertexPositionNormalColor.VertexDecl.Dispose();
             }
 
+            renderer.Terrian.Dispose();
+
             while (!DeviceManager.LocalDevice.Disposed && !renderThread.IsAlive)
             {
                 DeviceManager.LocalDevice.EvictManagedResources();
@@ -862,5 +860,10 @@ namespace Graphics
             }
         }
         #endregion
+
+        private void randomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            renderer.Terrian = new Terrain();
+        }
     }
 }

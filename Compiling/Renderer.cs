@@ -9,6 +9,8 @@ namespace Graphics
     public class Renderer
     {
         private volatile bool shutdown;
+
+        public Terrain Terrian { get; set; }
         public int verticesCount { get; set; }
         public int indiciesCount { get; set; }
         public List<MeshClass> Meshes { get; set; }
@@ -49,6 +51,11 @@ namespace Graphics
                     {
                         item.Render();
                     }
+                }
+
+                if (Terrian != null)
+                {
+                    Terrian.Render();
                 }
 
                 DeviceManager.LocalDevice.EndScene();
