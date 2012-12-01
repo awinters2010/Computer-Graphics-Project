@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace Graphics
 {
-    public class Lights : IDisposable
+    public class LightClass : IDisposable
     {
         private Light light;
         private Material material;
@@ -21,7 +21,7 @@ namespace Graphics
         public Vector3 Position { get; set; }
         public Vector3 Direction { get; set; }
 
-        public Lights(LightType type = LightType.Point)
+        public LightClass(LightType type = LightType.Point)
         {
             if (type == LightType.Point)
             {
