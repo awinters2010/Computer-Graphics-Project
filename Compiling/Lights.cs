@@ -27,7 +27,7 @@ namespace Graphics
             {
                 light.Type = type;
                 light.Diffuse = new Color4(new Vector4(.5f, .5f, .5f, 1f));
-                light.Position = Vector3.Zero;
+                light.Position = new Vector3(0,0,30);
                 light.Range = 100.0f;    // a range of 100
                 light.Attenuation0 = 0.0f;    // no constant inverse attenuation
                 light.Attenuation1 = 0.125f;    // only .125 inverse attenuation
@@ -60,7 +60,7 @@ namespace Graphics
             DeviceManager.LocalDevice.Material = material;
         }
 
-        public void TurnLightLive(int index)
+        public void LightOnOff(int index)
         {
             isLightEnabled = isLightEnabled == true ? false : true;
             DeviceManager.LocalDevice.SetLight(index, light);
@@ -83,7 +83,7 @@ namespace Graphics
         {
             mesh.Dispose();
 
-            Console.WriteLine("object Removed " + Type);
+            Console.WriteLine("object Removed " + Type + " Light");
         }
 
         /// <summary>

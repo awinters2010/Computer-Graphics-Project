@@ -22,7 +22,7 @@ namespace Graphics
             Meshes = new List<MeshClass>();
             light = new List<Lights>();
             light.Add(new Lights());
-            light[0].TurnLightLive(0);
+            light[0].LightOnOff(0);
         }
 
         public void RequestShutdown()
