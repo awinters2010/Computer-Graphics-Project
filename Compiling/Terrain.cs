@@ -2,6 +2,7 @@
 using SlimDX.Direct3D9;
 using SlimDX;
 using System.Drawing;
+using System.IO;
 
 namespace Graphics
 {
@@ -14,10 +15,12 @@ namespace Graphics
 
         public Terrain()
         {
+            FileStream fs = new FileStream("heightdata.raw", FileMode.Open, FileAccess.Read);
+            BinaryReader r = new BinaryReader(fs);
             rand = new Random();
 
-            width = rand.Next(1, 50);
-            tall = rand.Next(1, 50);
+            width = rand.Next(2, 100);//64;//rand.Next(2, 50);
+            tall = rand.Next(2, 100);//64;//rand.Next(2, 50);
 
             height = new int[width, tall];
 
@@ -28,7 +31,15 @@ namespace Graphics
             {
                 for (int j = 0; j < tall; j++)
                 {
-                    height[i, j] = rand.Next(0, 6);
+                    //height[width - 1 - j, tall - 1 - i] = (int)(r.ReadByte() / 50);
+                    height[i, j] = rand.Next(0, 3);
+                }
+            }
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < tall; j++)
+                {
                     vertices[i + j * width].Position = new Vector3(i, j, height[i,j]);
                     vertices[i + j * width].Color = Color.White.ToArgb();
                 }
@@ -38,13 +49,15 @@ namespace Graphics
             {
                 for (int j = 0; j < tall - 1; j++)
                 {
+                    Console.WriteLine((i + 1) + (j + 1) * width);
                     indicies[(i + j * (width - 1)) * 3] = (short)((i + 1) + (j + 1) * width);
                     indicies[(i + j * (width - 1)) * 3 + 1] = (short)((i + 1) + j * width);
                     indicies[(i + j * (width - 1)) * 3 + 2] = (short)(i + j * width);
                 }
             }
 
-            mesh = new Mesh(DeviceManager.LocalDevice, width * tall, width * tall, 
+            
+            mesh = new Mesh(DeviceManager.LocalDevice, indicies.Length, vertices.Length, 
                 MeshFlags.Managed, CustomVertex.VertexPositionColor.Format);
 
             mesh.LockVertexBuffer(LockFlags.Discard).WriteRange<CustomVertex.VertexPositionColor>(vertices);
@@ -54,6 +67,9 @@ namespace Graphics
             mesh.UnlockIndexBuffer();
 
             mesh.Optimize(MeshOptimizeFlags.AttributeSort | MeshOptimizeFlags.Compact);
+
+            r.Dispose();
+            fs.Dispose();
         }
 
         public void Render()
@@ -67,6 +83,8 @@ namespace Graphics
         public void Dispose()
         {
             mesh.Dispose();
+
+            Console.WriteLine("Terrian Disposed");
         }
     }
 }
