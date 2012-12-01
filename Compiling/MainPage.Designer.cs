@@ -41,6 +41,8 @@
             this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addPointLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addDirectionalLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblMemoryUsage = new System.Windows.Forms.Label();
             this.lblMem = new System.Windows.Forms.Label();
             this.gbMemUsage = new System.Windows.Forms.GroupBox();
@@ -140,8 +142,7 @@
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.randomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -252,6 +253,22 @@
             this.addDirectionalLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addDirectionalLightToolStripMenuItem.Text = "Add Directional Light";
             this.addDirectionalLightToolStripMenuItem.Click += new System.EventHandler(this.addDirectionalLightToolStripMenuItem_Click);
+            // 
+            // terrainToolStripMenuItem
+            // 
+            this.terrainToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.randomTerrainToolStripMenuItem,
+            this.removeTerrainToolStripMenuItem});
+            this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.terrainToolStripMenuItem.Text = "Terrain";
+            // 
+            // randomTerrainToolStripMenuItem
+            // 
+            this.randomTerrainToolStripMenuItem.Name = "randomTerrainToolStripMenuItem";
+            this.randomTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.randomTerrainToolStripMenuItem.Text = "Random Terrain";
+            this.randomTerrainToolStripMenuItem.Click += new System.EventHandler(this.randomTerrainToolStripMenuItem_Click);
             // 
             // lblMemoryUsage
             // 
@@ -1381,20 +1398,12 @@
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
             // 
-            // terrainToolStripMenuItem
+            // removeTerrainToolStripMenuItem
             // 
-            this.terrainToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.randomTerrainToolStripMenuItem});
-            this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
-            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.terrainToolStripMenuItem.Text = "Terrain";
-            // 
-            // randomTerrainToolStripMenuItem
-            // 
-            this.randomTerrainToolStripMenuItem.Name = "randomTerrainToolStripMenuItem";
-            this.randomTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.randomTerrainToolStripMenuItem.Text = "Random Terrain";
-            this.randomTerrainToolStripMenuItem.Click += new System.EventHandler(this.randomTerrainToolStripMenuItem_Click);
+            this.removeTerrainToolStripMenuItem.Name = "removeTerrainToolStripMenuItem";
+            this.removeTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.removeTerrainToolStripMenuItem.Text = "Remove Terrain";
+            this.removeTerrainToolStripMenuItem.Click += new System.EventHandler(this.removeTerrainToolStripMenuItem_Click);
             // 
             // MainPage
             // 
@@ -1560,6 +1569,7 @@
         private System.Windows.Forms.CheckBox cbWireFrame;
         private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomTerrainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeTerrainToolStripMenuItem;
     }
 }
 

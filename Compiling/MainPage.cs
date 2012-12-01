@@ -42,7 +42,7 @@ namespace Graphics
             DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.None);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.PapayaWhip.ToArgb());
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
             DeviceManager.LocalDevice.SetRenderState(RenderState.SpecularEnable, false);
 
 
@@ -118,6 +118,9 @@ namespace Graphics
             //set shape drop down list value and display members
             cboShapeList.ValueMember = "ID";
             cboShapeList.DisplayMember = "ShapeDesc";
+
+            cbPointLights.ValueMember = "ID";
+            cbPointLights.DisplayMember = "ShapeDesc";
         }
 
         #region "Shape DropDownList Related Methods"
@@ -135,7 +138,6 @@ namespace Graphics
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
-
         }
 
         /// <summary>
@@ -156,8 +158,8 @@ namespace Graphics
             int objCounter = 1;
             foreach (MeshClass myMesh in renderer.Meshes)
             {
-                if (myMesh.IsShapeObject) AddToShapeList(myMesh.Name, objCounter); 
-                objCounter ++;
+                AddToShapeList(myMesh.Name, objCounter);
+                objCounter++;
             }
         }
         private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
@@ -413,8 +415,8 @@ namespace Graphics
         private void btnClearScene_Click(object sender, EventArgs e)
         {
             DialogResult = MessageBox.Show("Are you SURE you want to CLEAR this entire scene?\n Please select one option Yes/No",
-                                "Conditional", MessageBoxButtons.YesNo,  MessageBoxIcon.Information);
-            
+                                "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
             if (DialogResult == DialogResult.Yes)
             {
                 try
@@ -479,6 +481,12 @@ namespace Graphics
                 renderer.Meshes.Clear();
                 cboShapeList.Items.Clear();
             }
+
+            if (renderer.Terrian != null)
+            {
+                renderer.Terrian.Dispose();
+                renderer.Terrian = null;
+            }
         }
 
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
@@ -494,8 +502,6 @@ namespace Graphics
             {
                 CustomVertex.VertexPositionNormalColor.VertexDecl.Dispose();
             }
-
-            renderer.Terrian.Dispose();
 
             while (!DeviceManager.LocalDevice.Disposed && !renderThread.IsAlive)
             {
@@ -516,7 +522,7 @@ namespace Graphics
             Application.Exit();
         }
 
-        #endregion 
+        #endregion
 
         #region "Physics"
         private void cbGravity_CheckedChanged(object sender, EventArgs e)
@@ -660,7 +666,7 @@ namespace Graphics
             if (int.TryParse(TextBoxToVal.Text, out number))
             {
                 //it's a number, this control passes validation.
-                    cancel = false;
+                cancel = false;
             }
             else
             {
@@ -707,7 +713,7 @@ namespace Graphics
         private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             // Update the camera z based upon the mouse wheel scrolling.
-            camera.MoveEye(z: (e.Delta/120 * -1));
+            camera.MoveEye(z: (e.Delta / 120 * -1));
             UpdateCameraLocation();
 
         }
@@ -782,7 +788,7 @@ namespace Graphics
         }
         private void SetCurrentColorLabel()
         {
-            //lblObjectColor.Text = renderer.Meshes[cboShapeList.SelectedIndex].CurrentColor;
+            lblObjectColor.Text = renderer.Meshes[cboShapeList.SelectedIndex].MeshColor;
         }
         #endregion
 
@@ -792,7 +798,7 @@ namespace Graphics
             //Code to add new point light
             renderer.light.Add(new Lights(LightType.Point));
 
-            AddLightToDropDown(renderer.light.Count, LightType.Point.ToString());
+            AddLightToDropDown(renderer.light.Count, "Point");
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -800,7 +806,7 @@ namespace Graphics
             //code to add new directional light
             renderer.light.Add(new Lights(LightType.Directional));
 
-
+            AddLightToDropDown(renderer.light.Count, "Directional");
         }
         private void AddLightToDropDown(int ID, string LightType)
         {
@@ -812,8 +818,12 @@ namespace Graphics
         }
         private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //deselect current object
-            lblSS2.Text = "<none>";
+            if (cbPointLights.SelectedIndex != -1)
+            {
+                lblSelectedLight.Text = cbPointLights.Text.ToString();
+                    //deselect current object
+                lblSS2.Text = "<none>";
+            }
         }
         private void txtLightDirectionX_MouseUp(object sender, MouseEventArgs e)
         {
@@ -864,6 +874,15 @@ namespace Graphics
         private void randomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             renderer.Terrian = new Terrain();
+        }
+
+        private void removeTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (renderer.Terrian != null)
+            {
+                renderer.Terrian.Dispose();
+                renderer.Terrian = null;
+            }
         }
     }
 }
