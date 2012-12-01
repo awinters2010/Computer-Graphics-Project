@@ -34,6 +34,19 @@ namespace Graphics
                 return objectMesh;
             }
         }
+
+        public string MeshColor
+        {
+            get
+            {
+                if (material != null)
+                {
+                    return material[0].Ambient.ToString();
+                }
+
+                return "No Color";
+            }
+        }
         
         /// <summary>
         /// Create a mesh from a .x File
@@ -42,7 +55,7 @@ namespace Graphics
         /// <param name="fileName">The name of the file</param>
         public MeshClass(string filePath, string fileName)
         {
-            objectMesh = Mesh.FromFile(DeviceManager.LocalDevice, filePath, MeshFlags.SystemMemory);
+            objectMesh = Mesh.FromFile(DeviceManager.LocalDevice, filePath, MeshFlags.Managed);
             ExtendedMaterial[] externMaterial = objectMesh.GetMaterials();
             material = new Material[externMaterial.Length];
             CurrentTexture = new Texture[externMaterial.Length];
@@ -60,7 +73,7 @@ namespace Graphics
                 CurrentTexture[i] = Texture.FromFile(DeviceManager.LocalDevice, s);
             }
 
-            objectMesh.Optimize(MeshOptimizeFlags.Compact);
+            //objectMesh.Optimize(MeshOptimizeFlags.Compact | MeshOptimizeFlags.AttributeSort);
 
             ObjectPosition = Vector3.Zero;
             ObjectRotate = Vector3.Zero;
@@ -89,7 +102,7 @@ namespace Graphics
                 objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
                 other.Dispose();
 
-                objectMesh.Optimize(MeshOptimizeFlags.Compact);
+                //objectMesh.Optimize(MeshOptimizeFlags.Compact);
             }
             else if (type == MeshType.Triangle)
             {
@@ -127,7 +140,7 @@ namespace Graphics
                     objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
                     other.Dispose();
 
-                    objectMesh.Optimize(MeshOptimizeFlags.Compact);
+                    //objectMesh.Optimize(MeshOptimizeFlags.Compact);
                 }
                 catch (Direct3D9Exception ex)
                 {
