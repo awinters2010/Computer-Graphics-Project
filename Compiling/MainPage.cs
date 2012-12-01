@@ -38,11 +38,11 @@ namespace Graphics
 
             camera = new Camera();
 
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, true);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
             DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.None);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
+            //DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
             DeviceManager.LocalDevice.SetRenderState(RenderState.SpecularEnable, false);
 
 
@@ -468,10 +468,10 @@ namespace Graphics
 
         private void ClearScene()
         {
-            lock (renderer.light)
+            lock (renderer.Lights)
             {
-                renderer.light.ForEach(light => light.Dispose());
-                renderer.light.Clear();
+                renderer.Lights.ForEach(light => light.Dispose());
+                renderer.Lights.Clear();
             }
 
             //Code to clear scene
@@ -796,17 +796,17 @@ namespace Graphics
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Code to add new point light
-            renderer.light.Add(new Lights(LightType.Point));
+            renderer.Lights.Add(new LightClass(LightType.Point));
 
-            AddLightToDropDown(renderer.light.Count, "Point");
+            AddLightToDropDown(renderer.Lights.Count, "Point");
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //code to add new directional light
-            renderer.light.Add(new Lights(LightType.Directional));
+            renderer.Lights.Add(new LightClass(LightType.Directional));
 
-            AddLightToDropDown(renderer.light.Count, "Directional");
+            AddLightToDropDown(renderer.Lights.Count, "Directional");
         }
         private void AddLightToDropDown(int ID, string LightType)
         {
