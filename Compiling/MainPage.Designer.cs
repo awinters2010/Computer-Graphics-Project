@@ -1211,9 +1211,9 @@
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.Location = new System.Drawing.Point(9, 91);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(60, 13);
+            this.label19.Size = new System.Drawing.Size(130, 13);
             this.label19.TabIndex = 53;
-            this.label19.Text = "Location:";
+            this.label19.Text = "Location: (Point Only)";
             // 
             // txtLightRange
             // 

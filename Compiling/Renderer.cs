@@ -47,7 +47,7 @@ namespace Graphics
 
                     lock (Lights)
                     {
-                        if (IsGlobalLightOn)
+                        if (!IsGlobalLightOn)
                         {
                             foreach (var item in Lights)
                             {
