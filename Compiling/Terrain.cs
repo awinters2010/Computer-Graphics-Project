@@ -40,7 +40,7 @@ namespace Graphics
             {
                 for (int j = 0; j < tall; j++)
                 {
-                    vertices[i + j * width].Position = new Vector3(i, j, height[i,j]);
+                    vertices[i + j * width].Position = new Vector3(i, height[i, j], j);
                     vertices[i + j * width].Color = Color.White.ToArgb();
                 }
             }
