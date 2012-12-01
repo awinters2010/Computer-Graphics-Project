@@ -13,7 +13,6 @@ namespace Graphics
         private Light light;
         private Material material;
         private bool isLightEnabled;
-        private bool isGlobalLightOn;
         private Mesh mesh;
         private Matrix world;
 
@@ -26,8 +25,10 @@ namespace Graphics
             if (type == LightType.Point)
             {
                 light.Type = type;
-                light.Diffuse = new Color4(new Vector4(.5f, .5f, .5f, 1f));
-                light.Position = new Vector3(0,0,30);
+                light.Diffuse = Color.White;
+                light.Ambient = Color.White;
+                light.Specular = Color.White;
+                light.Position = new Vector3(0,0,10);
                 light.Range = 100.0f;    // a range of 100
                 light.Attenuation0 = 0.0f;    // no constant inverse attenuation
                 light.Attenuation1 = 0.125f;    // only .125 inverse attenuation
@@ -47,12 +48,12 @@ namespace Graphics
             }
 
             isLightEnabled = false;
-            isGlobalLightOn = true;
             Type = type.ToString();
             Position = Vector3.Zero;
             Direction = Vector3.Zero;
             world = Matrix.Identity;
             mesh = Mesh.CreateSphere(DeviceManager.LocalDevice, .1f, 10, 10);
+            mesh.ComputeNormals();
 
             material.Diffuse = new Color4(1, 1, 1, 1);
             material.Ambient = new Color4(1, 1, 1, 1);
@@ -65,18 +66,14 @@ namespace Graphics
             isLightEnabled = isLightEnabled == true ? false : true;
             DeviceManager.LocalDevice.SetLight(index, light);
             DeviceManager.LocalDevice.EnableLight(index, isLightEnabled);
-            isGlobalLightOn = false;
         }
 
         public void Render()
         {
-            if (isGlobalLightOn)
-            {
-                world = Matrix.Translation(Position);
-                DeviceManager.LocalDevice.SetTransform(TransformState.World, world);
+            world = Matrix.Translation(Position);
+            DeviceManager.LocalDevice.SetTransform(TransformState.World, world);
 
-                mesh.DrawSubset(0);
-            }
+            mesh.DrawSubset(0);
         }
 
         public void Dispose()

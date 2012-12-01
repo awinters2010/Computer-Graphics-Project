@@ -38,11 +38,14 @@ namespace Graphics
 
             camera = new Camera();
 
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, false);
-            DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.None);
+            renderer = new Renderer();
+            Init();
+
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
-            //DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
             DeviceManager.LocalDevice.SetRenderState(RenderState.SpecularEnable, false);
 
 
@@ -53,9 +56,6 @@ namespace Graphics
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
 
             Configuration.EnableObjectTracking = true;
-
-            renderer = new Renderer();
-            Init();
         }
 
         private void Init()
@@ -882,6 +882,20 @@ namespace Graphics
             {
                 renderer.Terrian.Dispose();
                 renderer.Terrian = null;
+            }
+        }
+
+        private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckbxGlobalLights.Checked)
+            {
+                renderer.IsGlobalLightOn = false;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            }
+            else
+            {
+                renderer.IsGlobalLightOn = true;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
             }
         }
     }
