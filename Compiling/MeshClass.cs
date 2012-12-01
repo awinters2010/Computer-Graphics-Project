@@ -98,17 +98,19 @@ namespace Graphics
                 Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Diffuse | VertexFormat.Texture2);
                 objectMesh.Dispose();
                 objectMesh = null;
-                other.ComputeNormals();
+                //other.ComputeNormals();
                 objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
                 other.Dispose();
 
                 //objectMesh.Optimize(MeshOptimizeFlags.Compact);
+
+                ApplyColor(Color.White);
             }
             else if (type == MeshType.Triangle)
             {
                 var ShapeVertices = new CustomVertex.VertexPositionColor[] {
-                    new CustomVertex.VertexPositionColor() { Color = Color.Yellow.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
-                    new CustomVertex.VertexPositionColor() { Color = Color.Gray.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
+                    new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
+                    new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
                     new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, -1f) },
                     new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, -1f) },
                     new CustomVertex.VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(0f, 1f, 0f) },
@@ -140,7 +142,7 @@ namespace Graphics
                     objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
                     other.Dispose();
 
-                    //objectMesh.Optimize(MeshOptimizeFlags.Compact);
+                    objectMesh.Optimize(MeshOptimizeFlags.Compact);
                 }
                 catch (Direct3D9Exception ex)
                 {
@@ -231,7 +233,7 @@ namespace Graphics
             material[0].Diffuse = color;
             material[0].Specular = color;
             material[0].Emissive = Color.Black;
-            material[0].Power = 2.0f;
+            material[0].Power = 50.0f;
         }
 
         /// <summary>
