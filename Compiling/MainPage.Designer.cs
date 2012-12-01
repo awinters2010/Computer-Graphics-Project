@@ -43,6 +43,7 @@
             this.addDirectionalLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblMemoryUsage = new System.Windows.Forms.Label();
             this.lblMem = new System.Windows.Forms.Label();
             this.gbMemUsage = new System.Windows.Forms.GroupBox();
@@ -142,7 +143,7 @@
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.removeTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ckbxGlobalLights = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -269,6 +270,13 @@
             this.randomTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.randomTerrainToolStripMenuItem.Text = "Random Terrain";
             this.randomTerrainToolStripMenuItem.Click += new System.EventHandler(this.randomTerrainToolStripMenuItem_Click);
+            // 
+            // removeTerrainToolStripMenuItem
+            // 
+            this.removeTerrainToolStripMenuItem.Name = "removeTerrainToolStripMenuItem";
+            this.removeTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.removeTerrainToolStripMenuItem.Text = "Remove Terrain";
+            this.removeTerrainToolStripMenuItem.Click += new System.EventHandler(this.removeTerrainToolStripMenuItem_Click);
             // 
             // lblMemoryUsage
             // 
@@ -1101,12 +1109,13 @@
             // 
             // gbPhysics
             // 
+            this.gbPhysics.Controls.Add(this.ckbxGlobalLights);
             this.gbPhysics.Controls.Add(this.cbWireFrame);
             this.gbPhysics.Controls.Add(this.cbGravity);
             this.gbPhysics.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbPhysics.Location = new System.Drawing.Point(6, 301);
             this.gbPhysics.Name = "gbPhysics";
-            this.gbPhysics.Size = new System.Drawing.Size(246, 80);
+            this.gbPhysics.Size = new System.Drawing.Size(246, 95);
             this.gbPhysics.TabIndex = 40;
             this.gbPhysics.TabStop = false;
             this.gbPhysics.Text = "Environment";
@@ -1398,12 +1407,18 @@
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
             // 
-            // removeTerrainToolStripMenuItem
+            // ckbxGlobalLights
             // 
-            this.removeTerrainToolStripMenuItem.Name = "removeTerrainToolStripMenuItem";
-            this.removeTerrainToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.removeTerrainToolStripMenuItem.Text = "Remove Terrain";
-            this.removeTerrainToolStripMenuItem.Click += new System.EventHandler(this.removeTerrainToolStripMenuItem_Click);
+            this.ckbxGlobalLights.AutoSize = true;
+            this.ckbxGlobalLights.Checked = true;
+            this.ckbxGlobalLights.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbxGlobalLights.Location = new System.Drawing.Point(9, 72);
+            this.ckbxGlobalLights.Name = "ckbxGlobalLights";
+            this.ckbxGlobalLights.Size = new System.Drawing.Size(143, 17);
+            this.ckbxGlobalLights.TabIndex = 2;
+            this.ckbxGlobalLights.Text = "Global Lights On/Off";
+            this.ckbxGlobalLights.UseVisualStyleBackColor = true;
+            this.ckbxGlobalLights.CheckedChanged += new System.EventHandler(this.ckbxGlobalLights_CheckedChanged);
             // 
             // MainPage
             // 
@@ -1570,6 +1585,7 @@
         private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomTerrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeTerrainToolStripMenuItem;
+        private System.Windows.Forms.CheckBox ckbxGlobalLights;
     }
 }
 

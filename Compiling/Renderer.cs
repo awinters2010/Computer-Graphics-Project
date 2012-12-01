@@ -13,14 +13,14 @@ namespace Graphics
         public Terrain Terrian { get; set; }
         public List<MeshClass> Meshes { get; set; }
         public List<LightClass> Lights { get; set; }
+        public bool IsGlobalLightOn { get; set; }
 
         public Renderer()
         {
             shutdown = false;
             Meshes = new List<MeshClass>();
             Lights = new List<LightClass>();
-            Lights.Add(new LightClass());
-            Lights[0].LightOnOff(0);
+            IsGlobalLightOn = false;
         }
 
         public void RequestShutdown()
@@ -47,9 +47,12 @@ namespace Graphics
 
                     lock (Lights)
                     {
-                        foreach (var item in Lights)
+                        if (IsGlobalLightOn)
                         {
-                            item.Render();
+                            foreach (var item in Lights)
+                            {
+                                item.Render();
+                            }
                         }
                     }
 
