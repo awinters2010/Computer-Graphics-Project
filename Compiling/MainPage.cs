@@ -831,7 +831,7 @@ namespace Graphics
         {
             if (cbPointLights.SelectedIndex != -1)
             {
-                    lblLightCnt.Text = cbPointLights.Text.ToString();
+                    lblLightCnt.Text = renderer.Lights.Count.ToString();
                     lblSelectedLight.Text = cbPointLights.Text.ToString();
                     txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
                     txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
@@ -841,6 +841,7 @@ namespace Graphics
                     txtLightDirectionY.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Y.ToString();
                     txtLightDirectionZ.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Z.ToString();
 
+                    cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
                     //SetCurrentColorLabel();
                     //deselect any lights
                     lblSelectedLight.Text = "<none>";
@@ -1039,7 +1040,7 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text)));
+                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text), float.Parse(txtLightDirectionZ.Text)));
                 }
             }
         }
@@ -1050,7 +1051,7 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text)));
+                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text), float.Parse(txtLightDirectionZ.Text)));
                 }
             }
         }
@@ -1061,15 +1062,23 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text)));
+                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text), float.Parse(txtLightDirectionZ.Text)));
                 }
             }
         }
 
-
-
-
-
-
+        private void cbLightOnOff_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled)
+            {
+                renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
+                cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+            }
+            else
+            {
+                renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
+                cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+            }
+        }
     }
 }

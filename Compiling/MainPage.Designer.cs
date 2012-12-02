@@ -144,6 +144,7 @@
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.btnDeleteLight = new System.Windows.Forms.Button();
+            this.cbLightOnOff = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -1159,6 +1160,7 @@
             // 
             // gbLighting
             // 
+            this.gbLighting.Controls.Add(this.cbLightOnOff);
             this.gbLighting.Controls.Add(this.btnDeleteLight);
             this.gbLighting.Controls.Add(this.lblLightCnt);
             this.gbLighting.Controls.Add(this.lblLightCount);
@@ -1181,9 +1183,9 @@
             this.gbLighting.Controls.Add(this.lblLights2);
             this.gbLighting.Controls.Add(this.lblLights1);
             this.gbLighting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbLighting.Location = new System.Drawing.Point(887, 387);
+            this.gbLighting.Location = new System.Drawing.Point(887, 363);
             this.gbLighting.Name = "gbLighting";
-            this.gbLighting.Size = new System.Drawing.Size(246, 165);
+            this.gbLighting.Size = new System.Drawing.Size(246, 189);
             this.gbLighting.TabIndex = 41;
             this.gbLighting.TabStop = false;
             this.gbLighting.Text = "Lights";
@@ -1191,7 +1193,7 @@
             // lblLightCnt
             // 
             this.lblLightCnt.AutoSize = true;
-            this.lblLightCnt.Location = new System.Drawing.Point(171, 16);
+            this.lblLightCnt.Location = new System.Drawing.Point(176, 20);
             this.lblLightCnt.Name = "lblLightCnt";
             this.lblLightCnt.Size = new System.Drawing.Size(0, 13);
             this.lblLightCnt.TabIndex = 42;
@@ -1435,6 +1437,18 @@
             this.btnDeleteLight.Text = "Delete";
             this.btnDeleteLight.UseVisualStyleBackColor = true;
             // 
+            // cbLightOnOff
+            // 
+            this.cbLightOnOff.AutoSize = true;
+            this.cbLightOnOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbLightOnOff.Location = new System.Drawing.Point(10, 162);
+            this.cbLightOnOff.Name = "cbLightOnOff";
+            this.cbLightOnOff.Size = new System.Drawing.Size(97, 17);
+            this.cbLightOnOff.TabIndex = 1;
+            this.cbLightOnOff.Text = "Light On/Off";
+            this.cbLightOnOff.UseVisualStyleBackColor = true;
+            this.cbLightOnOff.CheckedChanged += new System.EventHandler(this.cbLightOnOff_CheckedChanged);
+            // 
             // MainPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1601,6 +1615,7 @@
         private System.Windows.Forms.CheckBox ckbxGlobalLights;
         private System.Windows.Forms.Label lblLightCnt;
         private System.Windows.Forms.Button btnDeleteLight;
+        private System.Windows.Forms.CheckBox cbLightOnOff;
 
     }
 }
