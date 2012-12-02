@@ -12,15 +12,17 @@ namespace Graphics
         private int[,] height;
         private Random rand;
         private int width, tall;
+        private Matrix world;
 
         public Terrain()
         {
-            FileStream fs = new FileStream("heightdata.raw", FileMode.Open, FileAccess.Read);
-            BinaryReader r = new BinaryReader(fs);
+            //FileStream fs = new FileStream("heightdata.raw", FileMode.Open, FileAccess.Read);
+            //BinaryReader r = new BinaryReader(fs);
             rand = new Random();
 
             width = rand.Next(2, 100);//64;//rand.Next(2, 50);
             tall = rand.Next(2, 100);//64;//rand.Next(2, 50);
+            world = Matrix.Identity;
 
             height = new int[width, tall];
 
@@ -68,14 +70,15 @@ namespace Graphics
 
             mesh.Optimize(MeshOptimizeFlags.AttributeSort | MeshOptimizeFlags.Compact);
 
-            r.Dispose();
-            fs.Dispose();
+            //r.Dispose();
+            //fs.Dispose();
         }
 
         public void Render()
         {
             if (mesh != null)
             {
+                DeviceManager.LocalDevice.SetTransform(TransformState.World, world);
                 mesh.DrawSubset(0);
             }
         }
