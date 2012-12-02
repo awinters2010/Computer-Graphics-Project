@@ -793,18 +793,35 @@ namespace Graphics
         #endregion
 
         #region "Lights"
-        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnAddPointLight_Click(object sender, EventArgs e)
         {
             //Code to add new point light
-            renderer.Lights.Add(new LightClass(LightType.Point));
+            int x, y, z;
 
+            x = Convert.ToInt32(txtLightLocX.Text);
+            y = Convert.ToInt32(txtLightLocY.Text);
+            z = Convert.ToInt32(txtLightLocZ.Text);
+
+            LightClass newLight = new LightClass(LightType.Point);
+            newLight.Position = new Vector3(x,y,z);
+            renderer.Lights.Add(newLight);
+            
             AddLightToDropDown(renderer.Lights.Count, "Point");
         }
 
-        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnAddDirectionalLight_Click(object sender, EventArgs e)
         {
             //code to add new directional light
-            renderer.Lights.Add(new LightClass(LightType.Directional));
+            int x, y, z;
+
+            x = Convert.ToInt32(txtLightDirectionX.Text);
+            y = Convert.ToInt32(txtLightDirectionY.Text);
+            z = Convert.ToInt32(txtLightDirectionZ.Text);
+
+            LightClass newLight = new LightClass(LightType.Directional);
+            newLight.Position = new Vector3(0, 0, 0);
+            newLight.Direction = new Vector3(0,0,0);
+            renderer.Lights.Add(newLight);
 
             AddLightToDropDown(renderer.Lights.Count, "Directional");
         }
@@ -820,9 +837,18 @@ namespace Graphics
         {
             if (cbPointLights.SelectedIndex != -1)
             {
-                lblSelectedLight.Text = cbPointLights.Text.ToString();
-                    //deselect current object
-                lblSS2.Text = "<none>";
+                    lblSelectedLight.Text = cbPointLights.Text.ToString();
+                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
+                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
+                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Z.ToString();
+
+                    txtLightDirectionX.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.X.ToString();
+                    txtLightDirectionY.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Y.ToString();
+                    txtLightDirectionZ.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Z.ToString();
+
+                    //SetCurrentColorLabel();
+                    //deselect any lights
+                    lblSelectedLight.Text = "<none>";
             }
         }
         private void txtLightDirectionX_MouseUp(object sender, MouseEventArgs e)
@@ -884,7 +910,6 @@ namespace Graphics
                 renderer.Terrian = null;
             }
         }
-
         private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
         {
             if (ckbxGlobalLights.Checked)
@@ -898,5 +923,85 @@ namespace Graphics
                 DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
             }
         }
+        private void txtLightLocX_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightLocX, string.Empty);
+        }
+
+        private void txtLightLocY_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightLocY, string.Empty);
+        }
+
+        private void txtLightLocZ_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightLocZ, string.Empty);
+        }
+
+        private void txtLightRange_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightRange, string.Empty);
+        }
+
+        private void txtLightDirectionX_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightDirectionX, string.Empty);
+        }
+
+        private void txtLightDirectionY_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightDirectionY, string.Empty);
+        }
+
+        private void txtLightDirectionZ_Validated(object sender, EventArgs e)
+        {
+            //Control has validated, clear any error message.
+            this.epMain.SetError(this.txtLightDirectionZ, string.Empty);
+        }
+
+        private void txtLightLocX_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightLocX);
+        }
+
+        private void txtLightLocY_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightLocY);
+        }
+
+        private void txtLightLocZ_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightLocZ);
+        }
+
+        private void txtLightRange_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightRange);
+        }
+
+        private void txtLightDirectionX_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightDirectionX);
+        }
+
+        private void txtLightDirectionY_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightDirectionY);
+        }
+
+        private void txtLightDirectionZ_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = validateTextBoxIsInt(this.txtLightDirectionZ);
+        }
+
+
+
+
     }
 }
