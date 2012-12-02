@@ -27,6 +27,11 @@ namespace Graphics
         Point p;
         bool objectSelected = false;
 
+        //to control mouse startng location for 
+        bool FirstMouseMouse = false;
+
+        const int PixelDifferential = 20;
+
         #endregion
 
         public MainPage()
@@ -49,14 +54,22 @@ namespace Graphics
             DeviceManager.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
             DeviceManager.LocalDevice.SetRenderState(RenderState.SpecularEnable, false);
 
-
             //set GUI control attributes
             SetGui();
 
-            panel1.Focus();
+            
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
 
             Configuration.EnableObjectTracking = true;
+
+            panel1.Focus();
+            Console.WriteLine(panel1.Focused);
+            Console.WriteLine(panel1.PointToScreen(MousePosition));
+            if (panel1.Focused)
+            {
+                
+                p = panel1.PointToScreen(MousePosition);
+            }
         }
 
         private void Init()
@@ -140,6 +153,7 @@ namespace Graphics
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
             cboShapeList.SelectedIndex = cboShapeList.Items.Count - 1;
+            txtRename.Text = renderer.Meshes[cboShapeList.SelectedIndex].Name;
         }
 
         /// <summary>
@@ -181,6 +195,9 @@ namespace Graphics
                 SetCurrentColorLabel();
                 //deselect any lights
                 lblSelectedLight.Text = "<none>";
+
+                //reset name box
+                txtRename.Text = renderer.Meshes[cboShapeList.SelectedIndex].Name;
             }
         }
 
@@ -426,6 +443,7 @@ namespace Graphics
                     ClearScene();
                     UpdateShapeCount();
                     UpdateLightCount();
+                    txtRename.Text = "";
                     
                 }
                 catch (Exception)
@@ -456,6 +474,7 @@ namespace Graphics
                             UpdateShapeCount();
                             RenumberShapeList();
                             lblSS2.Text = "<none>";
+                            txtRename.Text = "";
                             cboShapeList.SelectedIndex = -1;
                         }
                     }
@@ -679,34 +698,36 @@ namespace Graphics
         #region "Mouse Events"
         private void panel1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            // Update the mouse path with the mouse information
-            Point mouseDownLocation = new Point(e.X, e.Y);
+            //// Update the mouse path with the mouse information
+            //Point mouseDownLocation = new Point(e.X, e.Y);
 
-            string eventString = null;
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    eventString = "L";
-                    break;
-                case MouseButtons.Right:
-                    break;
-                case MouseButtons.Middle:
-                    break;
-                case MouseButtons.None:
-                    break;
-            }
+            //string eventString = null;
+            //switch (e.Button)
+            //{
+            //    case MouseButtons.Left:
+            //        eventString = "L";
+            //        Console.WriteLine("x " + e.X + " y " + e.Y);
+            //        break;
+            //    case MouseButtons.Right:
+            //        break;
+            //    case MouseButtons.Middle:
+            //        break;
+            //    case MouseButtons.None:
+            //        break;
+            //}
 
-            if (eventString != null)
-            {
-                //use mouseDownLocation for x and y coordinate
-                //example
-                MessageBox.Show("X - " + mouseDownLocation.X.ToString() + " Y - " + mouseDownLocation.Y.ToString());
-            }
-            else
-            {
-                //Left mouse button was not clicked
-            }
-            panel1.Focus();
+            //if (eventString != null)
+            //{
+            //    //use mouseDownLocation for x and y coordinate
+            //    //example
+            //    //MessageBox.Show("X - " + mouseDownLocation.X.ToString() + " Y - " + mouseDownLocation.Y.ToString());
+
+            //}
+            //else
+            //{
+            //    //Left mouse button was not clicked
+            //}
+            //panel1.Focus();
         }
         private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -1153,5 +1174,61 @@ namespace Graphics
                 objCounter++;
             }
         }
+
+        private void btnRename_Click(object sender, EventArgs e)
+        {
+            if (cboShapeList.SelectedIndex != -1)
+            {
+                //rename
+                renderer.Meshes[cboShapeList.SelectedIndex].Name = txtRename.Text;
+                RenumberShapeList();
+
+            }
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            //get previous mouse location
+            int PrevX = p.X;
+            int PrevY = p.Y;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                float DeltaX = e.X - PrevX;
+                float DeltaY = e.Y - PrevY;
+
+                if (FirstMouseMouse == false)
+                {
+                    DeltaX = 0;
+                    DeltaY = 0;
+                    FirstMouseMouse = true;
+                }
+
+                //Console.WriteLine("x " + DeltaX.ToString() + " y " + DeltaY.ToString());
+                camera.MoveEye(DeltaX / PixelDifferential, -DeltaY / PixelDifferential);
+
+                //save current mouse location
+                p.X = e.X;
+                p.Y = e.Y;
+
+                lblCamPosX.Text = ((int)camera.Eye.X).ToString();
+                lblCamPosY.Text = ((int)camera.Eye.Y).ToString();
+                lblCamPosZ.Text = ((int)camera.Eye.Z).ToString();
+            }
+        }
+
+        private void MainPage_Load(object sender, EventArgs e)
+        {
+            p.X = 0;
+            p.Y = 0;
+            FirstMouseMouse = false;
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            FirstMouseMouse = false;
+        }
+
+
     }
 }

@@ -51,7 +51,9 @@
             this.plNotArea = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.gbObjects = new System.Windows.Forms.GroupBox();
-            this.btnClearScene = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtRename = new System.Windows.Forms.TextBox();
+            this.btnRename = new System.Windows.Forms.Button();
             this.btnDeleteShape = new System.Windows.Forms.Button();
             this.lblSS2 = new System.Windows.Forms.Label();
             this.lblSS1 = new System.Windows.Forms.Label();
@@ -59,6 +61,7 @@
             this.lblSCnt1 = new System.Windows.Forms.Label();
             this.cboShapeList = new System.Windows.Forms.ComboBox();
             this.lblDes1 = new System.Windows.Forms.Label();
+            this.btnClearScene = new System.Windows.Forms.Button();
             this.btnCamR = new System.Windows.Forms.Button();
             this.btnCamD = new System.Windows.Forms.Button();
             this.btnCamU = new System.Windows.Forms.Button();
@@ -120,6 +123,8 @@
             this.cbWireFrame = new System.Windows.Forms.CheckBox();
             this.cbGravity = new System.Windows.Forms.CheckBox();
             this.gbLighting = new System.Windows.Forms.GroupBox();
+            this.cbLightOnOff = new System.Windows.Forms.CheckBox();
+            this.btnDeleteLight = new System.Windows.Forms.Button();
             this.lblLightCnt = new System.Windows.Forms.Label();
             this.lblLightCount = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -143,8 +148,6 @@
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.btnDeleteLight = new System.Windows.Forms.Button();
-            this.cbLightOnOff = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -323,6 +326,8 @@
             this.panel1.TabIndex = 6;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseEnter += new System.EventHandler(this.panel1_MouseEnter);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
+            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
             // 
             // plNotArea
@@ -348,6 +353,9 @@
             // 
             // gbObjects
             // 
+            this.gbObjects.Controls.Add(this.label18);
+            this.gbObjects.Controls.Add(this.txtRename);
+            this.gbObjects.Controls.Add(this.btnRename);
             this.gbObjects.Controls.Add(this.btnDeleteShape);
             this.gbObjects.Controls.Add(this.lblSS2);
             this.gbObjects.Controls.Add(this.lblSS1);
@@ -358,26 +366,44 @@
             this.gbObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbObjects.Location = new System.Drawing.Point(887, 26);
             this.gbObjects.Name = "gbObjects";
-            this.gbObjects.Size = new System.Drawing.Size(246, 103);
+            this.gbObjects.Size = new System.Drawing.Size(246, 133);
             this.gbObjects.TabIndex = 11;
             this.gbObjects.TabStop = false;
             this.gbObjects.Text = "Objects";
             // 
-            // btnClearScene
+            // label18
             // 
-            this.btnClearScene.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearScene.Location = new System.Drawing.Point(9, 90);
-            this.btnClearScene.Name = "btnClearScene";
-            this.btnClearScene.Size = new System.Drawing.Size(108, 23);
-            this.btnClearScene.TabIndex = 9;
-            this.btnClearScene.Text = "Clear Scene";
-            this.btnClearScene.UseVisualStyleBackColor = true;
-            this.btnClearScene.Click += new System.EventHandler(this.btnClearScene_Click);
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(7, 81);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(59, 13);
+            this.label18.TabIndex = 11;
+            this.label18.Text = "ReName:";
+            // 
+            // txtRename
+            // 
+            this.txtRename.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRename.Location = new System.Drawing.Point(69, 75);
+            this.txtRename.Name = "txtRename";
+            this.txtRename.Size = new System.Drawing.Size(167, 20);
+            this.txtRename.TabIndex = 10;
+            // 
+            // btnRename
+            // 
+            this.btnRename.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRename.Location = new System.Drawing.Point(15, 101);
+            this.btnRename.Name = "btnRename";
+            this.btnRename.Size = new System.Drawing.Size(98, 23);
+            this.btnRename.TabIndex = 9;
+            this.btnRename.Text = "Rename";
+            this.btnRename.UseVisualStyleBackColor = true;
+            this.btnRename.Click += new System.EventHandler(this.btnRename_Click);
             // 
             // btnDeleteShape
             // 
             this.btnDeleteShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteShape.Location = new System.Drawing.Point(12, 75);
+            this.btnDeleteShape.Location = new System.Drawing.Point(138, 101);
             this.btnDeleteShape.Name = "btnDeleteShape";
             this.btnDeleteShape.Size = new System.Drawing.Size(98, 23);
             this.btnDeleteShape.TabIndex = 8;
@@ -442,6 +468,17 @@
             this.lblDes1.Size = new System.Drawing.Size(68, 13);
             this.lblDes1.TabIndex = 0;
             this.lblDes1.Text = "Object List";
+            // 
+            // btnClearScene
+            // 
+            this.btnClearScene.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearScene.Location = new System.Drawing.Point(9, 90);
+            this.btnClearScene.Name = "btnClearScene";
+            this.btnClearScene.Size = new System.Drawing.Size(108, 23);
+            this.btnClearScene.TabIndex = 9;
+            this.btnClearScene.Text = "Clear Scene";
+            this.btnClearScene.UseVisualStyleBackColor = true;
+            this.btnClearScene.Click += new System.EventHandler(this.btnClearScene_Click);
             // 
             // btnCamR
             // 
@@ -794,7 +831,7 @@
             this.gbTranslate.Controls.Add(this.lblyTranslate);
             this.gbTranslate.Controls.Add(this.lblxTranslate);
             this.gbTranslate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbTranslate.Location = new System.Drawing.Point(887, 135);
+            this.gbTranslate.Location = new System.Drawing.Point(887, 163);
             this.gbTranslate.Name = "gbTranslate";
             this.gbTranslate.Size = new System.Drawing.Size(246, 40);
             this.gbTranslate.TabIndex = 19;
@@ -885,7 +922,7 @@
             this.gbRotate.Controls.Add(this.xRotation);
             this.gbRotate.Controls.Add(this.lblxRotate);
             this.gbRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbRotate.Location = new System.Drawing.Point(887, 181);
+            this.gbRotate.Location = new System.Drawing.Point(887, 208);
             this.gbRotate.Name = "gbRotate";
             this.gbRotate.Size = new System.Drawing.Size(246, 40);
             this.gbRotate.TabIndex = 20;
@@ -976,7 +1013,7 @@
             this.gbScale.Controls.Add(this.xScaling);
             this.gbScale.Controls.Add(this.lblxScale);
             this.gbScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbScale.Location = new System.Drawing.Point(887, 230);
+            this.gbScale.Location = new System.Drawing.Point(887, 251);
             this.gbScale.Name = "gbScale";
             this.gbScale.Size = new System.Drawing.Size(246, 40);
             this.gbScale.TabIndex = 20;
@@ -1069,7 +1106,7 @@
             this.gbColor.Controls.Add(this.label11);
             this.gbColor.Controls.Add(this.btnSelectColor);
             this.gbColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbColor.Location = new System.Drawing.Point(887, 276);
+            this.gbColor.Location = new System.Drawing.Point(887, 292);
             this.gbColor.Name = "gbColor";
             this.gbColor.Size = new System.Drawing.Size(246, 41);
             this.gbColor.TabIndex = 39;
@@ -1183,17 +1220,40 @@
             this.gbLighting.Controls.Add(this.lblLights2);
             this.gbLighting.Controls.Add(this.lblLights1);
             this.gbLighting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbLighting.Location = new System.Drawing.Point(887, 363);
+            this.gbLighting.Location = new System.Drawing.Point(887, 373);
             this.gbLighting.Name = "gbLighting";
-            this.gbLighting.Size = new System.Drawing.Size(246, 189);
+            this.gbLighting.Size = new System.Drawing.Size(246, 183);
             this.gbLighting.TabIndex = 41;
             this.gbLighting.TabStop = false;
             this.gbLighting.Text = "Lights";
             // 
+            // cbLightOnOff
+            // 
+            this.cbLightOnOff.AutoSize = true;
+            this.cbLightOnOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbLightOnOff.Location = new System.Drawing.Point(10, 162);
+            this.cbLightOnOff.Name = "cbLightOnOff";
+            this.cbLightOnOff.Size = new System.Drawing.Size(97, 17);
+            this.cbLightOnOff.TabIndex = 1;
+            this.cbLightOnOff.Text = "Light On/Off";
+            this.cbLightOnOff.UseVisualStyleBackColor = true;
+            this.cbLightOnOff.CheckedChanged += new System.EventHandler(this.cbLightOnOff_CheckedChanged);
+            // 
+            // btnDeleteLight
+            // 
+            this.btnDeleteLight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteLight.Location = new System.Drawing.Point(182, 60);
+            this.btnDeleteLight.Name = "btnDeleteLight";
+            this.btnDeleteLight.Size = new System.Drawing.Size(58, 23);
+            this.btnDeleteLight.TabIndex = 9;
+            this.btnDeleteLight.Text = "Delete";
+            this.btnDeleteLight.UseVisualStyleBackColor = true;
+            this.btnDeleteLight.Click += new System.EventHandler(this.btnDeleteLight_Click);
+            // 
             // lblLightCnt
             // 
             this.lblLightCnt.AutoSize = true;
-            this.lblLightCnt.Location = new System.Drawing.Point(176, 20);
+            this.lblLightCnt.Location = new System.Drawing.Point(176, 19);
             this.lblLightCnt.Name = "lblLightCnt";
             this.lblLightCnt.Size = new System.Drawing.Size(0, 13);
             this.lblLightCnt.TabIndex = 42;
@@ -1202,7 +1262,7 @@
             // 
             this.lblLightCount.AutoSize = true;
             this.lblLightCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLightCount.Location = new System.Drawing.Point(127, 20);
+            this.lblLightCount.Location = new System.Drawing.Point(127, 19);
             this.lblLightCount.Name = "lblLightCount";
             this.lblLightCount.Size = new System.Drawing.Size(44, 13);
             this.lblLightCount.TabIndex = 10;
@@ -1367,7 +1427,7 @@
             // 
             this.cbPointLights.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPointLights.FormattingEnabled = true;
-            this.cbPointLights.Location = new System.Drawing.Point(9, 36);
+            this.cbPointLights.Location = new System.Drawing.Point(9, 35);
             this.cbPointLights.Name = "cbPointLights";
             this.cbPointLights.Size = new System.Drawing.Size(233, 21);
             this.cbPointLights.TabIndex = 12;
@@ -1412,7 +1472,7 @@
             // 
             this.lblLights1.AutoSize = true;
             this.lblLights1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLights1.Location = new System.Drawing.Point(5, 20);
+            this.lblLights1.Location = new System.Drawing.Point(5, 19);
             this.lblLights1.Name = "lblLights1";
             this.lblLights1.Size = new System.Drawing.Size(59, 13);
             this.lblLights1.TabIndex = 10;
@@ -1426,29 +1486,6 @@
             // 
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
-            // 
-            // btnDeleteLight
-            // 
-            this.btnDeleteLight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteLight.Location = new System.Drawing.Point(182, 60);
-            this.btnDeleteLight.Name = "btnDeleteLight";
-            this.btnDeleteLight.Size = new System.Drawing.Size(58, 23);
-            this.btnDeleteLight.TabIndex = 9;
-            this.btnDeleteLight.Text = "Delete";
-            this.btnDeleteLight.UseVisualStyleBackColor = true;
-            this.btnDeleteLight.Click += new System.EventHandler(this.btnDeleteLight_Click);
-            // 
-            // cbLightOnOff
-            // 
-            this.cbLightOnOff.AutoSize = true;
-            this.cbLightOnOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbLightOnOff.Location = new System.Drawing.Point(10, 162);
-            this.cbLightOnOff.Name = "cbLightOnOff";
-            this.cbLightOnOff.Size = new System.Drawing.Size(97, 17);
-            this.cbLightOnOff.TabIndex = 1;
-            this.cbLightOnOff.Text = "Light On/Off";
-            this.cbLightOnOff.UseVisualStyleBackColor = true;
-            this.cbLightOnOff.CheckedChanged += new System.EventHandler(this.cbLightOnOff_CheckedChanged);
             // 
             // MainPage
             // 
@@ -1471,6 +1508,7 @@
             this.Name = "MainPage";
             this.Text = "Computer Graphics - Term Project";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.MainPage_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.gbMemUsage.ResumeLayout(false);
@@ -1617,6 +1655,9 @@
         private System.Windows.Forms.Label lblLightCnt;
         private System.Windows.Forms.Button btnDeleteLight;
         private System.Windows.Forms.CheckBox cbLightOnOff;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox txtRename;
+        private System.Windows.Forms.Button btnRename;
 
     }
 }
