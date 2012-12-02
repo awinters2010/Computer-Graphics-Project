@@ -89,9 +89,18 @@ namespace Graphics
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        public void GlobalLightTranslation(float x, float y, float z)
+        /// <param name="type"></param>
+        public void GlobalLightTranslation(float x, float y, float z, LightType type)
         {
             Position = new Vector3(x, y, z);
+            if (type == LightType.Point)
+            {
+                light.Position = Position;
+            }
+            else if (type == LightType.Directional)
+            {
+                light.Direction = Position;
+            }
         }
 
         public void GlobalLightOffPosition(Vector3 position)
