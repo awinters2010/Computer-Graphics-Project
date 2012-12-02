@@ -812,7 +812,7 @@ namespace Graphics
             z = Convert.ToInt32(txtLightDirectionZ.Text);
 
             LightClass newLight = new LightClass(LightType.Directional);
-            newLight.Position = new Vector3(0, 0, 0);
+            //newLight.Position = new Vector3(0, 0, 0);
             newLight.Direction = new Vector3(0,0,0);
             renderer.Lights.Add(newLight);
 
@@ -855,10 +855,6 @@ namespace Graphics
         private void txtLightDirectionZ_MouseUp(object sender, MouseEventArgs e)
         {
             txtLightDirectionZ.SelectAll();
-        }
-        private void txtLightRange_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightRange.SelectAll();
         }
         private void txtLightLocX_MouseUp(object sender, MouseEventArgs e)
         {
@@ -934,12 +930,6 @@ namespace Graphics
             this.epMain.SetError(this.txtLightLocZ, string.Empty);
         }
 
-        private void txtLightRange_Validated(object sender, EventArgs e)
-        {
-            //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightRange, string.Empty);
-        }
-
         private void txtLightDirectionX_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
@@ -973,11 +963,6 @@ namespace Graphics
             e.Cancel = validateTextBoxIsInt(this.txtLightLocZ);
         }
 
-        private void txtLightRange_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = validateTextBoxIsInt(this.txtLightRange);
-        }
-
         private void txtLightDirectionX_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = validateTextBoxIsInt(this.txtLightDirectionX);
@@ -991,6 +976,37 @@ namespace Graphics
         private void txtLightDirectionZ_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = validateTextBoxIsInt(this.txtLightDirectionZ);
+        }
+
+        private void txtLightLocX_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cbPointLights.SelectedIndex != -1)
+                {
+                    renderer.Lights[cbPointLights.SelectedIndex].Position = new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text));
+                }
+            }
+        }
+
+        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Code to add new point light
+            LightClass newLight = new LightClass(LightType.Point);
+            newLight.Position = new Vector3(0, 0, 0);
+            renderer.Lights.Add(newLight);
+
+            AddLightToDropDown(renderer.Lights.Count, "Point");
+        }
+
+        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //code to add new directional light
+            LightClass newLight = new LightClass(LightType.Directional);
+            newLight.Direction = new Vector3(0, 0, 0);
+            renderer.Lights.Add(newLight);
+
+            AddLightToDropDown(renderer.Lights.Count, "Directional");
         }
 
 
