@@ -978,17 +978,6 @@ namespace Graphics
             e.Cancel = validateTextBoxIsInt(this.txtLightDirectionZ);
         }
 
-        private void txtLightLocX_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (cbPointLights.SelectedIndex != -1)
-                {
-                    renderer.Lights[cbPointLights.SelectedIndex].Position = new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text));
-                }
-            }
-        }
-
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Code to add new point light
@@ -1007,6 +996,39 @@ namespace Graphics
             renderer.Lights.Add(newLight);
 
             AddLightToDropDown(renderer.Lights.Count, "Directional");
+        }
+
+        private void txtLightLocX_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cbPointLights.SelectedIndex != -1)
+                {
+                    renderer.Lights[cbPointLights.SelectedIndex].Position = new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text));
+                }
+            }
+        }
+
+        private void txtLightLocY_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cbPointLights.SelectedIndex != -1)
+                {
+                    renderer.Lights[cbPointLights.SelectedIndex].Position = new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text));
+                }
+            }
+        }
+
+        private void txtLightLocZ_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cbPointLights.SelectedIndex != -1)
+                {
+                    renderer.Lights[cbPointLights.SelectedIndex].Position = new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text));
+                }
+            }
         }
 
 

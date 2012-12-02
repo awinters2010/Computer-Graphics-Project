@@ -142,6 +142,7 @@
             this.epMain = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.lblLightCnt = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbMemUsage.SuspendLayout();
             this.plNotArea.SuspendLayout();
@@ -1157,6 +1158,7 @@
             // 
             // gbLighting
             // 
+            this.gbLighting.Controls.Add(this.lblLightCnt);
             this.gbLighting.Controls.Add(this.lblLightCount);
             this.gbLighting.Controls.Add(this.label20);
             this.gbLighting.Controls.Add(this.label19);
@@ -1295,6 +1297,7 @@
             this.txtLightLocZ.Size = new System.Drawing.Size(37, 20);
             this.txtLightLocZ.TabIndex = 43;
             this.txtLightLocZ.Text = "0";
+            this.txtLightLocZ.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLightLocZ_KeyDown);
             this.txtLightLocZ.MouseUp += new System.Windows.Forms.MouseEventHandler(this.txtLightLocZ_MouseUp);
             this.txtLightLocZ.Validating += new System.ComponentModel.CancelEventHandler(this.txtLightLocZ_Validating);
             this.txtLightLocZ.Validated += new System.EventHandler(this.txtLightLocZ_Validated);
@@ -1329,6 +1332,7 @@
             this.txtLightLocY.Size = new System.Drawing.Size(37, 20);
             this.txtLightLocY.TabIndex = 41;
             this.txtLightLocY.Text = "0";
+            this.txtLightLocY.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLightLocY_KeyDown);
             this.txtLightLocY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.txtLightLocY_MouseUp);
             this.txtLightLocY.Validating += new System.ComponentModel.CancelEventHandler(this.txtLightLocY_Validating);
             this.txtLightLocY.Validated += new System.EventHandler(this.txtLightLocY_Validated);
@@ -1407,6 +1411,14 @@
             // 
             this.ofdTexture.Filter = "|*.bmp;*.dds;*.jpg;";
             this.ofdTexture.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdTexture_FileOk);
+            // 
+            // lblLightCnt
+            // 
+            this.lblLightCnt.AutoSize = true;
+            this.lblLightCnt.Location = new System.Drawing.Point(171, 16);
+            this.lblLightCnt.Name = "lblLightCnt";
+            this.lblLightCnt.Size = new System.Drawing.Size(0, 13);
+            this.lblLightCnt.TabIndex = 42;
             // 
             // MainPage
             // 
@@ -1572,6 +1584,7 @@
         private System.Windows.Forms.ToolStripMenuItem randomTerrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeTerrainToolStripMenuItem;
         private System.Windows.Forms.CheckBox ckbxGlobalLights;
+        private System.Windows.Forms.Label lblLightCnt;
 
     }
 }
