@@ -19,6 +19,11 @@ namespace Graphics
         public string Type { get; private set; }
         public Vector3 Position { get; set; }
         public Vector3 Direction { get; set; }
+        public bool IsLightEnabled
+        {
+            get { return isLightEnabled; }
+            private set { isLightEnabled = value; }
+        }
 
         public LightClass(LightType type = LightType.Point)
         {
@@ -86,28 +91,17 @@ namespace Graphics
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        /// <param name="type"></param>
-        public void GlobalLightTranslation(float x, float y, float z, LightType type)
+        /// <param name="position"></param>
+        public void GlobalLightTranslation(Vector3 position)
         {
-            Position = new Vector3(x, y, z);
-            if (type == LightType.Point)
+            Position = position;
+            if (Type.Equals(LightType.Point.ToString()))
             {
                 light.Position = Position;
             }
-            else if (type == LightType.Directional)
+            else if (Type.Equals(LightType.Directional.ToString()))
             {
                 light.Direction = Position;
-            }
-        }
-
-        public void GlobalLightOffPosition(Vector3 position)
-        {
-            if (Type.Equals(LightType.Point.ToString()))
-            {
-                light.Position = position;
             }
         }
     }
