@@ -95,14 +95,9 @@ namespace Graphics
             {
                 objectMesh = Mesh.CreateBox(DeviceManager.LocalDevice, 1f, 1f, 1f);
 
-                Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Diffuse | VertexFormat.Texture2);
-                objectMesh.Dispose();
-                objectMesh = null;
-                //other.ComputeNormals();
-                objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
-                other.Dispose();
+                objectMesh.ComputeNormals();
 
-                //objectMesh.Optimize(MeshOptimizeFlags.Compact);
+                objectMesh.Optimize(MeshOptimizeFlags.Compact);
 
                 ApplyColor(Color.White);
             }

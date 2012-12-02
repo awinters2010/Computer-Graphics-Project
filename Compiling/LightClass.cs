@@ -28,7 +28,7 @@ namespace Graphics
                 light.Diffuse = Color.White;
                 light.Ambient = Color.White;
                 light.Specular = Color.White;
-                light.Position = new Vector3(0,0,10);
+                light.Position = Vector3.Zero;
                 light.Range = 100.0f;    // a range of 100
                 light.Attenuation0 = 0.0f;    // no constant inverse attenuation
                 light.Attenuation1 = 0.125f;    // only .125 inverse attenuation
