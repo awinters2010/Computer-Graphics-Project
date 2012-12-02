@@ -72,6 +72,9 @@ namespace Graphics
                             {
                                 float speed = (gravityTimer.ElapsedMilliseconds * .05f) / 1000;
                                 float newPosition = item.ObjectPosition.Y - speed;
+
+                                newPosition = Terrian != null && newPosition < 0 ? 0 : newPosition;
+
                                 item.Translate(0, newPosition, 0);
                             }
                         }
