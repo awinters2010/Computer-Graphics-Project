@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SlimDX;
 using SlimDX.Direct3D9;
+using System.Diagnostics;
 
 namespace Graphics
 {
@@ -14,7 +15,28 @@ namespace Graphics
         public List<MeshClass> Meshes { get; set; }
         public List<LightClass> Lights { get; set; }
         public bool IsGlobalLightOn { get; set; }
-        public bool Gravity { get; set; }
+        private bool gravity;
+        public bool Gravity {
+            get
+            {
+                return gravity;
+            }
+            set
+            {
+                if (value)
+                {
+                    gravity = value;
+                    gravityTimer.Start();
+                    gravityTimer.Restart();
+                }
+                else
+                {
+                    gravityTimer.Reset();
+                }
+            }
+        }
+
+        private Stopwatch gravityTimer;
 
         public Renderer()
         {
@@ -22,6 +44,7 @@ namespace Graphics
             Meshes = new List<MeshClass>();
             Lights = new List<LightClass>();
             IsGlobalLightOn = false;
+            gravityTimer = new Stopwatch();
             Gravity = false;
         }
 
@@ -47,7 +70,8 @@ namespace Graphics
 
                             if (Gravity)
                             {
-                                float newPosition = item.ObjectPosition.Y - .01f;
+                                float speed = (gravityTimer.ElapsedMilliseconds * .05f) / 1000;
+                                float newPosition = item.ObjectPosition.Y - speed;
                                 item.Translate(0, newPosition, 0);
                             }
                         }
