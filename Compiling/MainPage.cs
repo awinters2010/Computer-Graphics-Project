@@ -831,15 +831,18 @@ namespace Graphics
 
             AddLightToDropDown(renderer.Lights.Count, "Directional");
         }
+
         private void AddLightToDropDown(int ID, string LightType)
         {
             // code to add new light to light drop down list
             ShapeListItem sliToAdd = new ShapeListItem(ID, LightType);
 
             //Add object
+            
             cbPointLights.Items.Add(sliToAdd);
             cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
         }
+
         private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbPointLights.SelectedIndex != -1)
@@ -1112,7 +1115,7 @@ namespace Graphics
                             RenumberLightList();
                             //deselect any lights
                             lblSelectedLight.Text = "<none>";
-                            cbPointLights.SelectedIndex = -1;
+                            cbPointLights.SelectedIndex = cbPointLights.Items.Count -1;
                         }
                     }
                 }
