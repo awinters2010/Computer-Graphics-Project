@@ -415,7 +415,7 @@ namespace Graphics
 
         private void btnClearScene_Click(object sender, EventArgs e)
         {
-            DialogResult = MessageBox.Show("Are you SURE you want to CLEAR this entire scene?\n Please select one option Yes/No",
+            DialogResult = MessageBox.Show("Are you SURE you want to CLEAR this entire scene?\nThis includes ALL Objects and ALL Lights \nPlease select one option Yes/No",
                                 "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (DialogResult == DialogResult.Yes)
@@ -424,6 +424,8 @@ namespace Graphics
                 {
                     ClearScene();
                     UpdateShapeCount();
+                    UpdateLightCount();
+                    
                 }
                 catch (Exception)
                 {
@@ -453,6 +455,7 @@ namespace Graphics
                             UpdateShapeCount();
                             RenumberShapeList();
                             lblSS2.Text = "<none>";
+                            cboShapeList.SelectedIndex = -1;
                         }
                     }
                 }
@@ -787,6 +790,14 @@ namespace Graphics
         #endregion
 
         #region "Lights"
+        /// <summary>
+        /// Updates light count label
+        /// </summary>
+        public void UpdateLightCount()
+        {
+            //update shape count
+            lblLightCnt.Text = renderer.Lights.Count.ToString();
+        }
         private void btnAddPointLight_Click(object sender, EventArgs e)
         {
             //Code to add new point light
@@ -831,7 +842,6 @@ namespace Graphics
         {
             if (cbPointLights.SelectedIndex != -1)
             {
-                    lblLightCnt.Text = renderer.Lights.Count.ToString();
                     lblSelectedLight.Text = cbPointLights.Text.ToString();
                     txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
                     txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
@@ -843,8 +853,7 @@ namespace Graphics
 
                     cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
                     //SetCurrentColorLabel();
-                    //deselect any lights
-                    lblSelectedLight.Text = "<none>";
+                    
             }
         }
         private void txtLightDirectionX_MouseUp(object sender, MouseEventArgs e)
@@ -989,6 +998,7 @@ namespace Graphics
             renderer.Lights.Add(newLight);
 
             AddLightToDropDown(renderer.Lights.Count, "Point");
+            UpdateLightCount();
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -999,6 +1009,7 @@ namespace Graphics
             renderer.Lights.Add(newLight);
 
             AddLightToDropDown(renderer.Lights.Count, "Directional");
+            UpdateLightCount();
         }
 
         private void txtLightLocX_KeyDown(object sender, KeyEventArgs e)
@@ -1078,6 +1089,66 @@ namespace Graphics
             {
                 renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
                 cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+            }
+        }
+
+        private void btnDeleteLight_Click(object sender, EventArgs e)
+        {
+            if (this.lblSelectedLight.Text != "<none>")
+            {
+                DialogResult = MessageBox.Show("Are you SURE you want to Delete this Light!? \n Please select one option Yes/No",
+                                              "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                if (DialogResult == DialogResult.Yes)
+                {
+                    //code to remove light
+                    if (this.cbPointLights.SelectedIndex != -1)
+                    {
+                        lock (renderer.Lights)
+                        {
+                            renderer.Lights[cbPointLights.SelectedIndex].Dispose();
+                            renderer.Lights.RemoveAt(cbPointLights.SelectedIndex);
+                            cbPointLights.Items.RemoveAt(cbPointLights.SelectedIndex);
+                            UpdateLightCount();
+                            RenumberLightList();
+                            //deselect any lights
+                            lblSelectedLight.Text = "<none>";
+                            cbPointLights.SelectedIndex = -1;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Adds a new light to the shape list combo box
+        /// </summary>
+        public void AddToLightList(string ShapeDesc, int ID)
+        {
+            //update light count
+            UpdateLightCount();
+
+            //create new object, set ID = light count, set description to shape type
+            ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
+
+            //Add object    
+            this.cbPointLights.Items.Add(sliToAdd);
+            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
+        }
+
+
+        /// <summary>
+        /// Updates lights index (call after remove)
+        /// </summary>
+        public void RenumberLightList()
+        {
+            this.cbPointLights.Items.Clear();
+            int objCounter = 1;
+            foreach (LightClass myLight in renderer.Lights)
+            {
+                AddToLightList(myLight.Type, objCounter);
+                objCounter++;
             }
         }
     }

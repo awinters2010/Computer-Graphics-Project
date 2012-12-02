@@ -348,7 +348,6 @@
             // 
             // gbObjects
             // 
-            this.gbObjects.Controls.Add(this.btnClearScene);
             this.gbObjects.Controls.Add(this.btnDeleteShape);
             this.gbObjects.Controls.Add(this.lblSS2);
             this.gbObjects.Controls.Add(this.lblSS1);
@@ -367,7 +366,7 @@
             // btnClearScene
             // 
             this.btnClearScene.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearScene.Location = new System.Drawing.Point(128, 75);
+            this.btnClearScene.Location = new System.Drawing.Point(9, 90);
             this.btnClearScene.Name = "btnClearScene";
             this.btnClearScene.Size = new System.Drawing.Size(108, 23);
             this.btnClearScene.TabIndex = 9;
@@ -987,7 +986,7 @@
             // zScaling
             // 
             this.zScaling.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.zScaling.Location = new System.Drawing.Point(182, 12);
+            this.zScaling.Location = new System.Drawing.Point(187, 12);
             this.zScaling.MaxLength = 4;
             this.zScaling.Name = "zScaling";
             this.zScaling.Size = new System.Drawing.Size(37, 20);
@@ -1003,7 +1002,7 @@
             this.label10.AutoSize = true;
             this.label10.Enabled = false;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(161, 19);
+            this.label10.Location = new System.Drawing.Point(166, 19);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(15, 13);
             this.label10.TabIndex = 38;
@@ -1012,7 +1011,7 @@
             // yScaling
             // 
             this.yScaling.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.yScaling.Location = new System.Drawing.Point(102, 14);
+            this.yScaling.Location = new System.Drawing.Point(107, 14);
             this.yScaling.MaxLength = 4;
             this.yScaling.Name = "yScaling";
             this.yScaling.Size = new System.Drawing.Size(37, 20);
@@ -1028,7 +1027,7 @@
             this.lblyScale.AutoSize = true;
             this.lblyScale.Enabled = false;
             this.lblyScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblyScale.Location = new System.Drawing.Point(81, 21);
+            this.lblyScale.Location = new System.Drawing.Point(86, 21);
             this.lblyScale.Name = "lblyScale";
             this.lblyScale.Size = new System.Drawing.Size(15, 13);
             this.lblyScale.TabIndex = 36;
@@ -1037,7 +1036,7 @@
             // xScaling
             // 
             this.xScaling.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xScaling.Location = new System.Drawing.Point(25, 14);
+            this.xScaling.Location = new System.Drawing.Point(30, 14);
             this.xScaling.MaxLength = 4;
             this.xScaling.Name = "xScaling";
             this.xScaling.Size = new System.Drawing.Size(37, 20);
@@ -1053,7 +1052,7 @@
             this.lblxScale.AutoSize = true;
             this.lblxScale.Enabled = false;
             this.lblxScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblxScale.Location = new System.Drawing.Point(4, 21);
+            this.lblxScale.Location = new System.Drawing.Point(9, 21);
             this.lblxScale.Name = "lblxScale";
             this.lblxScale.Size = new System.Drawing.Size(15, 13);
             this.lblxScale.TabIndex = 34;
@@ -1081,7 +1080,7 @@
             // 
             this.lblObjectColor.AutoSize = true;
             this.lblObjectColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblObjectColor.Location = new System.Drawing.Point(96, 16);
+            this.lblObjectColor.Location = new System.Drawing.Point(89, 16);
             this.lblObjectColor.Name = "lblObjectColor";
             this.lblObjectColor.Size = new System.Drawing.Size(43, 13);
             this.lblObjectColor.TabIndex = 11;
@@ -1110,13 +1109,14 @@
             // 
             // gbPhysics
             // 
+            this.gbPhysics.Controls.Add(this.btnClearScene);
             this.gbPhysics.Controls.Add(this.ckbxGlobalLights);
             this.gbPhysics.Controls.Add(this.cbWireFrame);
             this.gbPhysics.Controls.Add(this.cbGravity);
             this.gbPhysics.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbPhysics.Location = new System.Drawing.Point(6, 301);
             this.gbPhysics.Name = "gbPhysics";
-            this.gbPhysics.Size = new System.Drawing.Size(246, 95);
+            this.gbPhysics.Size = new System.Drawing.Size(246, 119);
             this.gbPhysics.TabIndex = 40;
             this.gbPhysics.TabStop = false;
             this.gbPhysics.Text = "Environment";
@@ -1436,6 +1436,7 @@
             this.btnDeleteLight.TabIndex = 9;
             this.btnDeleteLight.Text = "Delete";
             this.btnDeleteLight.UseVisualStyleBackColor = true;
+            this.btnDeleteLight.Click += new System.EventHandler(this.btnDeleteLight_Click);
             // 
             // cbLightOnOff
             // 
