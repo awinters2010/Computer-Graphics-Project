@@ -838,6 +838,7 @@ namespace Graphics
 
             //Add object
             cbPointLights.Items.Add(sliToAdd);
+            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
         }
         private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1081,21 +1082,13 @@ namespace Graphics
 
         private void cbLightOnOff_CheckedChanged(object sender, EventArgs e)
         {
-            if (!renderer.Lights.Any())
+            if (!renderer.Lights.Any() || cbPointLights.SelectedIndex == -1)
             {
                 return;
             }
 
-            if (!renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled)
-            {
-                renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
-                cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
-            }
-            else
-            {
-                renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
-                cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
-            }
+            renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
+            cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
         }
 
         private void btnDeleteLight_Click(object sender, EventArgs e)
