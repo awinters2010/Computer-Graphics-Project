@@ -9,7 +9,7 @@ namespace Graphics
     public class Terrain : IDisposable
     {
         private Mesh mesh;
-        private int[,] height;
+        public int[,] Height { get; private set; }
         private Random rand;
         private int width, tall;
         private Matrix world;
@@ -24,7 +24,7 @@ namespace Graphics
             tall = rand.Next(2, 100);//64;//rand.Next(2, 50);
             world = Matrix.Identity;
 
-            height = new int[width, tall];
+            Height = new int[width, tall];
 
             var vertices = new CustomVertex.VertexPositionColor[width * tall];
             var indicies = new short[(width - 1) * (tall - 1) * 3];
@@ -34,7 +34,7 @@ namespace Graphics
                 for (int j = 0; j < tall; j++)
                 {
                     //height[width - 1 - j, tall - 1 - i] = (int)(r.ReadByte() / 50);
-                    height[i, j] = rand.Next(0, 3);
+                    Height[i, j] = rand.Next(0, 3);
                 }
             }
 
@@ -42,7 +42,7 @@ namespace Graphics
             {
                 for (int j = 0; j < tall; j++)
                 {
-                    vertices[i + j * width].Position = new Vector3(i, height[i, j], j);
+                    vertices[i + j * width].Position = new Vector3(i, Height[i, j], j);
                     vertices[i + j * width].Color = Color.White.ToArgb();
                 }
             }

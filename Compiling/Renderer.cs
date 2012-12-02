@@ -72,9 +72,13 @@ namespace Graphics
                             {
                                 float speed = (gravityTimer.ElapsedMilliseconds * .05f) / 1000;
                                 float newPosition = item.ObjectPosition.Y - speed;
-                                float terrainHeight = Terrian.height[(int)item.ObjectPosition.X, (int)item.ObjectPosition.Z];
 
-                                newPosition = Terrian != null && newPosition < terrainHeight ? terrainHeight : newPosition;
+                                if (Terrian != null && item.ObjectPosition.X >= 0 && item.ObjectPosition.X < Terrian.Height.Length)
+                                {
+                                    float terrainHeight = Terrian.Height[(int)item.ObjectPosition.X, (int)item.ObjectPosition.Z] + (item.ObjectScale.Y / 2);
+                                    newPosition = newPosition < terrainHeight ? terrainHeight : newPosition;
+                                }
+                                
 
                                 item.Translate(item.ObjectPosition.X, newPosition, item.ObjectPosition.Z);
                             }
