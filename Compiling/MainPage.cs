@@ -527,14 +527,7 @@ namespace Graphics
         #region "Physics"
         private void cbGravity_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbGravity.Checked)
-            {
-                //code to apply gravity
-            }
-            else
-            {
-                //code to "unapply" gravity
-            }
+            renderer.Gravity = cbGravity.Checked;
         }
         #endregion
 

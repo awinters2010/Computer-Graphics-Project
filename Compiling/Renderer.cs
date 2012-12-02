@@ -14,6 +14,7 @@ namespace Graphics
         public List<MeshClass> Meshes { get; set; }
         public List<LightClass> Lights { get; set; }
         public bool IsGlobalLightOn { get; set; }
+        public bool Gravity { get; set; }
 
         public Renderer()
         {
@@ -21,6 +22,7 @@ namespace Graphics
             Meshes = new List<MeshClass>();
             Lights = new List<LightClass>();
             IsGlobalLightOn = false;
+            Gravity = false;
         }
 
         public void RequestShutdown()
@@ -42,6 +44,12 @@ namespace Graphics
                         foreach (var item in Meshes)
                         {
                             item.RenderMesh();
+
+                            if (Gravity)
+                            {
+                                float newPosition = item.ObjectPosition.Y - .01f;
+                                item.Translate(0, newPosition, 0);
+                            }
                         }
                     }
 
