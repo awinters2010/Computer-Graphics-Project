@@ -138,6 +138,7 @@ namespace Graphics
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
+            cboShapeList.SelectedIndex = cboShapeList.Items.Count - 1;
         }
 
         /// <summary>
