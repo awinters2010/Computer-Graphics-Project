@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using SlimDX;
+using System.Linq;
 using System.Threading;
 using System.Drawing;
 using System.Collections.Generic;
@@ -1080,6 +1081,11 @@ namespace Graphics
 
         private void cbLightOnOff_CheckedChanged(object sender, EventArgs e)
         {
+            if (!renderer.Lights.Any())
+            {
+                return;
+            }
+
             if (!renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled)
             {
                 renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
