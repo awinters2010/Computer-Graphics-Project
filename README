@@ -1,1 +1,101 @@
 This is a 3D Game Engine for Computer Graphics class
+Final Project
+Readme.txt
+
+******************************************                    
+ Section 1: System Requirements
+ Section 2: Setting up files
+ Section 3: GUI Overview
+ Section 4: Fuctions
+                4a. Camera controls
+ 		4b. Objects
+ 		           Adding
+                           Deleting
+                           ReNaming
+                           Translating
+                           Rotating
+                           Scaling
+                           Coloring
+		4c. Meshes
+		           Loading
+		4d. Lights
+		           Adding
+		           Deleting
+		           Translating
+		           Direction
+		4e. Environment
+                           Gravity
+                           WireFrame
+                           Global Lights On/Off
+******************************************
+
+******************************************
+ Section 1: System Requirements
+******************************************
+
+	This project was made using C# .NET Windows Forms
+	using .NET framework 4.0 and 4.5 components. Therefore,
+	.NET framework 4.0 must be installed on the OS.
+	*Note - I am unsure if this will run on a Mac.
+
+******************************************
+ Section 2: Setting up files
+******************************************
+
+	The Program can be executed by clicking on <path to .exe goes here>
+        in the root folder.
+
+        To run or view the source code, open up the project by
+        clicking Graphics Term Project.sln in the root folder in
+        Visual Studio 2012. *Note if you are using Visual Studio
+        2010, you must open it with .csproj within the
+        appliation folder.
+
+******************************************
+ Section 3: GUI Overview
+******************************************
+
+	The GUI is separated into 4 main sections that will be referenced in
+	the reset of the readme file.
+
+	Top Menu Bar: This is the Menu bar on the upper-most part of the program.
+	 this contains menu items for file operations, adding shapes, adding
+	 lights, and <are we adding terrain?>
+
+	Left Control Area: This is the left side of the screen where multiple
+         controls are displayed.
+
+	Right Control Area: This is the right side of the screen where multiple
+         controls are displayed.
+
+	Middle Panel Area: Located in the middle of the screen is the main panel
+	 where the scene is displayed.
+
+******************************************
+ Section 3: Functions
+******************************************
+
+        4a. Camera controls
+
+        4b. Objects
+               Adding
+               Deleting
+               ReNaming
+               Translating
+               Rotating
+               Scaling
+               Coloring
+        
+        4c. Meshes
+               Loading
+
+        4d. Lights
+               Adding
+               Deleting
+               Translating
+               Direction
+        
+        4e. Environment
+               Gravity
+               WireFrame
+               Global Lights On/Off
