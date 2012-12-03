@@ -17,7 +17,7 @@ namespace Graphics
     public class MeshClass : IDisposable
     {
         public Texture[] CurrentTexture { get; set; }
-        public Vector3 ObjectPosition { get; set; }        
+        public Vector3 ObjectPosition { get; set; }
         public Vector3 ObjectRotate { get; set; }
         public bool IsShapeObject { get; private set; }
         public string Name { get; set; }
@@ -47,7 +47,7 @@ namespace Graphics
                 return "No Color";
             }
         }
-        
+
         /// <summary>
         /// Create a mesh from a .x File
         /// </summary>
@@ -81,8 +81,6 @@ namespace Graphics
             world = Matrix.Identity;
             Name = fileName;
             IsShapeObject = false;
-
-            Console.WriteLine(Name + " object created");
         }
 
         /// <summary>
@@ -120,35 +118,22 @@ namespace Graphics
                     2, 0, 4,
                 };
 
-                try
-                {
-                    objectMesh = new Mesh(DeviceManager.LocalDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexFormat.Position | VertexFormat.Diffuse);
+                objectMesh = new Mesh(DeviceManager.LocalDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexFormat.Position | VertexFormat.Diffuse);
 
-                    objectMesh.LockVertexBuffer(LockFlags.None).WriteRange<CustomVertex.VertexPositionColor>(ShapeVertices);
-                    objectMesh.UnlockVertexBuffer();
+                objectMesh.LockVertexBuffer(LockFlags.None).WriteRange<CustomVertex.VertexPositionColor>(ShapeVertices);
+                objectMesh.UnlockVertexBuffer();
 
-                    objectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
-                    objectMesh.UnlockIndexBuffer();
+                objectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
+                objectMesh.UnlockIndexBuffer();
 
-                    Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
-                    objectMesh.Dispose();
-                    objectMesh = null;
-                    other.ComputeNormals();
-                    objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
-                    other.Dispose();
+                Mesh other = objectMesh.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, objectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
+                objectMesh.Dispose();
+                objectMesh = null;
+                other.ComputeNormals();
+                objectMesh = other.Clone(DeviceManager.LocalDevice, MeshFlags.Managed, other.VertexFormat);
+                other.Dispose();
 
-                    objectMesh.Optimize(MeshOptimizeFlags.Compact);
-                }
-                catch (Direct3D9Exception ex)
-                {
-                    Console.WriteLine("Message: " + ex.Message);
-                    Console.WriteLine("Error Code: " + ex.ResultCode.Code);
-                    Console.WriteLine("Name: " + ex.ResultCode.Name);
-                    Console.WriteLine("Description: " + ex.ResultCode.Description);
-                    Console.WriteLine("Source: " + ex.Source);
-                    Console.WriteLine("Stack Trace: " + ex.StackTrace);
-                    Console.WriteLine("Method that Threw Exception: " + ex.TargetSite);
-                }
+                objectMesh.Optimize(MeshOptimizeFlags.Compact);
             }
 
             ObjectPosition = Vector3.Zero;
@@ -157,8 +142,6 @@ namespace Graphics
             world = Matrix.Translation(ObjectPosition);
             Name = type.ToString();
             IsShapeObject = true;
-
-            Console.WriteLine(Name + " object created");
         }
 
         #region releasing resources
@@ -181,7 +164,6 @@ namespace Graphics
                 }
 
                 objectMesh.Dispose();
-                Console.WriteLine("objects Removed " + Name);
             }
 
             CurrentTexture = null;
@@ -253,9 +235,9 @@ namespace Graphics
         /// <summary>
         /// Rotate the object
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
+        /// <param name="x">x units to change</param>
+        /// <param name="y">y units to change</param>
+        /// <param name="z">z units to change</param>
         public void Rotate(float x, float y, float z)
         {
             ObjectRotate = new Vector3(x, y, z);
@@ -264,9 +246,9 @@ namespace Graphics
         /// <summary>
         /// Translate the object
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
+        /// <param name="x">x units to change</param>
+        /// <param name="y">y units to change</param>
+        /// <param name="z">z units to change</param>
         public void Translate(float x, float y, float z)
         {
             ObjectPosition = new Vector3(x, y, z);
@@ -275,7 +257,7 @@ namespace Graphics
         /// <summary>
         /// Scale the object
         /// </summary>
-        /// <param name="scale"></param>
+        /// <param name="scale">vector 3 to change the scale</param>
         public void Scale(Vector3 scale)
         {
             ObjectScale = scale;

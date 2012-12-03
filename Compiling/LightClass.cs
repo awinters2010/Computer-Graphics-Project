@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SlimDX.Direct3D9;
 using SlimDX;
 using System.Drawing;
@@ -25,6 +22,10 @@ namespace Graphics
             private set { isLightEnabled = value; }
         }
 
+        /// <summary>
+        /// Constructor or added a new light to the scene
+        /// </summary>
+        /// <param name="type">the light type you wish to have or default of point</param>
         public LightClass(LightType type = LightType.Point)
         {
             if (type == LightType.Point)
@@ -66,6 +67,10 @@ namespace Graphics
             DeviceManager.LocalDevice.Material = material;
         }
 
+        /// <summary>
+        /// Turn the specific light light on/off
+        /// </summary>
+        /// <param name="index">the light in which you want to turn on or off</param>
         public void LightOnOff(int index)
         {
             isLightEnabled = isLightEnabled == true ? false : true;
@@ -73,6 +78,9 @@ namespace Graphics
             DeviceManager.LocalDevice.EnableLight(index, isLightEnabled);
         }
 
+        /// <summary>
+        /// Render the location if global light is on
+        /// </summary>
         public void Render()
         {
             world = Matrix.Translation(Position);
@@ -84,14 +92,12 @@ namespace Graphics
         public void Dispose()
         {
             mesh.Dispose();
-
-            Console.WriteLine("object Removed " + Type + " Light");
         }
 
         /// <summary>
-        /// 
+        /// Positions the light (point) or Positions the direction (directional)
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">vector 3 position</param>
         public void GlobalLightTranslation(Vector3 position)
         {
             Position = position;

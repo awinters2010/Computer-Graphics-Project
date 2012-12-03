@@ -4,7 +4,6 @@ using SlimDX;
 using System.Linq;
 using System.Threading;
 using System.Drawing;
-using System.Collections.Generic;
 using SlimDX.Direct3D9;
 using System.IO;
 
@@ -24,13 +23,12 @@ namespace Graphics
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
 
-        Point p;
-        bool objectSelected = false;
+        private Point mouseLocation;
 
         //to control mouse startng location for 
-        bool FirstMouseMouse = false;
+        private bool FirstMouseMouse = false;
 
-        const int PixelDifferential = 20;
+        private const int PixelDifferential = 20;
 
         #endregion
 
@@ -59,17 +57,6 @@ namespace Graphics
 
             
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
-
-            Configuration.EnableObjectTracking = true;
-
-            panel1.Focus();
-            Console.WriteLine(panel1.Focused);
-            Console.WriteLine(panel1.PointToScreen(MousePosition));
-            if (panel1.Focused)
-            {
-                
-                p = panel1.PointToScreen(MousePosition);
-            }
         }
 
         private void Init()
@@ -86,7 +73,6 @@ namespace Graphics
             lock (renderer.Meshes)
             {
                 renderer.Meshes.Add(new MeshClass(MeshType.Cube));
-                //renderer.Meshes.Add(new Mesh());
 
                 //there may be a better place to put this
                 AddToShapeList("Cube", renderer.Meshes.Count);
@@ -118,8 +104,6 @@ namespace Graphics
             this.BackColor = GUIBackColor;
 
             //notification area
-            plNotArea.BackColor = GUIBackColor;
-            gbMemUsage.BackColor = GUISubWindowColor;
             gbCamera.BackColor = GUISubWindowColor;
             gbRotate.BackColor = GUISubWindowColor;
             gbScale.BackColor = GUISubWindowColor;
@@ -137,7 +121,7 @@ namespace Graphics
             cbPointLights.DisplayMember = "ShapeDesc";
         }
 
-        #region "Shape DropDownList Related Methods"
+        #region Shape DropDownList Related Methods
 
         /// <summary>
         /// Adds a new shape to the shape list combo box
@@ -320,7 +304,14 @@ namespace Graphics
             catch (Exception ex)
             {
                 MessageBox.Show("An error has occured trying to load Mesh file!");
-                Console.WriteLine(ex.Message);
+                if (File.Exists("error.txt"))
+                {
+                    File.AppendAllText("error.txt", ex.Message);
+                }
+                else
+                {
+                    File.WriteAllText("error.txt", ex.Message);
+                }
             }
         }
 
@@ -446,10 +437,18 @@ namespace Graphics
                     txtRename.Text = "";
                     
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //handle exception
                     MessageBox.Show("Clear Scene failed: An error has occured!");
+                    if (File.Exists("error.txt"))
+                    {
+                        File.AppendAllText("error.txt", ex.Message);
+                    }
+                    else
+                    {
+                        File.WriteAllText("error.txt", ex.Message);
+                    }
                 }
             }
         }
@@ -548,14 +547,17 @@ namespace Graphics
 
         #endregion
 
-        #region "Physics"
+        #region Physics
+
         private void cbGravity_CheckedChanged(object sender, EventArgs e)
         {
             renderer.Gravity = cbGravity.Checked;
         }
+
         #endregion
 
-        #region "Texture Loading Functions"
+        #region Texture Loading Functions
+
         private void loadTextureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ofdTexture.ShowDialog();
@@ -589,12 +591,21 @@ namespace Graphics
             catch (Exception ex)
             {
                 MessageBox.Show("An error has occured trying to load Texture file!");
-                Console.WriteLine(ex.Message);
+                if (File.Exists("error.txt"))
+                {
+                    File.AppendAllText("error.txt", ex.Message);
+                }
+                else
+                {
+                    File.WriteAllText("error.txt", ex.Message);
+                }
             }
         }
+
         #endregion
 
-        #region "Validation"
+        #region Validation
+
         private void xTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = validateTextBoxIsInt(this.xTranslation);
@@ -693,263 +704,7 @@ namespace Graphics
             }
             return cancel;
         }
-        #endregion
 
-        #region "Mouse Events"
-        private void panel1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            //// Update the mouse path with the mouse information
-            //Point mouseDownLocation = new Point(e.X, e.Y);
-
-            //string eventString = null;
-            //switch (e.Button)
-            //{
-            //    case MouseButtons.Left:
-            //        eventString = "L";
-            //        Console.WriteLine("x " + e.X + " y " + e.Y);
-            //        break;
-            //    case MouseButtons.Right:
-            //        break;
-            //    case MouseButtons.Middle:
-            //        break;
-            //    case MouseButtons.None:
-            //        break;
-            //}
-
-            //if (eventString != null)
-            //{
-            //    //use mouseDownLocation for x and y coordinate
-            //    //example
-            //    //MessageBox.Show("X - " + mouseDownLocation.X.ToString() + " Y - " + mouseDownLocation.Y.ToString());
-
-            //}
-            //else
-            //{
-            //    //Left mouse button was not clicked
-            //}
-            //panel1.Focus();
-        }
-        private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            // Update the camera z based upon the mouse wheel scrolling.
-            camera.MoveEye(z: (e.Delta / 120 * -1));
-            UpdateCameraLocation();
-
-        }
-        private void panel1_MouseEnter(Object sender, System.EventArgs e)
-        {
-            panel1.Focus();
-        }
-        private void xTranslation_MouseUp(object sender, MouseEventArgs e)
-        {
-            xTranslation.SelectAll();
-        }
-        private void yTranslation_MouseUp(object sender, MouseEventArgs e)
-        {
-            yTranslation.SelectAll();
-        }
-        private void zTranslation_MouseUp(object sender, MouseEventArgs e)
-        {
-            zTranslation.SelectAll();
-        }
-        private void xRotation_MouseUp(object sender, MouseEventArgs e)
-        {
-            xRotation.SelectAll();
-        }
-        private void yRotation_MouseUp(object sender, MouseEventArgs e)
-        {
-            yRotation.SelectAll();
-        }
-        private void zRotation_MouseUp(object sender, MouseEventArgs e)
-        {
-            zRotation.SelectAll();
-        }
-        private void xScaling_MouseUp(object sender, MouseEventArgs e)
-        {
-            xScaling.SelectAll();
-        }
-        private void yScaling_MouseUp(object sender, MouseEventArgs e)
-        {
-            yScaling.SelectAll();
-        }
-        private void zScaling_MouseUp(object sender, MouseEventArgs e)
-        {
-            zScaling.SelectAll();
-        }
-        #endregion
-
-        #region "Color"
-        private void btnSelectColor_Click(object sender, EventArgs e)
-        {
-            DialogResult result = colorDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                //set object color
-
-                //code to remove shape
-                if (cboShapeList.SelectedIndex != -1)
-                {
-                    lock (renderer.Meshes)
-                    {
-                        if (renderer.Meshes[cboShapeList.SelectedIndex].IsShapeObject)
-                        {
-                            renderer.Meshes[cboShapeList.SelectedIndex].ApplyColor(colorDialog1.Color);
-                        }
-                    }
-                    //update color label
-                    SetCurrentColorLabel();
-                }
-                else
-                {
-                    MessageBox.Show("Please select an object!");
-                }
-            }
-        }
-        private void SetCurrentColorLabel()
-        {
-            lblObjectColor.Text = renderer.Meshes[cboShapeList.SelectedIndex].MeshColor;
-        }
-        #endregion
-
-        #region "Lights"
-        /// <summary>
-        /// Updates light count label
-        /// </summary>
-        public void UpdateLightCount()
-        {
-            //update shape count
-            lblLightCnt.Text = renderer.Lights.Count.ToString();
-        }
-        private void btnAddPointLight_Click(object sender, EventArgs e)
-        {
-            //Code to add new point light
-            int x, y, z;
-
-            x = Convert.ToInt32(txtLightLocX.Text);
-            y = Convert.ToInt32(txtLightLocY.Text);
-            z = Convert.ToInt32(txtLightLocZ.Text);
-
-            LightClass newLight = new LightClass(LightType.Point);
-            newLight.Position = new Vector3(x,y,z);
-            renderer.Lights.Add(newLight);
-            
-            AddLightToDropDown(renderer.Lights.Count, "Point");
-        }
-
-        private void btnAddDirectionalLight_Click(object sender, EventArgs e)
-        {
-            //code to add new directional light
-            int x, y, z;
-
-            x = Convert.ToInt32(txtLightDirectionX.Text);
-            y = Convert.ToInt32(txtLightDirectionY.Text);
-            z = Convert.ToInt32(txtLightDirectionZ.Text);
-
-            LightClass newLight = new LightClass(LightType.Directional);
-            //newLight.Position = new Vector3(0, 0, 0);
-            newLight.Direction = new Vector3(0,0,0);
-            renderer.Lights.Add(newLight);
-
-            AddLightToDropDown(renderer.Lights.Count, "Directional");
-        }
-
-        private void AddLightToDropDown(int ID, string LightType)
-        {
-            // code to add new light to light drop down list
-            ShapeListItem sliToAdd = new ShapeListItem(ID, LightType);
-
-            //Add object
-            
-            cbPointLights.Items.Add(sliToAdd);
-            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
-        }
-
-        private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbPointLights.SelectedIndex != -1)
-            {
-                    lblSelectedLight.Text = cbPointLights.Text.ToString();
-                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
-                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
-                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Z.ToString();
-
-                    txtLightDirectionX.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.X.ToString();
-                    txtLightDirectionY.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Y.ToString();
-                    txtLightDirectionZ.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Z.ToString();
-
-                    cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
-                    //SetCurrentColorLabel();
-                    
-            }
-        }
-        private void txtLightDirectionX_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightDirectionX.SelectAll();
-        }
-        private void txtLightDirectionY_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightDirectionY.SelectAll();
-        }
-        private void txtLightDirectionZ_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightDirectionZ.SelectAll();
-        }
-        private void txtLightLocX_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightLocX.SelectAll();
-        }
-        private void txtLightLocY_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightLocY.SelectAll();
-        }
-        private void txtLightLocZ_MouseUp(object sender, MouseEventArgs e)
-        {
-            txtLightLocZ.SelectAll();
-        }
-        #endregion
-
-        #region "WireFrame"
-        private void cbWireFrame_CheckedChanged(object sender, EventArgs e)
-        {
-            //code for changing objects into wireframe
-
-            if (cbWireFrame.Checked)
-            {
-                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
-            }
-            else
-            {
-                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
-            }
-        }
-        #endregion
-
-        private void randomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            renderer.Terrian = new Terrain();
-        }
-
-        private void removeTerrainToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (renderer.Terrian != null)
-            {
-                renderer.Terrian.Dispose();
-                renderer.Terrian = null;
-            }
-        }
-        private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ckbxGlobalLights.Checked)
-            {
-                renderer.IsGlobalLightOn = false;
-                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
-            }
-            else
-            {
-                renderer.IsGlobalLightOn = true;
-                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
-            }
-        }
         private void txtLightLocX_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
@@ -1014,6 +769,252 @@ namespace Graphics
         private void txtLightDirectionZ_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = validateTextBoxIsInt(this.txtLightDirectionZ);
+        }
+
+        #endregion
+
+        #region Mouse Events
+
+        private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            // Update the camera z based upon the mouse wheel scrolling.
+            camera.MoveEye(z: (e.Delta / 120 * -1));
+            UpdateCameraLocation();
+        }
+
+        private void panel1_MouseEnter(Object sender, System.EventArgs e)
+        {
+            panel1.Focus();
+        }
+
+        private void xTranslation_MouseUp(object sender, MouseEventArgs e)
+        {
+            xTranslation.SelectAll();
+        }
+
+        private void yTranslation_MouseUp(object sender, MouseEventArgs e)
+        {
+            yTranslation.SelectAll();
+        }
+
+        private void zTranslation_MouseUp(object sender, MouseEventArgs e)
+        {
+            zTranslation.SelectAll();
+        }
+
+        private void xRotation_MouseUp(object sender, MouseEventArgs e)
+        {
+            xRotation.SelectAll();
+        }
+
+        private void yRotation_MouseUp(object sender, MouseEventArgs e)
+        {
+            yRotation.SelectAll();
+        }
+
+        private void zRotation_MouseUp(object sender, MouseEventArgs e)
+        {
+            zRotation.SelectAll();
+        }
+
+        private void xScaling_MouseUp(object sender, MouseEventArgs e)
+        {
+            xScaling.SelectAll();
+        }
+
+        private void yScaling_MouseUp(object sender, MouseEventArgs e)
+        {
+            yScaling.SelectAll();
+        }
+
+        private void zScaling_MouseUp(object sender, MouseEventArgs e)
+        {
+            zScaling.SelectAll();
+        }
+
+        #endregion
+
+        #region Color
+
+        private void btnSelectColor_Click(object sender, EventArgs e)
+        {
+            DialogResult result = colorDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                //set object color
+
+                //code to remove shape
+                if (cboShapeList.SelectedIndex != -1)
+                {
+                    lock (renderer.Meshes)
+                    {
+                        if (renderer.Meshes[cboShapeList.SelectedIndex].IsShapeObject)
+                        {
+                            renderer.Meshes[cboShapeList.SelectedIndex].ApplyColor(colorDialog1.Color);
+                        }
+                    }
+                    //update color label
+                    SetCurrentColorLabel();
+                }
+                else
+                {
+                    MessageBox.Show("Please select an object!");
+                }
+            }
+        }
+        private void SetCurrentColorLabel()
+        {
+            lblObjectColor.Text = renderer.Meshes[cboShapeList.SelectedIndex].MeshColor;
+        }
+
+        #endregion
+
+        #region Lights
+
+        /// <summary>
+        /// Updates light count label
+        /// </summary>
+        public void UpdateLightCount()
+        {
+            //update shape count
+            lblLightCnt.Text = renderer.Lights.Count.ToString();
+        }
+
+        private void btnAddPointLight_Click(object sender, EventArgs e)
+        {
+            //Code to add new point light
+            int x, y, z;
+
+            x = Convert.ToInt32(txtLightLocX.Text);
+            y = Convert.ToInt32(txtLightLocY.Text);
+            z = Convert.ToInt32(txtLightLocZ.Text);
+
+            LightClass newLight = new LightClass(LightType.Point);
+            newLight.Position = new Vector3(x,y,z);
+            renderer.Lights.Add(newLight);
+            
+            AddLightToDropDown(renderer.Lights.Count, "Point");
+        }
+
+        private void btnAddDirectionalLight_Click(object sender, EventArgs e)
+        {
+            //code to add new directional light
+            int x, y, z;
+
+            x = Convert.ToInt32(txtLightDirectionX.Text);
+            y = Convert.ToInt32(txtLightDirectionY.Text);
+            z = Convert.ToInt32(txtLightDirectionZ.Text);
+
+            LightClass newLight = new LightClass(LightType.Directional);
+            newLight.Direction = new Vector3(0,0,0);
+            renderer.Lights.Add(newLight);
+
+            AddLightToDropDown(renderer.Lights.Count, "Directional");
+        }
+
+        private void AddLightToDropDown(int ID, string LightType)
+        {
+            // code to add new light to light drop down list
+            ShapeListItem sliToAdd = new ShapeListItem(ID, LightType);
+
+            //Add object
+            cbPointLights.Items.Add(sliToAdd);
+            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
+        }
+
+        private void cbPointLights_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbPointLights.SelectedIndex != -1)
+            {
+                    lblSelectedLight.Text = cbPointLights.Text.ToString();
+                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
+                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
+                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Z.ToString();
+
+                    txtLightDirectionX.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.X.ToString();
+                    txtLightDirectionY.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Y.ToString();
+                    txtLightDirectionZ.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Z.ToString();
+
+                    cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+                    //SetCurrentColorLabel();
+            }
+        }
+
+        private void txtLightDirectionX_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightDirectionX.SelectAll();
+        }
+
+        private void txtLightDirectionY_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightDirectionY.SelectAll();
+        }
+
+        private void txtLightDirectionZ_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightDirectionZ.SelectAll();
+        }
+
+        private void txtLightLocX_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightLocX.SelectAll();
+        }
+
+        private void txtLightLocY_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightLocY.SelectAll();
+        }
+
+        private void txtLightLocZ_MouseUp(object sender, MouseEventArgs e)
+        {
+            txtLightLocZ.SelectAll();
+        }
+
+        #endregion
+
+        #region WireFrame
+
+        private void cbWireFrame_CheckedChanged(object sender, EventArgs e)
+        {
+            //code for changing objects into wireframe
+            if (cbWireFrame.Checked)
+            {
+                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
+            }
+            else
+            {
+                DeviceManager.LocalDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
+            }
+        }
+
+        #endregion
+
+        private void randomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            renderer.Terrian = new Terrain();
+        }
+
+        private void removeTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (renderer.Terrian != null)
+            {
+                renderer.Terrian.Dispose();
+                renderer.Terrian = null;
+            }
+        }
+
+        private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckbxGlobalLights.Checked)
+            {
+                renderer.IsGlobalLightOn = false;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            }
+            else
+            {
+                renderer.IsGlobalLightOn = true;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            }
         }
 
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1160,7 +1161,6 @@ namespace Graphics
             cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
         }
 
-
         /// <summary>
         /// Updates lights index (call after remove)
         /// </summary>
@@ -1189,8 +1189,8 @@ namespace Graphics
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             //get previous mouse location
-            int PrevX = p.X;
-            int PrevY = p.Y;
+            int PrevX = mouseLocation.X;
+            int PrevY = mouseLocation.Y;
 
             if (e.Button == MouseButtons.Left)
             {
@@ -1204,12 +1204,11 @@ namespace Graphics
                     FirstMouseMouse = true;
                 }
 
-                //Console.WriteLine("x " + DeltaX.ToString() + " y " + DeltaY.ToString());
                 camera.MoveEye(DeltaX / PixelDifferential, -DeltaY / PixelDifferential);
 
                 //save current mouse location
-                p.X = e.X;
-                p.Y = e.Y;
+                mouseLocation.X = e.X;
+                mouseLocation.Y = e.Y;
 
                 lblCamPosX.Text = ((int)camera.Eye.X).ToString();
                 lblCamPosY.Text = ((int)camera.Eye.Y).ToString();
@@ -1219,8 +1218,8 @@ namespace Graphics
 
         private void MainPage_Load(object sender, EventArgs e)
         {
-            p.X = 0;
-            p.Y = 0;
+            mouseLocation.X = 0;
+            mouseLocation.Y = 0;
             FirstMouseMouse = false;
         }
 
@@ -1228,7 +1227,5 @@ namespace Graphics
         {
             FirstMouseMouse = false;
         }
-
-
     }
 }

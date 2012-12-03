@@ -2,7 +2,6 @@
 using SlimDX.Direct3D9;
 using SlimDX;
 using System.Drawing;
-using System.IO;
 
 namespace Graphics
 {
@@ -14,6 +13,9 @@ namespace Graphics
         private int width, tall;
         private Matrix world;
 
+        /// <summary>
+        /// Constructor for randomly generating terrian
+        /// </summary>
         public Terrain()
         {
             //FileStream fs = new FileStream("heightdata.raw", FileMode.Open, FileAccess.Read);
@@ -51,7 +53,6 @@ namespace Graphics
             {
                 for (int j = 0; j < tall - 1; j++)
                 {
-                    Console.WriteLine((i + 1) + (j + 1) * width);
                     indicies[(i + j * (width - 1)) * 3] = (short)((i + 1) + (j + 1) * width);
                     indicies[(i + j * (width - 1)) * 3 + 1] = (short)((i + 1) + j * width);
                     indicies[(i + j * (width - 1)) * 3 + 2] = (short)(i + j * width);
@@ -74,6 +75,9 @@ namespace Graphics
             //fs.Dispose();
         }
 
+        /// <summary>
+        /// Display the terrian on the screen
+        /// </summary>
         public void Render()
         {
             if (mesh != null)
@@ -86,8 +90,6 @@ namespace Graphics
         public void Dispose()
         {
             mesh.Dispose();
-
-            Console.WriteLine("Terrian Disposed");
         }
     }
 }

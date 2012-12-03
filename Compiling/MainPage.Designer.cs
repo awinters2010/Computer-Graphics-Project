@@ -29,11 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadMesh = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,12 +42,7 @@
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblMemoryUsage = new System.Windows.Forms.Label();
-            this.lblMem = new System.Windows.Forms.Label();
-            this.gbMemUsage = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.plNotArea = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.gbObjects = new System.Windows.Forms.GroupBox();
             this.label18 = new System.Windows.Forms.Label();
             this.txtRename = new System.Windows.Forms.TextBox();
@@ -149,8 +142,6 @@
             this.ofdTexture = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
-            this.gbMemUsage.SuspendLayout();
-            this.plNotArea.SuspendLayout();
             this.gbObjects.SuspendLayout();
             this.gbCamera.SuspendLayout();
             this.gbTranslate.SuspendLayout();
@@ -161,13 +152,6 @@
             this.gbLighting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.epMain)).BeginInit();
             this.SuspendLayout();
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(3, 62);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(246, 23);
-            this.progressBar1.TabIndex = 4;
             // 
             // menuStrip1
             // 
@@ -186,7 +170,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miLoadMesh,
-            this.loadTextureToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -195,21 +178,14 @@
             // miLoadMesh
             // 
             this.miLoadMesh.Name = "miLoadMesh";
-            this.miLoadMesh.Size = new System.Drawing.Size(142, 22);
+            this.miLoadMesh.Size = new System.Drawing.Size(132, 22);
             this.miLoadMesh.Text = "Load Mesh";
             this.miLoadMesh.Click += new System.EventHandler(this.miLoadMesh_Click);
-            // 
-            // loadTextureToolStripMenuItem
-            // 
-            this.loadTextureToolStripMenuItem.Name = "loadTextureToolStripMenuItem";
-            this.loadTextureToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.loadTextureToolStripMenuItem.Text = "Load Texture";
-            this.loadTextureToolStripMenuItem.Click += new System.EventHandler(this.loadTextureToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -282,40 +258,6 @@
             this.removeTerrainToolStripMenuItem.Text = "Remove Terrain";
             this.removeTerrainToolStripMenuItem.Click += new System.EventHandler(this.removeTerrainToolStripMenuItem_Click);
             // 
-            // lblMemoryUsage
-            // 
-            this.lblMemoryUsage.AutoSize = true;
-            this.lblMemoryUsage.Enabled = false;
-            this.lblMemoryUsage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMemoryUsage.Location = new System.Drawing.Point(11, 16);
-            this.lblMemoryUsage.Name = "lblMemoryUsage";
-            this.lblMemoryUsage.Size = new System.Drawing.Size(12, 13);
-            this.lblMemoryUsage.TabIndex = 7;
-            this.lblMemoryUsage.Text = "x";
-            // 
-            // lblMem
-            // 
-            this.lblMem.AutoSize = true;
-            this.lblMem.Enabled = false;
-            this.lblMem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMem.Location = new System.Drawing.Point(114, 16);
-            this.lblMem.Name = "lblMem";
-            this.lblMem.Size = new System.Drawing.Size(12, 13);
-            this.lblMem.TabIndex = 8;
-            this.lblMem.Text = "x";
-            // 
-            // gbMemUsage
-            // 
-            this.gbMemUsage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(194)))), ((int)(((byte)(194)))));
-            this.gbMemUsage.Controls.Add(this.lblMemoryUsage);
-            this.gbMemUsage.Controls.Add(this.lblMem);
-            this.gbMemUsage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbMemUsage.Location = new System.Drawing.Point(3, 16);
-            this.gbMemUsage.Name = "gbMemUsage";
-            this.gbMemUsage.Size = new System.Drawing.Size(246, 40);
-            this.gbMemUsage.TabIndex = 9;
-            this.gbMemUsage.TabStop = false;
-            // 
             // panel1
             // 
             this.panel1.Location = new System.Drawing.Point(259, 28);
@@ -324,32 +266,10 @@
             this.panel1.Padding = new System.Windows.Forms.Padding(20);
             this.panel1.Size = new System.Drawing.Size(624, 524);
             this.panel1.TabIndex = 6;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseEnter += new System.EventHandler(this.panel1_MouseEnter);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
-            // 
-            // plNotArea
-            // 
-            this.plNotArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(162)))), ((int)(((byte)(162)))), ((int)(((byte)(162)))));
-            this.plNotArea.Controls.Add(this.label1);
-            this.plNotArea.Controls.Add(this.gbMemUsage);
-            this.plNotArea.Controls.Add(this.progressBar1);
-            this.plNotArea.Location = new System.Drawing.Point(0, 467);
-            this.plNotArea.Name = "plNotArea";
-            this.plNotArea.Size = new System.Drawing.Size(255, 85);
-            this.plNotArea.TabIndex = 10;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Memory Usage (MB)";
             // 
             // gbObjects
             // 
@@ -1500,7 +1420,6 @@
             this.Controls.Add(this.gbTranslate);
             this.Controls.Add(this.gbCamera);
             this.Controls.Add(this.gbObjects);
-            this.Controls.Add(this.plNotArea);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
@@ -1511,10 +1430,6 @@
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.gbMemUsage.ResumeLayout(false);
-            this.gbMemUsage.PerformLayout();
-            this.plNotArea.ResumeLayout(false);
-            this.plNotArea.PerformLayout();
             this.gbObjects.ResumeLayout(false);
             this.gbObjects.PerformLayout();
             this.gbCamera.ResumeLayout(false);
@@ -1539,18 +1454,12 @@
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem shapesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem triangleToolStripMenuItem;
-        private System.Windows.Forms.Label lblMemoryUsage;
-        private System.Windows.Forms.Label lblMem;
-        private System.Windows.Forms.GroupBox gbMemUsage;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel plNotArea;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gbObjects;
         private System.Windows.Forms.ComboBox cboShapeList;
         private System.Windows.Forms.Label lblDes1;
@@ -1619,7 +1528,6 @@
         private System.Windows.Forms.Button btnRCamB;
         private System.Windows.Forms.Button btnRCamF;
         private System.Windows.Forms.ErrorProvider epMain;
-        private System.Windows.Forms.ToolStripMenuItem loadTextureToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdTexture;
         private System.Windows.Forms.Button btnSelectColor;
         private System.Windows.Forms.ColorDialog colorDialog1;

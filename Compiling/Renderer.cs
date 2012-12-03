@@ -122,7 +122,15 @@ namespace Graphics
                 s += "Error Data: " + result.Data + "\n";
                 s += "Error Description: " + result.Description + "\n";
 
-                System.IO.File.WriteAllText("error.txt", s);
+                if (System.IO.File.Exists("error.txt"))
+                {
+                    System.IO.File.AppendAllText("error.txt", s);
+                }
+                else
+                {
+                    System.IO.File.WriteAllText("error.txt", s);
+                }
+
                 MessageBox.Show("Interal Driver ERROR!!");
                 Application.Exit();
                 return true;
