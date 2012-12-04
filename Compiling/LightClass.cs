@@ -35,22 +35,17 @@ namespace Graphics
                 light.Ambient = Color.White;
                 light.Specular = Color.White;
                 light.Position = Vector3.Zero;
-                light.Range = 100.0f;    // a range of 100
-                light.Attenuation0 = 0.0f;    // no constant inverse attenuation
-                light.Attenuation1 = 0.125f;    // only .125 inverse attenuation
-                light.Attenuation2 = 0.0f;    // no square inverse attenuation
-                light.Phi = 40f * ((float)Math.PI / 180f);
-                light.Theta = 20f * ((float)Math.PI / 180f);
-                light.Falloff = 1.0f;
+                light.Range = 100.0f;
 
             }
             else if (type == LightType.Directional)
             {
                 light.Type = type;
                 light.Direction = Vector3.Zero;
-                light.Ambient = Color.PapayaWhip;
-                light.Diffuse = Color.PapayaWhip;
-                light.Specular = Color.PapayaWhip;
+                light.Ambient = Color.White;
+                light.Diffuse = Color.White;
+                light.Specular = Color.White;
+                light.Range = 100.0f;
             }
 
             isLightEnabled = false;
@@ -59,10 +54,9 @@ namespace Graphics
             Direction = Vector3.Zero;
             world = Matrix.Identity;
             mesh = Mesh.CreateSphere(DeviceManager.LocalDevice, .1f, 10, 10);
-            mesh.ComputeNormals();
 
-            material.Diffuse = new Color4(1, 1, 1, 1);
-            material.Ambient = new Color4(1, 1, 1, 1);
+            material.Diffuse = Color.White;
+            material.Ambient = Color.White;
 
             DeviceManager.LocalDevice.Material = material;
         }
