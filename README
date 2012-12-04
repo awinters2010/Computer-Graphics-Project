@@ -7,27 +7,27 @@ Readme.txt
  Section 2: Setting up files
  Section 3: GUI Overview
  Section 4: Fuctions
-                4a. Camera controls
- 		4b. Objects
- 		           Adding
-                           Deleting
-                           ReNaming
-                           Translating
-                           Rotating
-                           Scaling
-                           Coloring
-		4c. Meshes
-		           Loading
-		4d. Lights
-		           Adding
-		           Deleting
-		           Translating
-		           Direction
-		           On/Off
-		4e. Environment
-                           Gravity
-                           WireFrame
-                           Global Lights On/Off
+            4a. Camera controls
+			4b. Objects
+ 		        Adding
+                Deleting
+                ReNaming
+                Translating
+                Rotating
+                Scaling
+                Coloring
+			4c. Meshes
+		        Loading
+			4d. Lights
+				Adding
+				Deleting
+				Translating
+				Direction
+				On/Off
+			4e. Environment
+				Gravity
+				WireFrame
+				Global Lights On/Off
 ******************************************
 
 ******************************************
@@ -37,20 +37,20 @@ Readme.txt
 	This project was made using C# .NET Windows Forms
 	using .NET framework 4.0 and 4.5 components. Therefore,
 	.NET framework 4.0 must be installed on the OS.
-	*Note - I am unsure if this will run on a Mac.
+	*Note - Will only run on Windows (presumably Vista and higher).
 
 ******************************************
  Section 2: Setting up files
 ******************************************
 
-	The Program can be executed by clicking on <path to .exe goes here>
-        in the root folder.
+	The root folder is called Computer Graphics Term Project. In this folder there are two folders called Graphics Project Runnable-Executable, which has a runnable version of the program, and Graphics Project Source Code, which is the source code.
+	
+	The Program can be executed by clicking on Computer Graphics Term Project.exe in Computer Graphics Term Project/Graphics Project Runnable-Executable.
 
-        To run or view the source code, open up the project by
-        clicking Graphics Term Project.sln in the root folder in
-        Visual Studio 2012. *Note if you are using Visual Studio
-        2010, you must open it with .csproj within the
-        appliation folder.
+	To run or view the source code, open up the project by
+	double clicking Graphics Term Project.sln in Computer Graphics Term Project/Graphics Project Source Code. This will open Visual Studio 2010 or 2012 depending on your version. 
+	
+	*Note: If you have issues opening it with the .sln then open the Compiling folder and double click Compiling.csproj.
 
 ******************************************
  Section 3: GUI Overview
