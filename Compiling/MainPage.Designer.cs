@@ -1028,7 +1028,7 @@
             this.gbColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbColor.Location = new System.Drawing.Point(887, 292);
             this.gbColor.Name = "gbColor";
-            this.gbColor.Size = new System.Drawing.Size(246, 41);
+            this.gbColor.Size = new System.Drawing.Size(246, 60);
             this.gbColor.TabIndex = 39;
             this.gbColor.TabStop = false;
             this.gbColor.Text = "Color";
@@ -1037,7 +1037,7 @@
             // 
             this.lblObjectColor.AutoSize = true;
             this.lblObjectColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblObjectColor.Location = new System.Drawing.Point(89, 16);
+            this.lblObjectColor.Location = new System.Drawing.Point(12, 36);
             this.lblObjectColor.Name = "lblObjectColor";
             this.lblObjectColor.Size = new System.Drawing.Size(43, 13);
             this.lblObjectColor.TabIndex = 11;
@@ -1056,7 +1056,7 @@
             // btnSelectColor
             // 
             this.btnSelectColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectColor.Location = new System.Drawing.Point(170, 12);
+            this.btnSelectColor.Location = new System.Drawing.Point(100, 9);
             this.btnSelectColor.Name = "btnSelectColor";
             this.btnSelectColor.Size = new System.Drawing.Size(66, 23);
             this.btnSelectColor.TabIndex = 0;

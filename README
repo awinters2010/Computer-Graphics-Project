@@ -23,6 +23,7 @@ Readme.txt
 		           Deleting
 		           Translating
 		           Direction
+		           On/Off
 		4e. Environment
                            Gravity
                            WireFrame
@@ -59,8 +60,8 @@ Readme.txt
 	the reset of the readme file.
 
 	Top Menu Bar: This is the Menu bar on the upper-most part of the program.
-	 this contains menu items for file operations, adding shapes, adding
-	 lights, and <are we adding terrain?>
+	 this contains menu items for file operations, adding shapes, and adding
+	 lights.
 
 	Left Control Area: This is the left side of the screen where multiple
          controls are displayed.
@@ -72,30 +73,149 @@ Readme.txt
 	 where the scene is displayed.
 
 ******************************************
- Section 3: Functions
+ Section 4: Functions
 ******************************************
 
         4a. Camera controls
 
+               Reset Camera - Click the "Reset Camera" button to return
+                the Camera to its starting location. (0,0,3.5)
+
+               Camera Movement - Located in the left control area, six
+                buttons controls Left, Right, Up, Down, Back, Forward,
+                or -x, x, y, -y, z, -z translate respectively. Labels below
+                will update as the Camera eye position is updated. In addition,
+                when mouse hovering over the middle panel, the mouse wheel
+                will "zoom-in and zoom-out" by z axis translation. Also,
+                you can "click and drag" within the panel to move the camera
+                along the x and y axis
+
+               Rotation
+               Camera Movement - Located in the left control area, six
+                buttons control Left, Right, Up, Down, Back, Forward,
+                or -x, x, y, -y, z, -z rotate respectively. Labels below
+                will update as the cameras rotation is updated.
+
         4b. Objects
+
                Adding
+                To add an object, click the "Shapes" menu item in the top
+                menu bar. Select "Square" or "Triangle" and it will be
+                added to the scene at point [0,0,0]. As items are added,
+                they will be added to a count and list located in the
+                right control area under the Objects section.
+
                Deleting
+                To delete an object, select an object from the object list
+                drop down list in the right control area in the objects section.
+                The selected object will be indicated when the "Selected
+                Object" label changes to the selected object. Click the Delete
+                button - a message box will prompt with a confirmation. Click
+                yes and continue to delete the object.
+               
                ReNaming
+                To rename an object, select an object from the object list
+                drop down list in the right control area in the objects section.
+                The current name will load into the "ReName" textbox. Type
+                the new name in this textbox and click the "ReName" button.
+                Use this to keep track of your objects.
+
                Translating
+                To translate an object, select an object from the object list
+                drop down list in the right control area in the objects section.
+                At this time, the objects current position will load into the
+                "Translate" X Y and Z textboxes. To translate, click in the 
+                desired textbox, update the value, and press the Enter key on 
+                your keyboard. Note, the textboxes will only accept integers.
+
                Rotating
+                To rotate an object, select an object from the object list
+                drop down list in the right control area in the objects section.
+                At this time, the objects current rotation will load into the
+                "Rotate" X Y and Z textboxes. To rotate, click in the desired
+                textbox, update the value, and press the Enter key on your 
+                keyboard. Note, the textboxes will only except integers.
+               
                Scaling
+                To scale an object, select an object from the object list
+                drop down list in the right control area in the objects section.
+                At this time, the objects current scale will load into the
+                "Scale" X Y and Z textboxes. To scale, click in the desired
+                textbox, update the value, and press the Enter key on your 
+                keyboard. Note, the textboxes will only accept integers.
+
                Coloring
-        
+                To color an object, select an object from the object list
+                drop down list in the right control area in the objects section.
+                At this time, the objects current RGB color will load into the
+                "Color" label. To change color, click the "Select" button
+                in the Color section. A color picker will display - select 
+                your desired color, the color of your object will change.
+                Note, if you don't see the color make sure your light is turned on!
+
         4c. Meshes
+
                Loading
+                To load a mesh, click the "File" menu item in the top
+                menu bar. Select "Load Mesh" and an open file dialog will appear.
+                Find a .x mesh file, or use the "tiger.x" file located within
+                the file folders of this project. The mesh will appear on the screen,
+                You can translate, rotate, and scale like you would a square or
+                triangle.
 
         4d. Lights
+
                Adding
+                To add a light, click the "Lights" menu item in the top
+                menu bar. Select "Point" or "Directional" and it will be
+                added to the scene at point [0,0,0]. As lights are added,
+                they will be added to a count and list located in the
+                right control area under the Lights section.
+
                Deleting
+                To delete a light, select the light from the light list
+                drop down list in the right control area in the lights section.
+                The selected light will be indicated when the "Selected
+                Light" label changes to the selected light. Click the Delete
+                button - a message box will prompt with a confirmation. Click
+                yes and continue to delete the light.
+
                Translating
+                To translate a light, select a light from the  light list
+                drop down list in the right control area in the light section.
+                At this time, the light current position will load into the
+                "Location (Point Only)" X Y and Z textboxes. To translate, click 
+                in the desired textbox, update the value, and press the Enter key
+                on your keyboard. Note, the textboxes will only accept integers.
+
                Direction
-        
+                To change a light direction, select a light from the  light list
+                drop down list in the right control area in the light section.
+                At this time, the lights current direction will load into the
+                "Point At (Directional Only)" X Y and Z textboxes. To change, click 
+                in the desired textbox, update the value, and press the Enter key 
+                on your keyboard. Note, the textboxes will only accept integers.
+
+               On/Off
+                To turn an individual light on and off, select a light from the 
+                light list drop down list in the right control area in the light
+                section. At this time, the lights current On/Off status will be
+                updated in the "Light On/Off" checkbox. Check or uncheck this 
+                checkbox to switch the light on and off.
+
         4e. Environment
+
                Gravity
+                To turn gravity on and off, Check or uncheck the "Gravity On/Off"
+                checkbox located in the "Environment" section in the left control
+                area.
+
                WireFrame
+                To turn wireframe on and off, Check or uncheck the "Wireframe On/Off"
+                checkbox located in the "Environment" section in the left control
+                area.
+
                Global Lights On/Off
+                To turn Global Lights on and off, Check or uncheck the "Global Lights 
+                On/Off" checkbox located in the "Environment" section in the left control
+                area.
