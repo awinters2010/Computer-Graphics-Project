@@ -23,12 +23,10 @@ namespace Graphics
         private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
         private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
 
-        private Point mouseLocation;
-
-        //to control mouse startng location for 
+        //to control mouse
         private bool FirstMouseMouse = false;
-
-        private const int PixelDifferential = 20;
+        private Point mouseLocation;
+        private const int PixelDifferential = 40;
 
         #endregion
 
@@ -880,36 +878,40 @@ namespace Graphics
             lblLightCnt.Text = renderer.Lights.Count.ToString();
         }
 
-        private void btnAddPointLight_Click(object sender, EventArgs e)
+        private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
         {
-            //Code to add new point light
-            int x, y, z;
-
-            x = Convert.ToInt32(txtLightLocX.Text);
-            y = Convert.ToInt32(txtLightLocY.Text);
-            z = Convert.ToInt32(txtLightLocZ.Text);
-
-            LightClass newLight = new LightClass(LightType.Point);
-            newLight.Position = new Vector3(x,y,z);
-            renderer.Lights.Add(newLight);
-            
-            AddLightToDropDown(renderer.Lights.Count, "Point");
+            if (ckbxGlobalLights.Checked)
+            {
+                renderer.IsGlobalLightOn = false;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            }
+            else
+            {
+                renderer.IsGlobalLightOn = true;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            }
         }
 
-        private void btnAddDirectionalLight_Click(object sender, EventArgs e)
+        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Code to add new point light
+            LightClass newLight = new LightClass(LightType.Point);
+            newLight.Position = new Vector3(0, 0, 0);
+            renderer.Lights.Add(newLight);
+
+            AddLightToDropDown(renderer.Lights.Count, "Point");
+            UpdateLightCount();
+        }
+
+        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //code to add new directional light
-            int x, y, z;
-
-            x = Convert.ToInt32(txtLightDirectionX.Text);
-            y = Convert.ToInt32(txtLightDirectionY.Text);
-            z = Convert.ToInt32(txtLightDirectionZ.Text);
-
             LightClass newLight = new LightClass(LightType.Directional);
-            newLight.Direction = new Vector3(0,0,0);
+            newLight.Direction = new Vector3(0, 0, 0);
             renderer.Lights.Add(newLight);
 
             AddLightToDropDown(renderer.Lights.Count, "Directional");
+            UpdateLightCount();
         }
 
         private void AddLightToDropDown(int ID, string LightType)
@@ -970,6 +972,75 @@ namespace Graphics
             txtLightLocZ.SelectAll();
         }
 
+        private void cbLightOnOff_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!renderer.Lights.Any() || cbPointLights.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
+            cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+        }
+
+        private void btnDeleteLight_Click(object sender, EventArgs e)
+        {
+            if (this.lblSelectedLight.Text != "<none>")
+            {
+                DialogResult = MessageBox.Show("Are you SURE you want to Delete this Light!? \n Please select one option Yes/No",
+                                              "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                if (DialogResult == DialogResult.Yes)
+                {
+                    //code to remove light
+                    if (this.cbPointLights.SelectedIndex != -1)
+                    {
+                        lock (renderer.Lights)
+                        {
+                            renderer.Lights[cbPointLights.SelectedIndex].Dispose();
+                            renderer.Lights.RemoveAt(cbPointLights.SelectedIndex);
+                            cbPointLights.Items.RemoveAt(cbPointLights.SelectedIndex);
+                            UpdateLightCount();
+                            RenumberLightList();
+                            //deselect any lights
+                            lblSelectedLight.Text = "<none>";
+                            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a new light to the shape list combo box
+        /// </summary>
+        public void AddToLightList(string ShapeDesc, int ID)
+        {
+            //update light count
+            UpdateLightCount();
+
+            //create new object, set ID = light count, set description to shape type
+            ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
+
+            //Add object    
+            this.cbPointLights.Items.Add(sliToAdd);
+            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
+        }
+
+        /// <summary>
+        /// Updates lights index (call after remove)
+        /// </summary>
+        public void RenumberLightList()
+        {
+            this.cbPointLights.Items.Clear();
+            int objCounter = 1;
+            foreach (LightClass myLight in renderer.Lights)
+            {
+                AddToLightList(myLight.Type, objCounter);
+                objCounter++;
+            }
+        }
+
         #endregion
 
         #region WireFrame
@@ -989,6 +1060,8 @@ namespace Graphics
 
         #endregion
 
+        #region Terrain
+
         private void randomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             renderer.Terrian = new Terrain();
@@ -1003,41 +1076,9 @@ namespace Graphics
             }
         }
 
-        private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ckbxGlobalLights.Checked)
-            {
-                renderer.IsGlobalLightOn = false;
-                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
-            }
-            else
-            {
-                renderer.IsGlobalLightOn = true;
-                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
-            }
-        }
+        #endregion
 
-        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Code to add new point light
-            LightClass newLight = new LightClass(LightType.Point);
-            newLight.Position = new Vector3(0, 0, 0);
-            renderer.Lights.Add(newLight);
-
-            AddLightToDropDown(renderer.Lights.Count, "Point");
-            UpdateLightCount();
-        }
-
-        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //code to add new directional light
-            LightClass newLight = new LightClass(LightType.Directional);
-            newLight.Direction = new Vector3(0, 0, 0);
-            renderer.Lights.Add(newLight);
-
-            AddLightToDropDown(renderer.Lights.Count, "Directional");
-            UpdateLightCount();
-        }
+        #region Light Movement
 
         private void txtLightLocX_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1105,75 +1146,7 @@ namespace Graphics
             }
         }
 
-        private void cbLightOnOff_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!renderer.Lights.Any() || cbPointLights.SelectedIndex == -1)
-            {
-                return;
-            }
-
-            renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
-            cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
-        }
-
-        private void btnDeleteLight_Click(object sender, EventArgs e)
-        {
-            if (this.lblSelectedLight.Text != "<none>")
-            {
-                DialogResult = MessageBox.Show("Are you SURE you want to Delete this Light!? \n Please select one option Yes/No",
-                                              "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                if (DialogResult == DialogResult.Yes)
-                {
-                    //code to remove light
-                    if (this.cbPointLights.SelectedIndex != -1)
-                    {
-                        lock (renderer.Lights)
-                        {
-                            renderer.Lights[cbPointLights.SelectedIndex].Dispose();
-                            renderer.Lights.RemoveAt(cbPointLights.SelectedIndex);
-                            cbPointLights.Items.RemoveAt(cbPointLights.SelectedIndex);
-                            UpdateLightCount();
-                            RenumberLightList();
-                            //deselect any lights
-                            lblSelectedLight.Text = "<none>";
-                            cbPointLights.SelectedIndex = cbPointLights.Items.Count -1;
-                        }
-                    }
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Adds a new light to the shape list combo box
-        /// </summary>
-        public void AddToLightList(string ShapeDesc, int ID)
-        {
-            //update light count
-            UpdateLightCount();
-
-            //create new object, set ID = light count, set description to shape type
-            ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
-
-            //Add object    
-            this.cbPointLights.Items.Add(sliToAdd);
-            cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
-        }
-
-        /// <summary>
-        /// Updates lights index (call after remove)
-        /// </summary>
-        public void RenumberLightList()
-        {
-            this.cbPointLights.Items.Clear();
-            int objCounter = 1;
-            foreach (LightClass myLight in renderer.Lights)
-            {
-                AddToLightList(myLight.Type, objCounter);
-                objCounter++;
-            }
-        }
+        #endregion
 
         private void btnRename_Click(object sender, EventArgs e)
         {
