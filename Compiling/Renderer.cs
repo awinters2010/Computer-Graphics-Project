@@ -53,6 +53,9 @@ namespace Graphics
             shutdown = true;
         }
 
+        /// <summary>
+        /// Draws everything that has been created
+        /// </summary>
         public void RenderScene()
         {
             while (!shutdown)
@@ -107,6 +110,10 @@ namespace Graphics
             }
         }
 
+        /// <summary>
+        /// Supposed to check different states such as device lost then fix that....Don't know if it works
+        /// </summary>
+        /// <returns>True if issue. False otherwise</returns>
         private bool IsDeviceLost()
         {
             Result result = DeviceManager.LocalDevice.TestCooperativeLevel();
