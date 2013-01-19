@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Windows.Forms;
-using SlimDX;
+using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Drawing;
+using System.Windows.Forms;
+using SlimDX;
 using SlimDX.Direct3D9;
-using System.IO;
+using Resources = Graphics.Properties.Resources;
 
 namespace Graphics
 {
@@ -14,18 +16,17 @@ namespace Graphics
         #region Variables
 
         //the thread that the graphics will be running in so the UI doesn't lock up.
-        private Thread renderThread;
-        private Camera camera;
-        private Renderer renderer;
+        private Thread _renderThread;
+        private readonly Camera _camera;
+        private readonly Renderer _renderer;
 
         //GUI colors
-        private static Color GUIBackColor = System.Drawing.Color.FromArgb(162, 162, 162);
-        private static Color GUISubWindowColor = System.Drawing.Color.FromArgb(194, 194, 194);
-        private static Color GUISubWindowHeaderColor = System.Drawing.Color.FromArgb(218, 218, 218);
+        private readonly Color _guiBackColor = Color.FromArgb(0xa2, green: 162, blue: 162);
+        private readonly Color _guiSubWindowColor = Color.FromArgb(194, 194, 194);
 
         //to control mouse
-        private bool FirstMouseMouse = false;
-        private Point mouseLocation;
+        private bool _firstMouseMouse;
+        private Point _mouseLocation;
         private const int PixelDifferential = 40;
 
         #endregion
@@ -38,12 +39,12 @@ namespace Graphics
             //this method initializes the Device
             DeviceManager.CreateDevice(panel1.Handle, panel1.Width, panel1.Height);
 
-            camera = new Camera();
+            _camera = new Camera();
 
-            renderer = new Renderer();
+            _renderer = new Renderer();
             Init();
 
-            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+            DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, _renderer.IsGlobalLightOn);
             DeviceManager.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
             DeviceManager.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             DeviceManager.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
@@ -53,14 +54,14 @@ namespace Graphics
             //set GUI control attributes
             SetGui();
 
-            
-            this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
+
+            panel1.MouseWheel += panel1_MouseWheel;
         }
 
         private void Init()
         {
-            renderThread = new Thread(new ThreadStart(renderer.RenderScene));
-            renderThread.Start();
+            _renderThread = new Thread(_renderer.RenderScene);
+            _renderThread.Start();
         }
 
         #region Shape Menu Drawing
@@ -68,48 +69,48 @@ namespace Graphics
         //adds a new cube to the screen
         private void CubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (renderer.Meshes)
+            lock (_renderer.Meshes)
             {
-                renderer.Meshes.Add(new MeshClass(MeshType.Cube));
+                _renderer.Meshes.Add(new MeshClass(MeshType.Cube));
 
                 //there may be a better place to put this
-                AddToShapeList("Cube", renderer.Meshes.Count);
+                AddToShapeList("Cube", _renderer.Meshes.Count);
             }
         }
 
         //adds a new triangle to the screen
         private void TriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lock (renderer.Meshes)
+            lock (_renderer.Meshes)
             {
-                renderer.Meshes.Add(new MeshClass(MeshType.Triangle));
+                _renderer.Meshes.Add(new MeshClass(MeshType.Triangle));
 
                 //there may be a better place to put this
-                AddToShapeList("Triangle", renderer.Meshes.Count);
+                AddToShapeList("Triangle", _renderer.Meshes.Count);
             }
         }
 
         #endregion
 
         /// <summary>
-        /// Sets GUI Menu items and controls including width and colors
+        ///     Sets GUI Menu items and controls including width and colors
         /// </summary>
         private void SetGui()
         {
             //set colors
 
             //main form
-            this.BackColor = GUIBackColor;
+            BackColor = _guiBackColor;
 
             //notification area
-            gbCamera.BackColor = GUISubWindowColor;
-            gbRotate.BackColor = GUISubWindowColor;
-            gbScale.BackColor = GUISubWindowColor;
-            gbObjects.BackColor = GUISubWindowColor;
-            gbTranslate.BackColor = GUISubWindowColor;
-            gbColor.BackColor = GUISubWindowColor;
-            gbLighting.BackColor = GUISubWindowColor;
-            gbPhysics.BackColor = GUISubWindowColor;
+            gbCamera.BackColor = _guiSubWindowColor;
+            gbRotate.BackColor = _guiSubWindowColor;
+            gbScale.BackColor = _guiSubWindowColor;
+            gbObjects.BackColor = _guiSubWindowColor;
+            gbTranslate.BackColor = _guiSubWindowColor;
+            gbColor.BackColor = _guiSubWindowColor;
+            gbLighting.BackColor = _guiSubWindowColor;
+            gbPhysics.BackColor = _guiSubWindowColor;
 
             //set shape drop down list value and display members
             cboShapeList.ValueMember = "ID";
@@ -122,7 +123,7 @@ namespace Graphics
         #region Shape DropDownList Related Methods
 
         /// <summary>
-        /// Adds a new shape to the shape list combo box
+        ///     Adds a new shape to the shape list combo box
         /// </summary>
         public void AddToShapeList(string ShapeDesc, int ID)
         {
@@ -130,56 +131,57 @@ namespace Graphics
             UpdateShapeCount();
 
             //create new object, set ID = shape count, set description to shape type
-            ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
+            var sliToAdd = new ShapeListItem(ID, ShapeDesc);
 
             //Add object    
             cboShapeList.Items.Add(sliToAdd);
             cboShapeList.SelectedIndex = cboShapeList.Items.Count - 1;
-            txtRename.Text = renderer.Meshes[cboShapeList.SelectedIndex].Name;
+            txtRename.Text = _renderer.Meshes[cboShapeList.SelectedIndex].Name;
         }
 
         /// <summary>
-        /// Updates shape count label
+        ///     Updates shape count label
         /// </summary>
         public void UpdateShapeCount()
         {
             //update shape count
-            lblSCnt2.Text = renderer.Meshes.Count.ToString();
+            lblSCnt2.Text = _renderer.Meshes.Count.ToString();
         }
 
         /// <summary>
-        /// Updates shape index (call after remove)
+        ///     Updates shape index (call after remove)
         /// </summary>
         public void RenumberShapeList()
         {
             cboShapeList.Items.Clear();
             int objCounter = 1;
-            foreach (MeshClass myMesh in renderer.Meshes)
+            foreach (MeshClass myMesh in _renderer.Meshes)
             {
                 AddToShapeList(myMesh.Name, objCounter);
                 objCounter++;
             }
         }
+
         private void cboShapeList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboShapeList.SelectedIndex != -1)
             {
-                lblSS2.Text = cboShapeList.Text.ToString();
-                xTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.X.ToString();
-                yTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Y.ToString();
-                zTranslation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Z.ToString();
-                xRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
-                yRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
-                zRotation.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
-                xScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
-                yScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
-                zScaling.Text = renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
+                lblSS2.Text = cboShapeList.Text;
+                xTranslation.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.X.ToString();
+                yTranslation.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Y.ToString();
+                zTranslation.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectPosition.Z.ToString();
+                xRotation.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
+                yRotation.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
+                zRotation.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectRotate.X.ToString();
+                xScaling.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
+                yScaling.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
+                zScaling.Text = _renderer.Meshes[cboShapeList.SelectedIndex].ObjectScale.X.ToString();
                 SetCurrentColorLabel();
                 //deselect any lights
                 lblSelectedLight.Text = "<none>";
 
                 //reset name box
-                txtRename.Text = renderer.Meshes[cboShapeList.SelectedIndex].Name;
+                txtRename.Text = _renderer.Meshes[cboShapeList.SelectedIndex].Name;
             }
         }
 
@@ -189,82 +191,97 @@ namespace Graphics
 
         private void btnResetCamera_Click(object sender, EventArgs e)
         {
-            camera.ResetEye();
+            _camera.ResetEye();
             UpdateCameraLocation();
             UpdateCameraRotation();
         }
+
         private void btnCamL_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(x: -1);
+            _camera.MoveEye(-1);
             UpdateCameraLocation();
         }
+
         private void btnCamR_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(x: 1);
+            _camera.MoveEye(x: 1);
             UpdateCameraLocation();
         }
+
         private void CamB_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(z: 1);
+            _camera.MoveEye(z: 1);
             UpdateCameraLocation();
         }
+
         private void CamF_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(z: -1);
+            _camera.MoveEye(z: -1);
             UpdateCameraLocation();
         }
+
         private void btnCamU_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(y: -1);
+            _camera.MoveEye(y: -1);
             UpdateCameraLocation();
         }
+
         private void btnCamD_Click(object sender, EventArgs e)
         {
-            camera.MoveEye(y: 1);
+            _camera.MoveEye(y: 1);
             UpdateCameraLocation();
         }
+
         private void btnRCamL_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, 1f, 0);
+            _camera.CameraRotation = new Vector3(0, 1f, 0);
             UpdateCameraRotation();
         }
+
         private void btnRCamU_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(1f, 0, 0);
+            _camera.CameraRotation = new Vector3(1f, 0, 0);
             UpdateCameraRotation();
         }
+
         private void btnRCamR_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, -1f, 0);
+            _camera.CameraRotation = new Vector3(0, -1f, 0);
             UpdateCameraRotation();
         }
+
         private void btnRCamD_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(-1f, 0, 0);
+            _camera.CameraRotation = new Vector3(-1f, 0, 0);
             UpdateCameraRotation();
         }
+
         private void btnRCamB_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, 0, -1f);
+            _camera.CameraRotation = new Vector3(0, 0, -1f);
             UpdateCameraRotation();
         }
+
         private void btnRCamF_Click(object sender, EventArgs e)
         {
-            camera.CameraRotation = new Vector3(0, 0, 1f);
+            _camera.CameraRotation = new Vector3(0, 0, 1f);
             UpdateCameraRotation();
         }
+
         private void UpdateCameraLocation()
         {
-            lblCamPosX.Text = camera.Eye.X.ToString();
-            lblCamPosY.Text = camera.Eye.Y.ToString();
-            lblCamPosZ.Text = camera.Eye.Z.ToString();
+            lblCamPosX.Text = _camera.Eye.X.ToString();
+            lblCamPosY.Text = _camera.Eye.Y.ToString();
+            lblCamPosZ.Text = _camera.Eye.Z.ToString();
         }
+
         private void UpdateCameraRotation()
         {
-            lblCamRotX.Text = camera.CameraRotation.X.ToString();
-            lblCamRotY.Text = camera.CameraRotation.Y.ToString();
-            lblCamRotZ.Text = camera.CameraRotation.Z.ToString();
+            lblCamRotX.Text = _camera.CameraRotation.X.ToString();
+            lblCamRotY.Text = _camera.CameraRotation.Y.ToString();
+            lblCamRotZ.Text = _camera.CameraRotation.Z.ToString();
         }
+
         #endregion
 
         #region Mesh Loading Functions
@@ -274,7 +291,7 @@ namespace Graphics
             ofdMesh.ShowDialog();
         }
 
-        private void ofdMesh_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ofdMesh_FileOk(object sender, CancelEventArgs e)
         {
             //Try to read file
             try
@@ -285,9 +302,9 @@ namespace Graphics
                     if (ofdMesh.FileName.ToUpper().Contains(".X") || ofdMesh.FileName.ToLower().Contains(".x"))
                     {
                         //Code to load Mesh
-                        renderer.Meshes.Add(new MeshClass(ofdMesh.FileName, ofdMesh.SafeFileName));
+                        _renderer.Meshes.Add(new MeshClass(ofdMesh.FileName, ofdMesh.SafeFileName));
 
-                        AddToShapeList(ofdMesh.SafeFileName, renderer.Meshes.Count);
+                        AddToShapeList(ofdMesh.SafeFileName, _renderer.Meshes.Count);
                     }
                     else
                     {
@@ -323,7 +340,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text),
+                                                                          float.Parse(yTranslation.Text),
+                                                                          float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -334,7 +353,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text),
+                                                                          float.Parse(yTranslation.Text),
+                                                                          float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -345,7 +366,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text), float.Parse(yTranslation.Text), float.Parse(zTranslation.Text));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Translate(float.Parse(xTranslation.Text),
+                                                                          float.Parse(yTranslation.Text),
+                                                                          float.Parse(zTranslation.Text));
                 }
             }
         }
@@ -356,7 +379,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), float.Parse(yRotation.Text), float.Parse(zRotation.Text));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text),
+                                                                       float.Parse(yRotation.Text),
+                                                                       float.Parse(zRotation.Text));
                 }
             }
         }
@@ -367,7 +392,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), float.Parse(yRotation.Text), float.Parse(zRotation.Text));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text),
+                                                                       float.Parse(yRotation.Text),
+                                                                       float.Parse(zRotation.Text));
                 }
             }
         }
@@ -378,7 +405,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text), float.Parse(yRotation.Text), float.Parse(zRotation.Text));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Rotate(float.Parse(xRotation.Text),
+                                                                       float.Parse(yRotation.Text),
+                                                                       float.Parse(zRotation.Text));
                 }
             }
         }
@@ -389,7 +418,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), float.Parse(yScaling.Text), float.Parse(zScaling.Text)));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text),
+                                                                                  float.Parse(yScaling.Text),
+                                                                                  float.Parse(zScaling.Text)));
                 }
             }
         }
@@ -400,7 +431,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), float.Parse(yScaling.Text), float.Parse(zScaling.Text)));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text),
+                                                                                  float.Parse(yScaling.Text),
+                                                                                  float.Parse(zScaling.Text)));
                 }
             }
         }
@@ -411,7 +444,9 @@ namespace Graphics
             {
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text), float.Parse(yScaling.Text), float.Parse(zScaling.Text)));
+                    _renderer.Meshes[cboShapeList.SelectedIndex].Scale(new Vector3(float.Parse(xScaling.Text),
+                                                                                  float.Parse(yScaling.Text),
+                                                                                  float.Parse(zScaling.Text)));
                 }
             }
         }
@@ -422,8 +457,10 @@ namespace Graphics
 
         private void btnClearScene_Click(object sender, EventArgs e)
         {
-            DialogResult = MessageBox.Show("Are you SURE you want to CLEAR this entire scene?\nThis includes ALL Objects and ALL Lights \nPlease select one option Yes/No",
-                                "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            DialogResult =
+                MessageBox.Show(
+                    "Are you SURE you want to CLEAR this entire scene?\nThis includes ALL Objects and ALL Lights \nPlease select one option Yes/No",
+                    "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (DialogResult == DialogResult.Yes)
             {
@@ -433,7 +470,6 @@ namespace Graphics
                     UpdateShapeCount();
                     UpdateLightCount();
                     txtRename.Text = "";
-                    
                 }
                 catch (Exception ex)
                 {
@@ -455,18 +491,19 @@ namespace Graphics
         {
             if (lblSS2.Text != "<none>")
             {
-                DialogResult = MessageBox.Show("Are you SURE you want to Delete this object!? \n Please select one option Yes/No",
-                                              "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult =
+                    MessageBox.Show("Are you SURE you want to Delete this object!? \n Please select one option Yes/No",
+                                    "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                 if (DialogResult == DialogResult.Yes)
                 {
                     //code to remove shape
                     if (cboShapeList.SelectedIndex != -1)
                     {
-                        lock (renderer.Meshes)
+                        lock (_renderer.Meshes)
                         {
-                            renderer.Meshes[cboShapeList.SelectedIndex].Dispose();
-                            renderer.Meshes.RemoveAt(cboShapeList.SelectedIndex);
+                            _renderer.Meshes[cboShapeList.SelectedIndex].Dispose();
+                            _renderer.Meshes.RemoveAt(cboShapeList.SelectedIndex);
                             cboShapeList.Items.RemoveAt(cboShapeList.SelectedIndex);
                             UpdateShapeCount();
                             RenumberShapeList();
@@ -489,31 +526,31 @@ namespace Graphics
 
         private void ClearScene()
         {
-            lock (renderer.Lights)
+            lock (_renderer.Lights)
             {
-                renderer.Lights.ForEach(light => light.Dispose());
-                renderer.Lights.Clear();
+                _renderer.Lights.ForEach(light => light.Dispose());
+                _renderer.Lights.Clear();
             }
 
             //Code to clear scene
-            lock (renderer.Meshes)
+            lock (_renderer.Meshes)
             {
-                renderer.Meshes.ForEach(mesh => mesh.Dispose());
-                renderer.Meshes.Clear();
+                _renderer.Meshes.ForEach(mesh => mesh.Dispose());
+                _renderer.Meshes.Clear();
                 cboShapeList.Items.Clear();
             }
 
-            if (renderer.Terrian != null)
+            if (_renderer.Terrian != null)
             {
-                renderer.Terrian.Dispose();
-                renderer.Terrian = null;
+                _renderer.Terrian.Dispose();
+                _renderer.Terrian = null;
             }
         }
 
         //on shutdown this method is called. it stoppeds the thread and releases the resources and graphics card
         private void ShutDown()
         {
-            renderer.RequestShutdown();
+            _renderer.RequestShutdown();
 
             if (!CustomVertex.VertexPositionColor.VertexDecl.Disposed)
             {
@@ -524,7 +561,7 @@ namespace Graphics
                 CustomVertex.VertexPositionNormalColor.VertexDecl.Dispose();
             }
 
-            while (!DeviceManager.LocalDevice.Disposed && !renderThread.IsAlive)
+            while (!DeviceManager.LocalDevice.Disposed && !_renderThread.IsAlive)
             {
                 DeviceManager.LocalDevice.EvictManagedResources();
                 DeviceManager.LocalDevice.Direct3D.Dispose();
@@ -549,7 +586,7 @@ namespace Graphics
 
         private void cbGravity_CheckedChanged(object sender, EventArgs e)
         {
-            renderer.Gravity = cbGravity.Checked;
+            _renderer.Gravity = cbGravity.Checked;
         }
 
         #endregion
@@ -560,7 +597,8 @@ namespace Graphics
         {
             ofdTexture.ShowDialog();
         }
-        private void ofdTexture_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void ofdTexture_FileOk(object sender, CancelEventArgs e)
         {
             //Try to read file
             try
@@ -568,17 +606,19 @@ namespace Graphics
                 if (File.Exists(ofdTexture.FileName))
                 {
                     //Make sure it's a texture file type, this should be good enough
-                    if (ofdTexture.FileName.ToUpper().Contains(".BMP") || ofdTexture.FileName.ToUpper().Contains(".DDS") || ofdTexture.FileName.ToUpper().Contains(".JPG"))
+                    if (ofdTexture.FileName.ToUpper().Contains(".BMP") || ofdTexture.FileName.ToUpper().Contains(".DDS") ||
+                        ofdTexture.FileName.ToUpper().Contains(".JPG"))
                     {
                         //Code to load Texture
-                        foreach (MeshClass myMesh in renderer.Meshes)
+                        foreach (MeshClass myMesh in _renderer.Meshes)
                         {
                             if (myMesh.IsShapeObject) myMesh.ApplyTextureMesh(ofdMesh.FileName, ofdMesh.SafeFileName);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("The file " + ofdTexture.FileName + " is not a valid .bmp, .dds, or .jpg Texture file!");
+                        MessageBox.Show("The file " + ofdTexture.FileName +
+                                        " is not a valid .bmp, .dds, or .jpg Texture file!");
                     }
                 }
                 else
@@ -604,87 +644,105 @@ namespace Graphics
 
         #region Validation
 
-        private void xTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void xTranslation_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.xTranslation);
+            e.Cancel = validateTextBoxIsInt(xTranslation);
         }
-        private void yTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void yTranslation_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.yTranslation);
+            e.Cancel = validateTextBoxIsInt(yTranslation);
         }
-        private void zTranslation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void zTranslation_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.zTranslation);
+            e.Cancel = validateTextBoxIsInt(zTranslation);
         }
-        private void xRotation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void xRotation_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.xRotation);
+            e.Cancel = validateTextBoxIsInt(xRotation);
         }
-        private void yRotation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void yRotation_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.yRotation);
+            e.Cancel = validateTextBoxIsInt(yRotation);
         }
-        private void zRotation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void zRotation_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.zRotation);
+            e.Cancel = validateTextBoxIsInt(zRotation);
         }
-        private void xScaling_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void xScaling_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.xScaling);
+            e.Cancel = validateTextBoxIsInt(xScaling);
         }
-        private void yScaling_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void yScaling_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.yScaling);
+            e.Cancel = validateTextBoxIsInt(yScaling);
         }
-        private void zScaling_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void zScaling_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.zScaling);
+            e.Cancel = validateTextBoxIsInt(zScaling);
         }
+
         private void xTranslation_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.xTranslation, string.Empty);
+            epMain.SetError(xTranslation, string.Empty);
         }
+
         private void yTranslation_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.yTranslation, string.Empty);
+            epMain.SetError(yTranslation, string.Empty);
         }
+
         private void zTranslation_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.zTranslation, string.Empty);
+            epMain.SetError(zTranslation, string.Empty);
         }
+
         private void xRotation_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.xRotation, string.Empty);
+            epMain.SetError(xRotation, string.Empty);
         }
+
         private void yRotation_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.yRotation, string.Empty);
+            epMain.SetError(yRotation, string.Empty);
         }
+
         private void zRotation_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.zRotation, string.Empty);
+            epMain.SetError(zRotation, string.Empty);
         }
+
         private void xScaling_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.xScaling, string.Empty);
+            epMain.SetError(xScaling, string.Empty);
         }
+
         private void yScaling_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.yScaling, string.Empty);
+            epMain.SetError(yScaling, string.Empty);
         }
+
         private void zScaling_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.zScaling, string.Empty);
+            epMain.SetError(zScaling, string.Empty);
         }
+
         private bool validateTextBoxIsInt(TextBox TextBoxToVal)
         {
             bool cancel = false;
@@ -698,7 +756,7 @@ namespace Graphics
             {
                 //This control has failed validation: text box is not a number
                 cancel = true;
-                this.epMain.SetError(TextBoxToVal, "You must provide a valid integer!");
+                epMain.SetError(TextBoxToVal, "You must provide a valid integer!");
             }
             return cancel;
         }
@@ -706,81 +764,81 @@ namespace Graphics
         private void txtLightLocX_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightLocX, string.Empty);
+            epMain.SetError(txtLightLocX, string.Empty);
         }
 
         private void txtLightLocY_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightLocY, string.Empty);
+            epMain.SetError(txtLightLocY, string.Empty);
         }
 
         private void txtLightLocZ_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightLocZ, string.Empty);
+            epMain.SetError(txtLightLocZ, string.Empty);
         }
 
         private void txtLightDirectionX_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightDirectionX, string.Empty);
+            epMain.SetError(txtLightDirectionX, string.Empty);
         }
 
         private void txtLightDirectionY_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightDirectionY, string.Empty);
+            epMain.SetError(txtLightDirectionY, string.Empty);
         }
 
         private void txtLightDirectionZ_Validated(object sender, EventArgs e)
         {
             //Control has validated, clear any error message.
-            this.epMain.SetError(this.txtLightDirectionZ, string.Empty);
+            epMain.SetError(txtLightDirectionZ, string.Empty);
         }
 
-        private void txtLightLocX_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void txtLightLocX_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.txtLightLocX);
+            e.Cancel = validateTextBoxIsInt(txtLightLocX);
         }
 
-        private void txtLightLocY_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void txtLightLocY_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.txtLightLocY);
+            e.Cancel = validateTextBoxIsInt(txtLightLocY);
         }
 
-        private void txtLightLocZ_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void txtLightLocZ_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.txtLightLocZ);
+            e.Cancel = validateTextBoxIsInt(txtLightLocZ);
         }
 
-        private void txtLightDirectionX_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void txtLightDirectionX_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.txtLightDirectionX);
+            e.Cancel = validateTextBoxIsInt(txtLightDirectionX);
         }
 
-        private void txtLightDirectionY_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void txtLightDirectionY_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.txtLightDirectionY);
+            e.Cancel = validateTextBoxIsInt(txtLightDirectionY);
         }
 
-        private void txtLightDirectionZ_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void txtLightDirectionZ_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = validateTextBoxIsInt(this.txtLightDirectionZ);
+            e.Cancel = validateTextBoxIsInt(txtLightDirectionZ);
         }
 
         #endregion
 
         #region Mouse Events
 
-        private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void panel1_MouseWheel(object sender, MouseEventArgs e)
         {
             // Update the camera z based upon the mouse wheel scrolling.
-            camera.MoveEye(z: (e.Delta / 120 * -1));
+            _camera.MoveEye(z: (e.Delta/120*-1));
             UpdateCameraLocation();
         }
 
-        private void panel1_MouseEnter(Object sender, System.EventArgs e)
+        private void panel1_MouseEnter(Object sender, EventArgs e)
         {
             panel1.Focus();
         }
@@ -844,11 +902,11 @@ namespace Graphics
                 //code to remove shape
                 if (cboShapeList.SelectedIndex != -1)
                 {
-                    lock (renderer.Meshes)
+                    lock (_renderer.Meshes)
                     {
-                        if (renderer.Meshes[cboShapeList.SelectedIndex].IsShapeObject)
+                        if (_renderer.Meshes[cboShapeList.SelectedIndex].IsShapeObject)
                         {
-                            renderer.Meshes[cboShapeList.SelectedIndex].ApplyColor(colorDialog1.Color);
+                            _renderer.Meshes[cboShapeList.SelectedIndex].ApplyColor(colorDialog1.Color);
                         }
                     }
                     //update color label
@@ -860,9 +918,10 @@ namespace Graphics
                 }
             }
         }
+
         private void SetCurrentColorLabel()
         {
-            lblObjectColor.Text = renderer.Meshes[cboShapeList.SelectedIndex].MeshColor;
+            lblObjectColor.Text = _renderer.Meshes[cboShapeList.SelectedIndex].MeshColor;
         }
 
         #endregion
@@ -870,54 +929,54 @@ namespace Graphics
         #region Lights
 
         /// <summary>
-        /// Updates light count label
+        ///     Updates light count label
         /// </summary>
         public void UpdateLightCount()
         {
             //update shape count
-            lblLightCnt.Text = renderer.Lights.Count.ToString();
+            lblLightCnt.Text = _renderer.Lights.Count.ToString();
         }
 
         private void ckbxGlobalLights_CheckedChanged(object sender, EventArgs e)
         {
             if (ckbxGlobalLights.Checked)
             {
-                renderer.IsGlobalLightOn = false;
-                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+                _renderer.IsGlobalLightOn = false;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, _renderer.IsGlobalLightOn);
             }
             else
             {
-                renderer.IsGlobalLightOn = true;
-                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, renderer.IsGlobalLightOn);
+                _renderer.IsGlobalLightOn = true;
+                DeviceManager.LocalDevice.SetRenderState(RenderState.Lighting, _renderer.IsGlobalLightOn);
             }
         }
 
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Code to add new point light
-            LightClass newLight = new LightClass(LightType.Point);
+            var newLight = new LightClass(LightType.Point);
             newLight.Position = new Vector3(0, 0, 0);
-            renderer.Lights.Add(newLight);
+            _renderer.Lights.Add(newLight);
 
-            AddLightToDropDown(renderer.Lights.Count, "Point");
+            AddLightToDropDown(_renderer.Lights.Count, "Point");
             UpdateLightCount();
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //code to add new directional light
-            LightClass newLight = new LightClass(LightType.Directional);
+            var newLight = new LightClass(LightType.Directional);
             newLight.Direction = new Vector3(0, 0, 0);
-            renderer.Lights.Add(newLight);
+            _renderer.Lights.Add(newLight);
 
-            AddLightToDropDown(renderer.Lights.Count, "Directional");
+            AddLightToDropDown(_renderer.Lights.Count, "Directional");
             UpdateLightCount();
         }
 
         private void AddLightToDropDown(int ID, string LightType)
         {
             // code to add new light to light drop down list
-            ShapeListItem sliToAdd = new ShapeListItem(ID, LightType);
+            var sliToAdd = new ShapeListItem(ID, LightType);
 
             //Add object
             cbPointLights.Items.Add(sliToAdd);
@@ -928,17 +987,17 @@ namespace Graphics
         {
             if (cbPointLights.SelectedIndex != -1)
             {
-                    lblSelectedLight.Text = cbPointLights.Text.ToString();
-                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
-                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
-                    txtLightLocX.Text = renderer.Lights[cbPointLights.SelectedIndex].Position.Z.ToString();
+                lblSelectedLight.Text = cbPointLights.Text;
+                txtLightLocX.Text = _renderer.Lights[cbPointLights.SelectedIndex].Position.X.ToString();
+                txtLightLocX.Text = _renderer.Lights[cbPointLights.SelectedIndex].Position.Y.ToString();
+                txtLightLocX.Text = _renderer.Lights[cbPointLights.SelectedIndex].Position.Z.ToString();
 
-                    txtLightDirectionX.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.X.ToString();
-                    txtLightDirectionY.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Y.ToString();
-                    txtLightDirectionZ.Text = renderer.Lights[cbPointLights.SelectedIndex].Direction.Z.ToString();
+                txtLightDirectionX.Text = _renderer.Lights[cbPointLights.SelectedIndex].Direction.X.ToString();
+                txtLightDirectionY.Text = _renderer.Lights[cbPointLights.SelectedIndex].Direction.Y.ToString();
+                txtLightDirectionZ.Text = _renderer.Lights[cbPointLights.SelectedIndex].Direction.Z.ToString();
 
-                    cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
-                    //SetCurrentColorLabel();
+                cbLightOnOff.Checked = _renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+                //SetCurrentColorLabel();
             }
         }
 
@@ -974,31 +1033,32 @@ namespace Graphics
 
         private void cbLightOnOff_CheckedChanged(object sender, EventArgs e)
         {
-            if (!renderer.Lights.Any() || cbPointLights.SelectedIndex == -1)
+            if (!_renderer.Lights.Any() || cbPointLights.SelectedIndex == -1)
             {
                 return;
             }
 
-            renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
-            cbLightOnOff.Checked = renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
+            _renderer.Lights[cbPointLights.SelectedIndex].LightOnOff(cbPointLights.SelectedIndex);
+            cbLightOnOff.Checked = _renderer.Lights[cbPointLights.SelectedIndex].IsLightEnabled;
         }
 
         private void btnDeleteLight_Click(object sender, EventArgs e)
         {
-            if (this.lblSelectedLight.Text != "<none>")
+            if (lblSelectedLight.Text != @"<none>")
             {
-                DialogResult = MessageBox.Show("Are you SURE you want to Delete this Light!? \n Please select one option Yes/No",
-                                              "Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult =
+                    MessageBox.Show(Resources.MainPage_btnDeleteLight_Click_,
+                                    @"Conditional", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                 if (DialogResult == DialogResult.Yes)
                 {
                     //code to remove light
-                    if (this.cbPointLights.SelectedIndex != -1)
+                    if (cbPointLights.SelectedIndex != -1)
                     {
-                        lock (renderer.Lights)
+                        lock (_renderer.Lights)
                         {
-                            renderer.Lights[cbPointLights.SelectedIndex].Dispose();
-                            renderer.Lights.RemoveAt(cbPointLights.SelectedIndex);
+                            _renderer.Lights[cbPointLights.SelectedIndex].Dispose();
+                            _renderer.Lights.RemoveAt(cbPointLights.SelectedIndex);
                             cbPointLights.Items.RemoveAt(cbPointLights.SelectedIndex);
                             UpdateLightCount();
                             RenumberLightList();
@@ -1012,7 +1072,7 @@ namespace Graphics
         }
 
         /// <summary>
-        /// Adds a new light to the shape list combo box
+        ///     Adds a new light to the shape list combo box
         /// </summary>
         public void AddToLightList(string ShapeDesc, int ID)
         {
@@ -1020,21 +1080,21 @@ namespace Graphics
             UpdateLightCount();
 
             //create new object, set ID = light count, set description to shape type
-            ShapeListItem sliToAdd = new ShapeListItem(ID, ShapeDesc);
+            var sliToAdd = new ShapeListItem(ID, ShapeDesc);
 
             //Add object    
-            this.cbPointLights.Items.Add(sliToAdd);
+            cbPointLights.Items.Add(sliToAdd);
             cbPointLights.SelectedIndex = cbPointLights.Items.Count - 1;
         }
 
         /// <summary>
-        /// Updates lights index (call after remove)
+        ///     Updates lights index (call after remove)
         /// </summary>
         public void RenumberLightList()
         {
-            this.cbPointLights.Items.Clear();
+            cbPointLights.Items.Clear();
             int objCounter = 1;
-            foreach (LightClass myLight in renderer.Lights)
+            foreach (LightClass myLight in _renderer.Lights)
             {
                 AddToLightList(myLight.Type, objCounter);
                 objCounter++;
@@ -1064,15 +1124,15 @@ namespace Graphics
 
         private void randomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            renderer.Terrian = new Terrain();
+            _renderer.Terrian = new Terrain();
         }
 
         private void removeTerrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (renderer.Terrian != null)
+            if (_renderer.Terrian != null)
             {
-                renderer.Terrian.Dispose();
-                renderer.Terrian = null;
+                _renderer.Terrian.Dispose();
+                _renderer.Terrian = null;
             }
         }
 
@@ -1086,7 +1146,9 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text)));
+                    _renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(
+                        new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text),
+                                    float.Parse(txtLightLocZ.Text)));
                 }
             }
         }
@@ -1097,7 +1159,9 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text)));
+                    _renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(
+                        new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text),
+                                    float.Parse(txtLightLocZ.Text)));
                 }
             }
         }
@@ -1108,7 +1172,9 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text), float.Parse(txtLightLocZ.Text)));
+                    _renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(
+                        new Vector3(float.Parse(txtLightLocX.Text), float.Parse(txtLightLocY.Text),
+                                    float.Parse(txtLightLocZ.Text)));
                 }
             }
         }
@@ -1119,7 +1185,9 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text), float.Parse(txtLightDirectionZ.Text)));
+                    _renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(
+                        new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text),
+                                    float.Parse(txtLightDirectionZ.Text)));
                 }
             }
         }
@@ -1130,7 +1198,9 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text), float.Parse(txtLightDirectionZ.Text)));
+                    _renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(
+                        new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text),
+                                    float.Parse(txtLightDirectionZ.Text)));
                 }
             }
         }
@@ -1141,7 +1211,9 @@ namespace Graphics
             {
                 if (cbPointLights.SelectedIndex != -1)
                 {
-                    renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text), float.Parse(txtLightDirectionZ.Text)));
+                    _renderer.Lights[cbPointLights.SelectedIndex].GlobalLightTranslation(
+                        new Vector3(float.Parse(txtLightDirectionX.Text), float.Parse(txtLightDirectionY.Text),
+                                    float.Parse(txtLightDirectionZ.Text)));
                 }
             }
         }
@@ -1153,52 +1225,51 @@ namespace Graphics
             if (cboShapeList.SelectedIndex != -1)
             {
                 //rename
-                renderer.Meshes[cboShapeList.SelectedIndex].Name = txtRename.Text;
+                _renderer.Meshes[cboShapeList.SelectedIndex].Name = txtRename.Text;
                 RenumberShapeList();
-
             }
         }
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             //get previous mouse location
-            int PrevX = mouseLocation.X;
-            int PrevY = mouseLocation.Y;
+            var prevX = _mouseLocation.X;
+            int PrevY = _mouseLocation.Y;
 
             if (e.Button == MouseButtons.Left)
             {
-                float DeltaX = e.X - PrevX;
+                float DeltaX = e.X - prevX;
                 float DeltaY = e.Y - PrevY;
 
-                if (FirstMouseMouse == false)
+                if (_firstMouseMouse == false)
                 {
                     DeltaX = 0;
                     DeltaY = 0;
-                    FirstMouseMouse = true;
+                    _firstMouseMouse = true;
                 }
 
-                camera.MoveEye(DeltaX / PixelDifferential, -DeltaY / PixelDifferential);
+                _camera.MoveEye(DeltaX/PixelDifferential, -DeltaY/PixelDifferential);
 
                 //save current mouse location
-                mouseLocation.X = e.X;
-                mouseLocation.Y = e.Y;
+                _mouseLocation.X = e.X;
+                _mouseLocation.Y = e.Y;
 
-                lblCamPosX.Text = ((int)camera.Eye.X).ToString();
-                lblCamPosY.Text = ((int)camera.Eye.Y).ToString();
-                lblCamPosZ.Text = ((int)camera.Eye.Z).ToString();
+                lblCamPosX.Text = ((int) _camera.Eye.X).ToString();
+                lblCamPosY.Text = ((int) _camera.Eye.Y).ToString();
+                lblCamPosZ.Text = ((int) _camera.Eye.Z).ToString();
             }
         }
 
         private void MainPage_Load(object sender, EventArgs e)
         {
-            mouseLocation.X = 0;
-            mouseLocation.Y = 0;
-            FirstMouseMouse = false;
+            _mouseLocation.X = 0;
+            _mouseLocation.Y = 0;
+            _firstMouseMouse = false;
         }
 
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
-            FirstMouseMouse = false;
+            _firstMouseMouse = false;
         }
     }
 }

@@ -1566,7 +1566,5 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtRename;
         private System.Windows.Forms.Button btnRename;
-
     }
 }
-
